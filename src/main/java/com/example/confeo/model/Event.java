@@ -25,12 +25,20 @@ public class Event {
     private String description;
     private EventStatus status;
     private EventType type;
-    private Category category;
     private boolean isFree;
     private double pricePerParticipant;
     private double pricePerPrelegent;
+    @ManyToMany(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
+    @JoinTable(name = "event_category",
+            joinColumns = @JoinColumn(name = "event_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
+    private Set<Category> categories = new HashSet<>();
     @OneToMany(mappedBy = "event")
-    Set<Prelection> prelections = new HashSet<>();
+    private Set<Prelection> prelections = new HashSet<>();
     @ManyToMany(cascade = {
             CascadeType.PERSIST,
             CascadeType.MERGE
@@ -39,5 +47,5 @@ public class Event {
             joinColumns = @JoinColumn(name = "event_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    Set<User> users = new HashSet<>();
+    private Set<User> users = new HashSet<>();
 }

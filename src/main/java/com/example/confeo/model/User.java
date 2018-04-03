@@ -26,15 +26,11 @@ public class User {
     private String password;
     private String firstname;
     private String lastname;
-    @JoinTable(name = "user_role", joinColumns
-            = @JoinColumn(name = "user_id",
-            referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id",
-                    referencedColumnName = "id"))
-    private Set<Role> roles = new HashSet<>();
-    @ManyToMany
-    Set<Event> events = new HashSet<>();
+    private Role role;
+    @ManyToMany(mappedBy = "users")
+    private Set<Event> events = new HashSet<>();
     @OneToMany
-    Set<Prelection> prelections = new HashSet<>();
-
+    private Set<Prelection> prelections = new HashSet<>();
+    @OneToMany
+    private Set<Payment> payments = new HashSet<>();
 }
