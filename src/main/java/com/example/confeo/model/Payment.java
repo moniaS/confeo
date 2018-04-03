@@ -3,6 +3,7 @@ package com.example.confeo.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 /**
  * Created by mstobieniecka on 2018-04-03.
@@ -14,6 +15,6 @@ public class Payment {
     @GeneratedValue
     private Long id;
     private Double price;
-    @ManyToOne
-    private Event event;
+    private LocalDateTime dateTime;
+    private PaymentStatus status;
 }

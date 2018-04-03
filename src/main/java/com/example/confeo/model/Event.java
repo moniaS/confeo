@@ -48,4 +48,8 @@ public class Event {
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
     private Set<User> users = new HashSet<>();
+    @OneToMany
+    private Set<Payment> receivedPayments = new HashSet<>();
+    @OneToMany
+    private Set<Payment> madePayments = new HashSet<>();
 }

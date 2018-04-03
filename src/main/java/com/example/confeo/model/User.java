@@ -32,5 +32,7 @@ public class User {
     @OneToMany
     private Set<Prelection> prelections = new HashSet<>();
     @OneToMany
-    private Set<Payment> payments = new HashSet<>();
+    private Set<Payment> receivedPayments = new HashSet<>();
+    @OneToMany
+    private Set<Payment> madePayments = new HashSet<>();
 }
