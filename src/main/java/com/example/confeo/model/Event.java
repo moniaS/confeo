@@ -5,7 +5,6 @@ import lombok.Data;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -28,15 +27,8 @@ public class Event {
     private boolean isFree;
     private double pricePerParticipant;
     private double pricePerPrelegent;
-    @ManyToMany(cascade = {
-            CascadeType.PERSIST,
-            CascadeType.MERGE
-    })
-    @JoinTable(name = "event_category",
-            joinColumns = @JoinColumn(name = "event_id"),
-            inverseJoinColumns = @JoinColumn(name = "category_id")
-    )
-    private Set<Category> categories = new HashSet<>();
+    @ManyToOne
+    Category category;
     @OneToMany(mappedBy = "event")
     private Set<Prelection> prelections = new HashSet<>();
     @ManyToMany(cascade = {
@@ -48,8 +40,8 @@ public class Event {
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
     private Set<User> users = new HashSet<>();
-    @OneToMany
-    private Set<Payment> receivedPayments = new HashSet<>();
-    @OneToMany
-    private Set<Payment> madePayments = new HashSet<>();
+//    @OneToMany
+//    private Set<Payment> receivedPayments = new HashSet<>();
+//    @OneToMany
+//    private Set<Payment> madePayments = new HashSet<>();
 }
