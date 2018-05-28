@@ -7,7 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * Created by mstobieniecka on 2018-05-26.
  */
 @Controller
-public class HomeController {
+public class HomeController extends BasicController{
+
     @RequestMapping(value = "")
     public String index() {
         return "index";
