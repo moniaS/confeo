@@ -80,7 +80,7 @@
                     <button th:if="${currentUser != null}" class="navbar-btn nav-button wow fadeInRight" onclick="window.open('/logout')" data-wow-delay="0.48s">Wyloguj</button>
                 </div>
                 <ul class="main-nav nav navbar-nav navbar-right">
-                    <li class="wow fadeInDown" data-wow-delay="0.1s"><a class="" href="">Wydarzenia</a></li>
+                    <li class="wow fadeInDown" data-wow-delay="0.1s"><a class="" th:href="@{/events}">Wydarzenia</a></li>
                     <li class="wow fadeInDown" data-wow-delay="0.1s"><a class="" href="">Prelegenci</a></li>
                     <li class="wow fadeInDown" data-wow-delay="0.1s"><a class="" href="">O nas</a></li>
                     <li class="wow fadeInDown" data-wow-delay="0.1s"><a class="" href="">Kontakt</a></li>
@@ -113,11 +113,11 @@
                                 <h4>Linki </h4>
                                 <div class="footer-title-line"></div>
                                 <ul class="footer-menu">
-                                    <li><a href="properties.html">Wydarzenia</a> </li>
-                                    <li><a href="#">Prelegenci</a> </li>
-                                    <li><a href="submit-property.html">Kontakt </a></li>
-                                    <li><a href="contact.html">O nas</a></li>
-                                    <li><a href="faq.html">Regulamin </a> </li>
+                                    <li><a th:href="@{/events}">Wydarzenia</a> </li>
+                                    <li><a href="">Prelegenci</a> </li>
+                                    <li><a href="">Kontakt </a></li>
+                                    <li><a href="">O nas</a></li>
+                                    <li><a href="">Regulamin </a> </li>
                                 </ul>
                             </div>
                         </div>

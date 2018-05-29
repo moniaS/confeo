@@ -3054,3 +3054,8 @@ ul.footer-blog li {
     color: green;
     font-weight: bold;
 }
+
+.event-item {
+    padding: 20px 0 20px 0;
+    border-bottom: 1px dashed #adadad;
+}

@@ -35,6 +35,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(
                         "/",
                         "/register",
+                        "/events",
+                        "/h2_console/**",
                         "/js/**",
                         "/css/**",
                         "/img/**",
@@ -51,6 +53,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout()
                 .permitAll();
+        http.csrf().disable();
+        http.headers().frameOptions().disable();
     }
 
     @Autowired

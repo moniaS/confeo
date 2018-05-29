@@ -24,7 +24,7 @@ public class Event {
     private String description;
     private EventStatus status;
     private EventType type;
-    private boolean isFree;
+    private Boolean isFree;
     private double pricePerParticipant;
     private double pricePerPrelegent;
     @ManyToOne
