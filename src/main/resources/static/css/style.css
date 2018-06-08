@@ -3059,3 +3059,17 @@ ul.footer-blog li {
     padding: 20px 0 20px 0;
     border-bottom: 1px dashed #adadad;
 }
+
+.event-date {
+    font-size: 16px;
+}
+
+.page-head-content button {
+    float: right;
+    padding: 14px 20px;
+}
+
+.event-start-date {
+    font-size: 18px;
+    color: orange;
+}
