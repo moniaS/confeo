@@ -6,6 +6,8 @@ import com.example.confeo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.thymeleaf.extras.java8time.dialect.Java8TimeDialect;
 
 @SpringBootApplication
 public class ConfeoApplication {
@@ -18,6 +20,11 @@ public class ConfeoApplication {
 		//createUser();
 	}
 
+	@Bean
+	public Java8TimeDialect java8TimeDialect() {
+		return new Java8TimeDialect();
+	}
+
 	public static void main(String[] args) {
 		SpringApplication.run(ConfeoApplication.class, args);
 	}
@@ -26,6 +33,6 @@ public class ConfeoApplication {
 		User user = new User();
 		user.setEmail("email");
 		user.setPassword("password");
-		userService.save(user, Role.ROLE_PARTICIPANT);
+		userService.save(user, Role.ROLE_ORGANIZER);
 	}
 }
