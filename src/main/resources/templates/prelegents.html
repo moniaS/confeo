@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="common/include :: pageIncludes" />
+    <title>Confeo | Prelegenci</title>
+    <link type="text/css" rel="stylesheet" th:href="@{/css/prelegents.css}">
+    <meta charset="utf-8">
+</head>
+<body>
+<div id="preloader">
+    <div id="status">&nbsp;</div>
+</div>
+<header class="main-header" th:include="common/include :: pageHeader"></header>
+<nav class="navbar navbar-default" th:include="common/include :: pageHeaderNav"></nav>
+<div class="page-head">
+    <div class="container">
+        <div class="row">
+            <div class="page-head-content">
+                <h1 class="page-title">Prelegenci</h1>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="" style="background-color: rgb(249, 249, 249);">
+    <div class="container">
+        <div th:each="prelegent : ${prelegents}">
+            <div class="col-md-3 col-md-offset-1 panel-prelegent panel panel-default sidebar-menu fadeInRight animated" >
+		        <div class="panel-heading">
+		            <h3 class="panel-title"><span th:text="${prelegent.firstname + ' ' + prelegent.lastname}"></span></h3>
+		        </div>
+		        <div class="panel-body text-widget">
+		        	<p>Liczba prelekcji: <span th:text="${prelegent.prelections.size()}"></span></p>
+		        	<p>Wystąpił w:</p>
+		        	<th:block th:each="prelection: ${prelegent.prelections}">
+			        	<div class="row prelection">
+			        		<p class="col-md-10 col-md-offset-1"><a th:href="@{/events/{id}(id=${prelection.event.id})}" th:text="${prelection.event.name}"></a></p>
+			        	</div>
+		        	</th:block>
+	        	</div>
+    		</div>
+        </div>
+    </div>
+    
+</div>
+
+<nav th:include="common/include :: pageFooter"></nav>
+
+<th:block th:include="common/include :: pageFooterIncludes" />
+</body>
+</html>

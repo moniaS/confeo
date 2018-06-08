@@ -22,3 +22,18 @@ values(9, 'Konf9', 'Desc9', false, 10, 10, 1, 2);
 insert into event (id, name, description, is_free, PRICE_PER_PARTICIPANT, PRICE_PER_PRELEGENT, address_id, category_id)
 values(10, 'Konf10', 'Desc10', false, 10, 10, 1, 1);
 
+insert into user (id, email, password, firstname, lastname, role)
+	values (2, 'pawel@gmail.com', 'tajnehaslo', 'Paweł', 'Kowalczyk', 'ROLE_PARTICIPANT');
+insert into user (id, email, password, firstname, lastname, role)
+	values (3, 'katarzyna@gmail.com', 'tajnehaslo', 'Katarzyna', 'Kwiatowa', 'ROLE_PARTICIPANT');
+insert into user (id, email, password, firstname, lastname, role)
+	values (4, 'damian@gmail.com', 'tajnehaslo', 'Damian', 'Kowalski', 'ROLE_PARTICIPANT');
+insert into user (id, email, password, firstname, lastname, role)
+	values (5, 'zuzanna@gmail.com', 'tajnehaslo', 'Zuzanna', 'Nowak', 'ROLE_ORGANIZER');
+
+insert into prelection(id, name, description, status, user_id, event_id)
+	values (1, 'Prelekcja 1', 'Bardzo fajna prelekcja na ciekawy temat', 1, 2, 1);
+insert into prelection(id, name, description, status, user_id, event_id)
+	values (2, 'Prelekcja 2', 'Bardzo fajna prelekcja na ciekawszy temat', 1, 2, 2);
+insert into prelection(id, name, description, status, user_id, event_id)
+	values (3, 'Prelekcja 3', 'Bardzo fajna prelekcja na ciekawy temat', 1, 3, 1);

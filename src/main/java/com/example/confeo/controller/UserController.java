@@ -35,4 +35,10 @@ public class UserController extends BasicController {
         redirectAttributes.addFlashAttribute("successRegisterMessage", "Konto zostało utworzone");
         return "redirect:/login";
     }
+    
+    @RequestMapping("/prelegents")
+    public String showPrelegents(Model model){
+    	model.addAttribute("prelegents", userService.getPrelegents());
+    	return "prelegents";
+    }
 }

@@ -15,7 +15,7 @@ public class ConfeoApplication {
 	@Autowired
 	public ConfeoApplication(UserService userService) {
 		this.userService = userService;
-		createUser();
+		//createUser();
 	}
 
 	public static void main(String[] args) {

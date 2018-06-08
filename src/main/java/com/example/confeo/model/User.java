@@ -5,7 +5,10 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -25,13 +28,14 @@ public class User {
     private String password;
     private String firstname;
     private String lastname;
+    @Enumerated(EnumType.STRING)
     private Role role;
     @ManyToMany(mappedBy = "users")
     private Set<Event> organizedEvents = new HashSet<>();
     @ManyToMany(mappedBy = "users")
     private Set<Event> attendingEvents = new HashSet<>();
-    @OneToMany
-    private Set<Prelection> prelections = new HashSet<>();
+    @OneToMany(mappedBy = "user")
+    private List<Prelection> prelections = new ArrayList<>();
 //    @OneToMany
 //    private Set<Payment> receivedPayments = new HashSet<>();
 //    @OneToMany

@@ -3,6 +3,10 @@ package com.example.confeo.service;
 import com.example.confeo.model.Role;
 import com.example.confeo.model.User;
 import com.example.confeo.repository.UserRepository;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -30,4 +34,19 @@ public class UserService {
     public User findByUsername(String email) {
         return userRepository.findByEmail(email);
     }
+
+	public List<User> getPrelegents() {
+		List<User> participants = getAllParticipants();
+		List<User> prelegents = new ArrayList<User>();
+		for (User participant: participants) {
+			if (!participant.getPrelections().isEmpty()){
+				prelegents.add(participant);
+			}
+		}
+		return prelegents;
+	}
+	
+	public List<User> getAllParticipants() {
+		return userRepository.findByRole(Role.ROLE_PARTICIPANT);
+	}
 }
