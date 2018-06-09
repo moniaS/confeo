@@ -3,6 +3,9 @@ package com.example.confeo.model;
 import lombok.Data;
 
 import javax.persistence.*;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
@@ -16,18 +19,22 @@ public class Event {
     @Id
     @GeneratedValue
     private Long id;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate startDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Address address;
     private String name;
     private String description;
+    @Enumerated(EnumType.STRING)
     private EventStatus status;
+    @Enumerated(EnumType.STRING)
     private EventType type;
     private Boolean isFree;
     private double pricePerParticipant;
     private double pricePerPrelegent;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     Category category;
     @OneToMany(mappedBy = "event")
     private Set<Prelection> prelections = new HashSet<>();

@@ -45,7 +45,7 @@
                         <div class="form-group">
                             <label for="type">Typ wydarzenia</label>
                             <select class="form-control" th:field="*{type}">
-                            	<option th:each="type: ${eventTypes}" th:value="${type}" th:text="${type}">Brak</option>
+                            	<option th:each="type: ${eventTypes}" th:value="${{type}}" th:text="${type}">Brak</option>
                             </select>
                         </div>
                         <div class="form-group">

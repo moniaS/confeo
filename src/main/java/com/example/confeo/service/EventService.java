@@ -72,4 +72,8 @@ public class EventService {
                 return "Styczeń";
         }
     }
+    
+    public void saveEvent(Event event) {
+    	eventRepository.save(event);
+    }
 }
