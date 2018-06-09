@@ -2,7 +2,7 @@ insert into address values (1, 'Lodz', 'Kwiatowa', 5);
 insert into category values (1, 'TESTOWANIE');
 insert into category values (2, 'JAVASCRIPT');
 insert into event (id, name, description, is_free, PRICE_PER_PARTICIPANT, PRICE_PER_PRELEGENT, address_id, category_id, type, start_date, end_date)
-values(11, 'Konf1', 'Desc1', true, 10, 10, 1, 1, 1, '2018-08-12', '2018-08-13');
+values(11, 'Konf1', 'Desc1', true, 10, 10, 1, 1, 'CONFERENCE', '2018-08-12', '2018-08-13');
 insert into event (id, name, description, is_free, PRICE_PER_PARTICIPANT, PRICE_PER_PRELEGENT, address_id, category_id, start_date, end_date)
 values(21, 'Konf2', 'Desc2', true, 10, 10, 1, 2, '2018-08-12', '2018-08-13');
 insert into event (id, name, description, is_free, PRICE_PER_PARTICIPANT, PRICE_PER_PRELEGENT, address_id, category_id, start_date, end_date)
