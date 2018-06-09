@@ -20,7 +20,7 @@ public class EventController {
 
     @RequestMapping("/events")
     private String events(Model model) {
-        model.addAttribute("events", eventService.findAll());
+        model.addAttribute("eventsByMonth", eventService.findEventsByMonth());
         return "events";
     }
 }

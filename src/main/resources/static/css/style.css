@@ -3069,7 +3069,15 @@ ul.footer-blog li {
     padding: 14px 20px;
 }
 
-.event-start-date {
-    font-size: 18px;
-    color: orange;
+.events-month {
+    font-size: 20px;
+    color: grey;
+    margin-top: 15px;
+    margin-left: -10px;
+}
+
+.events-month span {
+    padding-left: 5px;
+    padding-right: 5px;
+    border-bottom: solid 2px #FDC600;
 }
