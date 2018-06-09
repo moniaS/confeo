@@ -23,13 +23,13 @@ insert into event (id, name, description, is_free, PRICE_PER_PARTICIPANT, PRICE_
 values(10, 'Konf10', 'Desc10', false, 10, 10, 1, 1, '2018-08-12', '2018-08-13');
 
 insert into user (id, email, password, firstname, lastname, role)
-	values (2, 'pawel@gmail.com', 'tajnehaslo', 'Paweł', 'Kowalczyk', 'ROLE_PARTICIPANT');
+	values (2, 'pawel@gmail.com', '$2a$10$FvyEHmj7zJKw4V4iBdJqL.mugH9VTPOQkc6HzlhNsqLkO.0KFla2O', 'Paweł', 'Kowalczyk', 'ROLE_PARTICIPANT');
 insert into user (id, email, password, firstname, lastname, role)
-	values (3, 'katarzyna@gmail.com', 'tajnehaslo', 'Katarzyna', 'Kwiatowa', 'ROLE_PARTICIPANT');
+	values (3, 'katarzyna@gmail.com', '$2a$10$FvyEHmj7zJKw4V4iBdJqL.mugH9VTPOQkc6HzlhNsqLkO.0KFla2O', 'Katarzyna', 'Kwiatowa', 'ROLE_PARTICIPANT');
 insert into user (id, email, password, firstname, lastname, role)
-	values (4, 'damian@gmail.com', 'tajnehaslo', 'Damian', 'Kowalski', 'ROLE_PARTICIPANT');
+	values (4, 'damian@gmail.com', '$2a$10$FvyEHmj7zJKw4V4iBdJqL.mugH9VTPOQkc6HzlhNsqLkO.0KFla2O', 'Damian', 'Kowalski', 'ROLE_PARTICIPANT');
 insert into user (id, email, password, firstname, lastname, role)
-	values (5, 'zuzanna@gmail.com', 'tajnehaslo', 'Zuzanna', 'Nowak', 'ROLE_ORGANIZER');
+	values (5, 'zuzanna@gmail.com', '$2a$10$FvyEHmj7zJKw4V4iBdJqL.mugH9VTPOQkc6HzlhNsqLkO.0KFla2O', 'Zuzanna', 'Nowak', 'ROLE_ORGANIZER');
 
 insert into prelection(id, name, description, status, user_id, event_id)
 	values (1, 'Prelekcja 1', 'Bardzo fajna prelekcja na ciekawy temat', 1, 2, 1);
