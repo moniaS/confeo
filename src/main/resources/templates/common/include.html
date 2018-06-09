@@ -76,8 +76,8 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse yamm" id="navigation">
                 <div class="button navbar-right">
-                    <button sec:authorize="!isAuthenticated()" class="navbar-btn nav-button wow bounceInRight login" onclick="window.open('/login')" data-wow-delay="0.4s">Zaloguj</button>
-                    <button sec:authorize="isAuthenticated()" class="navbar-btn nav-button wow fadeInRight" onclick="window.open('/logout')" data-wow-delay="0.48s">Wyloguj</button>
+                    <button sec:authorize="!isAuthenticated()" class="navbar-btn nav-button wow bounceInRight login" th:onclick="'window.location.href=\'/login\''" data-wow-delay="0.4s">Zaloguj</button>
+                    <button sec:authorize="isAuthenticated()" class="navbar-btn nav-button wow fadeInRight"  th:onclick="'window.location.href=\'/logout\''" data-wow-delay="0.48s">Wyloguj</button>
                 </div>
                 <ul class="main-nav nav navbar-nav navbar-right">
                     <li class="wow fadeInDown" data-wow-delay="0.1s"><a class="" th:href="@{/events}">Wydarzenia</a></li>

@@ -15,7 +15,7 @@
         <div class="row">
             <div class="page-head-content">
                 <h1 class="page-title"><span>Wydarzenia</span>
-                    <button sec:authorize="hasRole('ROLE_ORGANIZER')" class="navbar-btn nav-button wow bounceInRight login add-event-button" onclick="window.open('/event')" data-wow-delay="0.4s">Dodaj wydarzenie</button>
+                    <button sec:authorize="hasRole('ROLE_ORGANIZER')" class="navbar-btn nav-button wow bounceInRight login add-event-button" th:onclick="'window.location.href=\'/events/add\''" data-wow-delay="0.4s">Dodaj wydarzenie</button>
                 </h1>
             </div>
         </div>
@@ -23,28 +23,33 @@
 </div>
 <div class="events-area" style="background-color: rgb(249, 249, 249);">
     <div class="container">
-        <div class="row event-item" th:each="event : ${events}">
-            <div class="col-md-3 event-date">
-                <div th:if="${event.startDate != null && event.endDate != null}">
-                    <span th:if="${event.endDate == event.startDate}" th:text="${#temporals.format(event.startDate, 'dd/MM/yyyy')}"></span>
-                    <div th:if="${event.endDate != event.startDate}"><span class="event-start-date" th:text="${#temporals.format(event.startDate, 'dd/MM/yyyy')}"></span>&nbsp;-&nbsp;<span th:text="${#temporals.format(event.endDate, 'dd/MM/yyyy')}"></span></div>
+        <div th:each="eventByMonth : ${eventsByMonth}">
+            <div class="events-month">
+                <span th:text="${eventByMonth.key}"></span>
+            </div>
+            <div class="row event-item" th:each="event : ${eventByMonth.value}">
+                <div class="col-md-3 event-date">
+                    <div th:if="${event.startDate != null && event.endDate != null}">
+                        <span th:if="${event.endDate == event.startDate}" th:text="${#temporals.format(event.startDate, 'dd/MM/yyyy')}"></span>
+                        <div th:if="${event.endDate != event.startDate}"><span class="event-start-date" th:text="${#temporals.format(event.startDate, 'dd/MM/yyyy')}"></span>&nbsp;-&nbsp;<span th:text="${#temporals.format(event.endDate, 'dd/MM/yyyy')}"></span></div>
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-2">
-                <div th:text="${event.address.cityName}"></div>
-            </div>
-            <div class="col-md-2">
-                <div th:text="${event.name}"></div>
-            </div>
-            <div class="col-md-2">
-                <div th:text="${event.type}"></div>
-            </div>
-            <div class="col-md-2">
-                <div th:text="${event.category.name}"></div>
-            </div>
-            <div class="col-md-1">
-                <div th:if="${event.isFree} == true">BEZPŁATNE</div>
-                <div th:if="${event.isFree} == false">PŁATNE</div>
+                <div class="col-md-2">
+                    <div th:text="${event.address.cityName}"></div>
+                </div>
+                <div class="col-md-2">
+                    <div th:text="${event.name}"></div>
+                </div>
+                <div class="col-md-2">
+                    <div th:text="${event.type}"></div>
+                </div>
+                <div class="col-md-2">
+                    <div th:text="${event.category.name}"></div>
+                </div>
+                <div class="col-md-1">
+                    <div th:if="${event.isFree} == true">BEZPŁATNE</div>
+                    <div th:if="${event.isFree} == false">PŁATNE</div>
+                </div>
             </div>
         </div>
     </div>

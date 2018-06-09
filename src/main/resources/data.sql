@@ -12,15 +12,15 @@ values(4, 'Konf4', 'Desc4', false, 10, 10, 1, 2, '2018-08-12', '2018-08-13');
 insert into event (id, name, description, is_free, PRICE_PER_PARTICIPANT, PRICE_PER_PRELEGENT, address_id, category_id, start_date, end_date)
 values(5, 'Konf5', 'Desc5', false, 10, 10, 1, 2, '2018-08-12', '2018-08-13');
 insert into event (id, name, description, is_free, PRICE_PER_PARTICIPANT, PRICE_PER_PRELEGENT, address_id, category_id, start_date, end_date)
-values(6, 'Konf6', 'Desc6', false, 10, 10, 1, 2, '2018-08-12', '2018-08-13');
+values(6, 'Konf6', 'Desc6', false, 10, 10, 1, 2, '2018-07-12', '2018-08-13');
 insert into event (id, name, description, is_free, PRICE_PER_PARTICIPANT, PRICE_PER_PRELEGENT, address_id, category_id, start_date, end_date)
-values(7, 'Konf7', 'Desc7', false, 10, 10, 1, 1, '2018-08-12', '2018-08-13');
+values(7, 'Konf7', 'Desc7', false, 10, 10, 1, 1, '2018-06-12', '2018-08-13');
 insert into event (id, name, description, is_free, PRICE_PER_PARTICIPANT, PRICE_PER_PRELEGENT, address_id, category_id, start_date, end_date)
-values(8, 'Konf8', 'Desc8', false, 10, 10, 1, 1, '2018-08-12', '2018-08-13');
+values(8, 'Konf8', 'Desc8', false, 10, 10, 1, 1, '2018-10-12', '2018-08-13');
 insert into event (id, name, description, is_free, PRICE_PER_PARTICIPANT, PRICE_PER_PRELEGENT, address_id, category_id, start_date, end_date)
-values(9, 'Konf9', 'Desc9', false, 10, 10, 1, 2, '2018-08-12', '2018-08-13');
+values(9, 'Konf9', 'Desc9', false, 10, 10, 1, 2, '2018-11-12', '2018-08-13');
 insert into event (id, name, description, is_free, PRICE_PER_PARTICIPANT, PRICE_PER_PRELEGENT, address_id, category_id, start_date, end_date)
-values(10, 'Konf10', 'Desc10', false, 10, 10, 1, 1, '2018-08-12', '2018-08-13');
+values(10, 'Konf10', 'Desc10', false, 10, 10, 1, 1, '2018-12-12', '2018-08-13');
 
 insert into user (id, email, password, firstname, lastname, role)
 	values (2, 'pawel@gmail.com', '$2a$10$FvyEHmj7zJKw4V4iBdJqL.mugH9VTPOQkc6HzlhNsqLkO.0KFla2O', 'Paweł', 'Kowalczyk', 'ROLE_PARTICIPANT');
