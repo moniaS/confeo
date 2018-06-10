@@ -88,13 +88,14 @@ public class EventController {
         return "edit-event";
     }
     
-    @PostMapping("/events/edit/save")
-    public String saveEventEdit(@ModelAttribute @Valid Event event, BindingResult bindingResult,
+    @PostMapping("/events/edit/{id}/save")
+    public String saveEventEdit(@ModelAttribute @Valid Event event, @PathVariable("id") long eventId, BindingResult bindingResult,
     		RedirectAttributes redirectAttributes) {
     	if (!isFormValidated(event, redirectAttributes)){
     		return "redirect:/events/" + event.getId() + "/edit";
-    	}   	
-    	eventService.saveEvent(event);
+    	}  
+    	event.setId(eventId);
+    	eventService.updateEvent(event);
         return "redirect:/events/" + event.getId();
     }
 
@@ -108,17 +109,23 @@ public class EventController {
 
     @GetMapping("/events/{id}")
     private String getEvent(@PathVariable("id") String id, Model model) {
+    	if (eventService.findById(Long.valueOf(id)) == null){
+    		return "redirect:/events";
+    	}
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUserName = authentication.getName();
         model.addAttribute("currentUser", currentUserName);
-        model.addAttribute("event", eventService.findEvent(Long.valueOf(id)).get());
+        model.addAttribute("event", eventService.findById(Long.valueOf(id)));
         return "event";
     }
 
     @GetMapping("/events/{id}/cancel")
     private String cancelEvent(@PathVariable("id") String id, Model model) {
+    	if (eventService.findById(Long.valueOf(id)) == null){
+    		return "redirect:/events";
+    	}
         eventService.cancelEvent(Long.valueOf(id));
-        model.addAttribute("event", eventService.findEvent(Long.valueOf(id)).get());
+        model.addAttribute("event", eventService.findById(Long.valueOf(id)));
         return "event";
     }
 
@@ -155,4 +162,6 @@ public class EventController {
     	}
     	return true;
     }
+    
+    
 }

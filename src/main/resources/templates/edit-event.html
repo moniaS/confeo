@@ -29,7 +29,7 @@
                     <h2>Edytuj wydarzenie : </h2>
                     <div th:if="${message}" class="error-message"
                          role="alert" th:text="${message}"></div>
-                    <form th:action="@{/events/edit/save}" th:object="${event}" method="post">
+                    <form th:action="@{/events/edit/{id}/save(id=${event.id})}" th:object="${event}" method="post">
 <!--                      	<ul th:if="${#fields.hasErrors('*')}">
 						  <li th:each="err : ${#fields.errors('*')}" th:text="${err}">Input is incorrect</li>
 						</ul> -->
@@ -55,7 +55,7 @@
                         </div>
                         <div class="form-group">
                             <label for="category">Kategoria</label>
-                            <select class="form-control" th:field="*{category.name}">
+                            <select class="form-control" th:field="*{category}">
                             	<option th:each="category: ${categories}" th:value="${category.id}" th:text="${category.name}">Brak</option>
                             </select>
                         </div>
@@ -85,8 +85,12 @@
                         	</label>
                        	</div>
                        	<div class="form-group" id="price-form-group">
-                        	<label for="price">Cena (PLN)</label>
+                        	<label for="price">Cena za udział w wydarzeniu (PLN)</label>
                         	<input type="text" class="form-control" id="price" th:field="*{pricePerParticipant}">
+                        </div>
+                        <div class="form-group">
+                        	<label for="maxParticipants">Maksymalna liczba uczestników</label>
+                        	<input type="number" class="form-control" id="maxParticipants" th:field="*{maxParticipants}">
                         </div>
                
                         <div class="text-center">

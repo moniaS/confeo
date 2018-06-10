@@ -13,7 +13,6 @@ import java.time.LocalDate;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -53,15 +52,11 @@ public class EventService {
     }
 
     public void cancelEvent(Long id) {
-        Event event = findEvent(id).get();
+        Event event = findById(id);
         event.setStatus(EventStatus.CANCELED);
         eventRepository.save(event);
     }
-
-    public Optional<Event> findEvent(Long id) {
-        return eventRepository.findById(id);
-    }
-
+    
     public List<String> findCities() {
         return addressRepository.findDistinctCityNames();
     }
@@ -122,6 +117,8 @@ public class EventService {
     }
     
     public void saveEvent(Event event) {
+    	if (event.getMaxParticipants() == null) event.setMaxParticipants(100);
+    	event.setStatus(EventStatus.UPCOMING);
     	eventRepository.save(event);
     }
 
@@ -133,5 +130,22 @@ public class EventService {
 		}
 		
 	}
+	
+	public void updateEvent(Event updatedEvent) {
+    	Event event = findById(updatedEvent.getId());
+    	event.setAddress(updatedEvent.getAddress());
+    	event.setCategory(updatedEvent.getCategory());
+    	event.setDescription(updatedEvent.getDescription());
+    	event.setEndDate(updatedEvent.getEndDate());
+    	event.setIsFree(updatedEvent.getIsFree());
+    	event.setMaxParticipants(updatedEvent.getMaxParticipants());
+    	event.setName(updatedEvent.getName());
+    	event.setPrelections(updatedEvent.getPrelections());
+    	event.setPricePerParticipant(updatedEvent.getPricePerParticipant());
+    	event.setPricePerPrelegent(updatedEvent.getPricePerPrelegent());
+    	event.setStartDate(updatedEvent.getStartDate());
+    	event.setType(updatedEvent.getType());
+    	eventRepository.save(event);
+    }
 
 }

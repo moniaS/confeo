@@ -30,9 +30,6 @@
                     <div th:if="${message}" class="error-message"
                          role="alert" th:text="${message}"></div>
                     <form th:action="@{/events/add/save}" th:object="${event}" method="post">
-<!--                      	<ul th:if="${#fields.hasErrors('*')}">
-						  <li th:each="err : ${#fields.errors('*')}" th:text="${err}">Input is incorrect</li>
-						</ul> -->
                         <div class="form-group">
                             <label for="name">Nazwa *</label>
                             <input type="text" class="form-control" id="name" th:field="*{name}">
@@ -46,8 +43,7 @@
                             <label for="endDate">Data zakończenia *</label>
                             <input type="date" class="form-control" id="endDate" th:field="*{endDate}">
                         </div>
-<!--                          <p th:if="${#fields.hasErrors('validDateRange')}" class="label label-danger" th:errors="*{validDateRange}">Proszę podać poprawne daty!</p>
- -->                       <div class="form-group">
+                       <div class="form-group">
                             <label for="type">Typ wydarzenia</label>
                             <select class="form-control" th:field="*{type}">
                             	<option th:each="type: ${eventTypes}" th:value="${{type}}" th:text="${type}">Brak</option>
@@ -85,8 +81,12 @@
                         	</label>
                        	</div>
                        	<div class="form-group" id="price-form-group">
-                        	<label for="price">Cena (PLN)</label>
+                        	<label for="price">Cena za udział w wydarzeniu (zł)</label>
                         	<input type="text" class="form-control" id="price" th:field="*{pricePerParticipant}">
+                        </div>
+                        <div class="form-group">
+                        	<label for="maxParticipants">Maksymalna liczba uczestników</label>
+                        	<input type="number" class="form-control" id="maxParticipants" th:field="*{maxParticipants}">
                         </div>
                
                         <div class="text-center">

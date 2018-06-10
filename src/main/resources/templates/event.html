@@ -26,15 +26,20 @@
             <div class="col-sm-2" >
                 <label>Status wydarzenia: </label>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-5">
                 <div th:text="${event.status}"></div>
             </div>
-            <div class="col-sm-3">
-                <!--TODO Dodać zabezpieczenie żeby tylko organizator danego wydarzenia widział uczestników-->
+            <div class="col-sm-2">
                 <div sec:authorize="hasAnyRole('ROLE_ORGANIZER','ROLE_ADMIN')">
-                    <button th:if="${event.status.name() == 'UPCOMING'}" type="submit" class="btn btn-default" data-toggle="modal" data-target="#cancel-event-modal">Anuluj wydarzenie</button>
+                    <button th:if="${event.status?.name() == 'UPCOMING' and currentUser == event.organiser?.email}" type="submit" class="btn btn-default" data-toggle="modal" data-target="#cancel-event-modal">Anuluj wydarzenie</button>
                 </div>
             </div>
+            <div class="col-sm-2">
+                <div sec:authorize="hasAnyRole('ROLE_ORGANIZER','ROLE_ADMIN')">
+                    <a th:href="@{/events/{id}/edit(id=${event.id})}"><button th:if="${event.status?.name() == 'UPCOMING' and currentUser == event.organiser?.email}" class="btn btn-default">Edytuj wydarzenie</button></a>
+                </div>
+            </div>
+            
         </div>
         <div class="row">
             <div class="col-sm-2" >
@@ -88,8 +93,15 @@
                 <div th:text="${event.description}"></div>
             </div>
         </div>
-        <!--TODO Dodać zabezpieczenie żeby tylko organizator danego wydarzenia widział uczestników-->
-        <div  sec:authorize="hasAnyRole('ROLE_ORGANIZER','ROLE_ADMIN')">
+        <div class="row">
+            <div class="col-sm-2" >
+                <label>Liczba uczestników: </label>
+            </div>
+            <div class="col-sm-8">
+                <div th:text="${#lists.size(event.users) + '/' + event.maxParticipants}"></div>
+            </div>
+        </div>
+        <div th:if="${currentUser == event.organiser?.email}" sec:authorize="hasAnyRole('ROLE_ORGANIZER','ROLE_ADMIN')">
             <div class="row">
                 <div class="col-sm-2">
                     <label>Uczestnicy: </label>

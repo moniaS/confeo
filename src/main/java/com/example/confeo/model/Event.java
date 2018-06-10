@@ -33,9 +33,8 @@ public class Event {
     private Boolean isFree;
     private double pricePerParticipant;
     private double pricePerPrelegent;
-    @ManyToOne
     private Integer maxParticipants;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     Category category;
     @OneToMany(mappedBy = "event")
     private Set<Prelection> prelections = new HashSet<>();
