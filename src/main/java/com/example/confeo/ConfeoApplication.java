@@ -1,7 +1,5 @@
 package com.example.confeo;
 
-import com.example.confeo.model.Role;
-import com.example.confeo.model.User;
 import com.example.confeo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -16,7 +14,6 @@ public class ConfeoApplication {
 	@Autowired
 	public ConfeoApplication(UserService userService){
 		this.userService = userService;
-		createUser();
 	}
 
 	@Bean
@@ -26,21 +23,5 @@ public class ConfeoApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ConfeoApplication.class, args);
-	}
-
-
-	private void createUser() {
-		User user1 = new User();
-		user1.setEmail("email");
-		user1.setPassword("password");
-		userService.save(user1, Role.ROLE_ORGANIZER);
-		User user = new User();
-		user.setEmail("user");
-		user.setPassword("password");
-		userService.save(user, Role.ROLE_PARTICIPANT);
-		User user2 = new User();
-		user2.setEmail("user2");
-		user2.setPassword("password");
-		userService.save(user2, Role.ROLE_PARTICIPANT);
 	}
 }

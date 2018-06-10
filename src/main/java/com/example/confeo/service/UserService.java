@@ -1,15 +1,15 @@
 package com.example.confeo.service;
 
+import com.example.confeo.exception.EmailAlreadyExists;
 import com.example.confeo.model.Role;
 import com.example.confeo.model.User;
 import com.example.confeo.repository.UserRepository;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by mstobieniecka on 2018-05-26.
@@ -25,10 +25,14 @@ public class UserService {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
-    public void save(User user, Role role) {
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        user.setRole(role);
-        userRepository.save(user);
+    public void save(User user) throws EmailAlreadyExists {
+        User userByEmail = userRepository.findByEmail(user.getEmail());
+        if(userByEmail != null) {
+            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+            userRepository.save(user);
+        } else {
+            throw new EmailAlreadyExists();
+        }
     }
 
     public User findByUsername(String email) {

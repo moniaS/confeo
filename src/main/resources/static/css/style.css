@@ -3115,3 +3115,10 @@ ul.footer-blog li {
     color: #0C9C14;
     margin-bottom: 5px;
 }
+
+.role-radio-button {
+    border: 0px !important;
+    width: 100%  !important;
+    height: 2em  !important;
+    opacity: 1.0  !important;
+}

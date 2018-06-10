@@ -30,6 +30,12 @@
                     <div th:if="${errorRegisterMessage}" class="error-message"
                          role="alert" th:text="${errorRegisterMessage}"></div>
                     <form th:action="@{/register}" th:object="${registerUser}" method="post">
+                        <ul>
+                            <li th:each="role : ${roles}" class="radio-inline">
+                                <input type="radio" class="role-radio-button" th:field="*{role}" th:value="${role.name()}"/>
+                                <label th:for="${#ids.prev('role')}" th:text="${role}">Rola</label>
+                            </li>
+                        </ul>
                         <div class="form-group">
                             <label for="firstname">Imię</label>
                             <input type="text" class="form-control" id="firstname" th:field="*{firstname}">
