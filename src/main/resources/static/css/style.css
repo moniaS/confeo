@@ -3091,3 +3091,17 @@ ul.footer-blog li {
     margin-left: -15px;
     margin-top: 10px;
 }
+
+.events-area .event-link {
+    font-weight: normal;
+    color: grey;
+}
+
+.event-details {
+    padding: 20px 0;
+}
+
+.dismiss-btn {
+    border: solid 1px lightgrey;
+    border-radius: 3px;
+}

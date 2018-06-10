@@ -5,23 +5,17 @@ import com.example.confeo.model.Event;
 import com.example.confeo.model.EventType;
 import com.example.confeo.service.CategoryService;
 import com.example.confeo.service.EventService;
-
-import java.util.List;
-
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
 import java.time.LocalDate;
-import java.util.List;
 
 /**
  * Created by mstobieniecka on 2018-05-29.
@@ -92,6 +86,22 @@ public class EventController {
                '%' + eventSearchForm.getCity() + '%', '%' + eventSearchForm.getCategory() + '%', eventSearchForm.getStartDate(), eventSearchForm.getEndDate()));
         addSearchValuesToModel(model);
         return "events";
+    }
+
+    @GetMapping("/events/{id}")
+    private String getEvent(@PathVariable("id") String id, Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUserName = authentication.getName();
+        model.addAttribute("currentUser", currentUserName);
+        model.addAttribute("event", eventService.findEvent(Long.valueOf(id)).get());
+        return "event";
+    }
+
+    @GetMapping("/events/{id}/cancel")
+    private String cancelEvent(@PathVariable("id") String id, Model model) {
+        eventService.cancelEvent(Long.valueOf(id));
+        model.addAttribute("event", eventService.findEvent(Long.valueOf(id)).get());
+        return "event";
     }
 
     private void addSearchValuesToModel(Model model) {

@@ -1,14 +1,11 @@
 package com.example.confeo.model;
 
 import lombok.Data;
-
-import javax.persistence.*;
-import javax.validation.constraints.AssertTrue;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Future;
-
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.*;
+import javax.validation.constraints.Future;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
@@ -41,6 +38,7 @@ public class Event {
     private Boolean isFree;
     private double pricePerParticipant;
     private double pricePerPrelegent;
+    private Integer maxParticipants;
     @ManyToOne(cascade = CascadeType.ALL)
     Category category;
     @OneToMany(mappedBy = "event")
