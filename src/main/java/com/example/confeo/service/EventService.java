@@ -2,6 +2,7 @@ package com.example.confeo.service;
 
 import com.example.confeo.model.Category;
 import com.example.confeo.model.Event;
+import com.example.confeo.model.EventStatus;
 import com.example.confeo.repository.AddressRepository;
 import com.example.confeo.repository.CategoryRepository;
 import com.example.confeo.repository.EventRepository;
@@ -12,8 +13,8 @@ import java.time.LocalDate;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
-
 
 /**
  * Created by mstobieniecka on 2018-05-29.
@@ -49,6 +50,16 @@ public class EventService {
         }
         checkEventDates(eventsByMonth, startDate, endDate);
         return eventsByMonth;
+    }
+
+    public void cancelEvent(Long id) {
+        Event event = findEvent(id).get();
+        event.setStatus(EventStatus.CANCELED);
+        eventRepository.save(event);
+    }
+
+    public Optional<Event> findEvent(Long id) {
+        return eventRepository.findById(id);
     }
 
     public List<String> findCities() {

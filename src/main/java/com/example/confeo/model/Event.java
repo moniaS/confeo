@@ -1,10 +1,9 @@
 package com.example.confeo.model;
 
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -35,6 +34,8 @@ public class Event {
     private double pricePerParticipant;
     private double pricePerPrelegent;
     @ManyToOne
+    private Integer maxParticipants;
+    @ManyToOne(cascade = CascadeType.ALL)
     Category category;
     @OneToMany(mappedBy = "event")
     private Set<Prelection> prelections = new HashSet<>();
@@ -50,7 +51,7 @@ public class Event {
     
     @ManyToOne
     User organiser;
-    
+
 /*    @Transient
     private boolean validDateRange;
     @AssertTrue(message = "Data rozpoczęnia musi być przed datą zakończenia")

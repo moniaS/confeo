@@ -36,6 +36,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/",
                         "/register",
                         "/events",
+                        "/events/{d}*",
                         "/events/search",
                         "/prelegents",
                         "/h2_console/**",

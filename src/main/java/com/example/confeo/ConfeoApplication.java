@@ -17,7 +17,7 @@ public class ConfeoApplication {
 	@Autowired
 	public ConfeoApplication(UserService userService) {
 		this.userService = userService;
-		//createUser();
+		createUser();
 	}
 
 	@Bean

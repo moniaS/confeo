@@ -22,7 +22,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 
 /**
  * Created by mstobieniecka on 2018-05-29.
@@ -66,7 +68,6 @@ public class EventController {
     	}
     	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     	String currentPrincipalName = authentication.getName();
-    	
     	event.setOrganiser(userService.findByUsername(currentPrincipalName));
     	eventService.saveEvent(event);
         return "redirect:/events/" + event.getId();
@@ -103,6 +104,22 @@ public class EventController {
                '%' + eventSearchForm.getCity() + '%', '%' + eventSearchForm.getCategory() + '%', eventSearchForm.getStartDate(), eventSearchForm.getEndDate()));
         addSearchValuesToModel(model);
         return "events";
+    }
+
+    @GetMapping("/events/{id}")
+    private String getEvent(@PathVariable("id") String id, Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUserName = authentication.getName();
+        model.addAttribute("currentUser", currentUserName);
+        model.addAttribute("event", eventService.findEvent(Long.valueOf(id)).get());
+        return "event";
+    }
+
+    @GetMapping("/events/{id}/cancel")
+    private String cancelEvent(@PathVariable("id") String id, Model model) {
+        eventService.cancelEvent(Long.valueOf(id));
+        model.addAttribute("event", eventService.findEvent(Long.valueOf(id)).get());
+        return "event";
     }
 
     private void addSearchValuesToModel(Model model) {

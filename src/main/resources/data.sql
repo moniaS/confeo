@@ -6,6 +6,8 @@ insert into category values (4, 'RUBY');
 insert into category values (5, 'IT');
 insert into event (id, name, description, is_free, PRICE_PER_PARTICIPANT, PRICE_PER_PRELEGENT, address_id, category_id, type, start_date, end_date)
 values(11, 'Konf1', 'Desc1', true, 10, 10, 100, 1, 'CONFERENCE', '2018-08-12', '2018-08-13');
+insert into event (id, name, description, is_free, PRICE_PER_PARTICIPANT, PRICE_PER_PRELEGENT, address_id, category_id, type, start_date, end_date, status)
+values(11, 'Konf1', 'Desc1', true, 10, 10, 5, 1, 'CONFERENCE', '2018-08-12', '2018-08-13', 'UPCOMING');
 insert into event (id, name, description, is_free, PRICE_PER_PARTICIPANT, PRICE_PER_PRELEGENT, address_id, category_id, start_date, end_date)
 values(21, 'Konf2', 'Desc2', true, 10, 10, 100, 2, '2018-08-12', '2018-08-13');
 insert into event (id, name, description, is_free, PRICE_PER_PARTICIPANT, PRICE_PER_PRELEGENT, address_id, category_id, start_date, end_date)

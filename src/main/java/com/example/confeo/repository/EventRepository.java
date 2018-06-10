@@ -18,4 +18,5 @@ public interface EventRepository extends JpaRepository<Event, Long> {
     @Query("select e from Event e where e.address.cityName like :city and e.name like :name and e.category.name like :category and function('month', e.startDate) = :month")
     List<Event> findEvents(@Param("name") String name, @Param("city") String city,
                                                               @Param("category") String category, @Param("month") int month);
+
 }
