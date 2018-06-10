@@ -19,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -60,41 +61,38 @@ public class EventController {
     @PostMapping("/events/add/save")
     public String saveEvent(@ModelAttribute @Valid Event event, BindingResult bindingResult,
     		RedirectAttributes redirectAttributes) {
-
-    	LocalDate testDate = LocalDate.now();
-    	if (event.getStartDate() == null || event.getEndDate() == null){
-    		redirectAttributes.addFlashAttribute("message", "Proszę podać datę rozpoczęcia i zakończenia");
-    		redirectAttributes.addFlashAttribute("event", event);
-    		return "redirect:/events/add";
-    	} else if (!event.getStartDate().isAfter(testDate)){
-    		redirectAttributes.addFlashAttribute("message", "Proszę podać przyszłe daty");
-    		redirectAttributes.addFlashAttribute("event", event);
-    		return "redirect:/events/add";
-    	} else if(event.getEndDate().compareTo(event.getStartDate()) < 0) {
-    		redirectAttributes.addFlashAttribute("message", "Proszę podać datę rozpoczęcia starszą niż data zakończenia");
-    		redirectAttributes.addFlashAttribute("event", event);
-    		return "redirect:/events/add";
-    	} else if (event.getName() == null || event.getName() == ""){
-    		redirectAttributes.addFlashAttribute("message", "Proszę podać nazwę wydarzenia");
-    		redirectAttributes.addFlashAttribute("event", event);
-    		return "redirect:/events/add";
-    	} 
-    	
-    	System.out.println("daty: " + testDate + ", " + event.getStartDate());
-    	Duration duration = Duration.between(testDate.atStartOfDay(), event.getStartDate().atStartOfDay());
-    	//long daysBetween = DAYS.between(testDate, event.getStartDate());
-    	long diff = Math.abs(duration.toDays());
-    	System.out.println("roznica: " + diff);
-    	if (diff > 180) {
-    		redirectAttributes.addFlashAttribute("message", "Proszę podać datę wydarzenia maksymalnie do pół roku wprzód");
-    		redirectAttributes.addFlashAttribute("event", event);
+    	if (!isFormValidated(event, redirectAttributes)){
     		return "redirect:/events/add";
     	}
     	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     	String currentPrincipalName = authentication.getName();
-    	System.out.println(currentPrincipalName);
     	
     	event.setOrganiser(userService.findByUsername(currentPrincipalName));
+    	eventService.saveEvent(event);
+        return "redirect:/events/" + event.getId();
+    }
+    
+    @RequestMapping("/events/{id}/edit")
+    public String editEvent(Model model, @PathVariable("id") long eventId) {
+    	//jesli nie ma takiego wydarzenia -> przejdz do listy wydarzen
+    	if (eventService.findById(eventId) == null){
+    		return "redirect:/events";
+    	}
+    	if (!model.containsAttribute("event")){
+    		model.addAttribute("event", eventService.findById(eventId));
+    	}
+    	
+        model.addAttribute("eventTypes", EventType.values());
+        model.addAttribute("categories", categoryService.findAll());
+        return "edit-event";
+    }
+    
+    @PostMapping("/events/edit/save")
+    public String saveEventEdit(@ModelAttribute @Valid Event event, BindingResult bindingResult,
+    		RedirectAttributes redirectAttributes) {
+    	if (!isFormValidated(event, redirectAttributes)){
+    		return "redirect:/events/" + event.getId() + "/edit";
+    	}   	
     	eventService.saveEvent(event);
         return "redirect:/events/" + event.getId();
     }
@@ -110,5 +108,34 @@ public class EventController {
     private void addSearchValuesToModel(Model model) {
         model.addAttribute("cities", eventService.findCities());
         model.addAttribute("categories", eventService.findCategories());
+    }
+    
+    private boolean isFormValidated(Event event, RedirectAttributes redirectAttributes){
+    	LocalDate testDate = LocalDate.now();
+    	if (event.getStartDate() == null || event.getEndDate() == null){
+    		redirectAttributes.addFlashAttribute("message", "Proszę podać datę rozpoczęcia i zakończenia");
+    		redirectAttributes.addFlashAttribute("event", event);
+    		return false;
+    	} else if (!event.getStartDate().isAfter(testDate)){
+    		redirectAttributes.addFlashAttribute("message", "Proszę podać przyszłe daty");
+    		redirectAttributes.addFlashAttribute("event", event);
+    		return false;
+    	} else if(event.getEndDate().compareTo(event.getStartDate()) < 0) {
+    		redirectAttributes.addFlashAttribute("message", "Proszę podać datę rozpoczęcia starszą niż data zakończenia");
+    		redirectAttributes.addFlashAttribute("event", event);
+    		return false;
+    	} else if (event.getName() == null || event.getName() == ""){
+    		redirectAttributes.addFlashAttribute("message", "Proszę podać nazwę wydarzenia");
+    		redirectAttributes.addFlashAttribute("event", event);
+    		return false;
+    	} 
+    	Duration duration = Duration.between(testDate.atStartOfDay(), event.getStartDate().atStartOfDay());
+    	long diff = Math.abs(duration.toDays());
+    	if (diff > 180) {
+    		redirectAttributes.addFlashAttribute("message", "Proszę podać datę wydarzenia maksymalnie do pół roku wprzód");
+    		redirectAttributes.addFlashAttribute("event", event);
+    		return false;
+    	}
+    	return true;
     }
 }

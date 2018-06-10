@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import javax.validation.Valid;
 
 /**
  * Created by mstobieniecka on 2018-05-29.
@@ -114,5 +113,14 @@ public class EventService {
     public void saveEvent(Event event) {
     	eventRepository.save(event);
     }
+
+	public Event findById(long id) {
+		try {
+			return eventRepository.findById(id).get();
+		} catch (Exception e){
+			return null;
+		}
+		
+	}
 
 }

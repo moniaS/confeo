@@ -3,8 +3,6 @@ package com.example.confeo.model;
 import lombok.Data;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Future;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -36,7 +34,7 @@ public class Event {
     private Boolean isFree;
     private double pricePerParticipant;
     private double pricePerPrelegent;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     Category category;
     @OneToMany(mappedBy = "event")
     private Set<Prelection> prelections = new HashSet<>();
