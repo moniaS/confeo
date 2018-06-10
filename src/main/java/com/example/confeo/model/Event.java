@@ -3,6 +3,9 @@ package com.example.confeo.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Future;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -19,8 +22,12 @@ public class Event {
     @Id
     @GeneratedValue
     private Long id;
+    @NotNull
+    @Future
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate startDate;
+    @Future
+    @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
     @OneToOne(cascade = CascadeType.ALL)
@@ -47,6 +54,17 @@ public class Event {
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
     private Set<User> users = new HashSet<>();
+    
+    
+/*    @Transient
+    private boolean validDateRange;
+    @AssertTrue(message = "Data rozpoczęnia musi być przed datą zakończenia")
+    public boolean isValidDateRange() {
+    	if (endDate == null || startDate ==null){
+    		return false;
+    	}
+    	return endDate.compareTo(startDate) >= 0;
+    }*/
 //    @OneToMany
 //    private Set<Payment> receivedPayments = new HashSet<>();
 //    @OneToMany
