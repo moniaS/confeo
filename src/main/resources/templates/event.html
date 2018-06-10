@@ -23,13 +23,25 @@
 <div class="event-details">
     <div class="container">
         <div class="row">
+            <div class="col-sm-8">
+                <div class="error-message" th:if="${failureMessage}" th:text="${failureMessage}"></div>
+                <div class="success-message" th:if="${successMessage}" th:text="${successMessage}"></div>
+            </div>
+        </div>
+        <div class="row">
             <div class="col-sm-2" >
                 <label>Status wydarzenia: </label>
             </div>
-            <div class="col-sm-5">
+            <div class="col-sm-6">
                 <div th:text="${event.status}"></div>
             </div>
             <div class="col-sm-2">
+                <div sec:authorize="hasRole('ROLE_PARTICIPANT')">
+                    <a th:if="${event.status?.name() == 'UPCOMING' && event.users?.size() < event.maxParticipants && !isSignedUpForEvent}" type="submit" class="btn btn-default" th:href="@{'/events/' + ${event.id} + '/signUp'}">Zapisz na wydarzenie</a>
+                </div>
+                <div sec:authorize="hasRole('ROLE_PARTICIPANT')">
+                    <a th:if="${event.status?.name() == 'UPCOMING' && isSignedUpForEvent}" type="submit" class="btn btn-default" th:href="@{'/events/' + ${event.id} + '/signOff'}">Wypisz się z wydarzenia</a>
+                </div>
                 <div sec:authorize="hasAnyRole('ROLE_ORGANIZER','ROLE_ADMIN')">
                     <button th:if="${event.status?.name() == 'UPCOMING' and currentUser == event.organiser?.email}" type="submit" class="btn btn-default" data-toggle="modal" data-target="#cancel-event-modal">Anuluj wydarzenie</button>
                 </div>

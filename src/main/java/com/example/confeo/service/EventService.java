@@ -1,11 +1,15 @@
 package com.example.confeo.service;
 
+import com.example.confeo.exception.CannotSignUpOnCanceledEvent;
+import com.example.confeo.exception.ParticipantsLimitReached;
 import com.example.confeo.model.Category;
 import com.example.confeo.model.Event;
 import com.example.confeo.model.EventStatus;
+import com.example.confeo.model.User;
 import com.example.confeo.repository.AddressRepository;
 import com.example.confeo.repository.CategoryRepository;
 import com.example.confeo.repository.EventRepository;
+import com.example.confeo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +17,7 @@ import java.time.LocalDate;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
 /**
@@ -23,12 +28,14 @@ public class EventService {
     private final EventRepository eventRepository;
     private final AddressRepository addressRepository;
     private final CategoryRepository categoryRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public EventService(EventRepository eventRepository, AddressRepository addressRepository, CategoryRepository categoryRepository) {
+    public EventService(EventRepository eventRepository, AddressRepository addressRepository, CategoryRepository categoryRepository, UserRepository userRepository) {
         this.eventRepository = eventRepository;
         this.addressRepository = addressRepository;
         this.categoryRepository = categoryRepository;
+        this.userRepository = userRepository;
     }
 
     public List<Event> findAll() {
@@ -56,7 +63,40 @@ public class EventService {
         event.setStatus(EventStatus.CANCELED);
         eventRepository.save(event);
     }
-    
+
+
+    public void signUpOnEventAsParticipant(String username, Long eventId) throws ParticipantsLimitReached, CannotSignUpOnCanceledEvent {
+        Event event = eventRepository.getOne(eventId);
+        User user = userRepository.findByEmail(username);
+        if(event.getUsers().size() < event.getMaxParticipants()) {
+            if(event.getStatus().equals(EventStatus.UPCOMING)) {
+                event.getUsers().add(user);
+                eventRepository.save(event);
+            }
+            else {
+                throw new CannotSignUpOnCanceledEvent();
+            }
+        } else {
+            throw new ParticipantsLimitReached();
+        }
+    }
+
+    public boolean isUserSignedUpOnEvent(String username, Long eventId) {
+        AtomicBoolean isSignedUp = new AtomicBoolean(false);
+        User user = userRepository.findByEmail(username);
+        Event event = eventRepository.getOne(eventId);
+        event.getUsers().forEach(u -> {
+            if (u.equals(user)) {
+                isSignedUp.set(true);
+            }
+        });
+        return isSignedUp.get();
+    }
+
+    public Event findEvent(Long id) {
+        return eventRepository.getOne(id);
+    }
+
     public List<String> findCities() {
         return addressRepository.findDistinctCityNames();
     }

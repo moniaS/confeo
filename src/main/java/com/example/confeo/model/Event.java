@@ -1,10 +1,10 @@
 package com.example.confeo.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
@@ -14,6 +14,7 @@ import java.util.Set;
  */
 @Data
 @Entity
+@EqualsAndHashCode(exclude={"organiser","users","prelections"})
 public class Event {
     @Id
     @GeneratedValue
@@ -41,7 +42,7 @@ public class Event {
     @ManyToMany(cascade = {
             CascadeType.PERSIST,
             CascadeType.MERGE
-    })
+    }, fetch = FetchType.EAGER)
     @JoinTable(name = "event_user",
             joinColumns = @JoinColumn(name = "event_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
