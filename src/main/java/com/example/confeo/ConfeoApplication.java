@@ -1,5 +1,8 @@
 package com.example.confeo;
 
+import com.example.confeo.model.Role;
+import com.example.confeo.model.User;
+import com.example.confeo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -8,10 +11,13 @@ import org.thymeleaf.extras.java8time.dialect.Java8TimeDialect;
 
 @SpringBootApplication
 public class ConfeoApplication {
-
+	private final UserService userService;
 
 	@Autowired
-	public ConfeoApplication(){}
+	public ConfeoApplication(UserService userService){
+		this.userService = userService;
+		createUser();
+	}
 
 	@Bean
 	public Java8TimeDialect java8TimeDialect() {
@@ -23,7 +29,7 @@ public class ConfeoApplication {
 	}
 
 
-/*	private void createUser() {
+	private void createUser() {
 		User user1 = new User();
 		user1.setEmail("email");
 		user1.setPassword("password");
@@ -36,5 +42,5 @@ public class ConfeoApplication {
 		user2.setEmail("user2");
 		user2.setPassword("password");
 		userService.save(user2, Role.ROLE_PARTICIPANT);
-	}*/
+	}
 }

@@ -143,6 +143,15 @@ public class EventController {
         return "redirect:/events/" + id;
     }
 
+    @GetMapping("/events/{id}/signOff")
+    private String signOffFromEvent(@PathVariable("id") String id, Model model, RedirectAttributes redirectAttributes) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        eventService.signOffFromEventAsParticipant(authentication.getName(), Long.valueOf(id));
+        model.addAttribute("event", eventService.findEvent(Long.valueOf(id)));
+        redirectAttributes.addFlashAttribute("successMessage", "Zostałeś wypisany z wydarzenia");
+        return "redirect:/events/" + id;
+    }
+
     private void addSearchValuesToModel(Model model) {
         model.addAttribute("cities", eventService.findCities());
         model.addAttribute("categories", eventService.findCategories());

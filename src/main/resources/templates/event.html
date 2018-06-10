@@ -37,7 +37,7 @@
             </div>
             <div class="col-sm-2">
                 <div sec:authorize="hasRole('ROLE_PARTICIPANT')">
-                    <a th:if="${event.status?.name() == 'UPCOMING' && event.users?.size() < event.maxParticipants && !isSignedUpForEvent}" type="submit" class="btn btn-default" th:href="@{'/events/' + ${event.id} + '/signUp'}">Zapisz na wydarzenie</a>
+                    <a th:if="${event.status?.name() == 'UPCOMING' && event.users?.size() < event.maxParticipants && !isSignedUpForEvent}" type="submit" class="btn btn-default" th:href="@{'/events/' + ${event.id} + '/signUp'}">Zapisz się na wydarzenie</a>
                 </div>
                 <div sec:authorize="hasRole('ROLE_PARTICIPANT')">
                     <a th:if="${event.status?.name() == 'UPCOMING' && isSignedUpForEvent}" type="submit" class="btn btn-default" th:href="@{'/events/' + ${event.id} + '/signOff'}">Wypisz się z wydarzenia</a>

@@ -81,6 +81,13 @@ public class EventService {
         }
     }
 
+    public void signOffFromEventAsParticipant(String username, Long eventId) {
+        Event event = eventRepository.getOne(eventId);
+        User user = userRepository.findByEmail(username);
+        event.getUsers().remove(user);
+        eventRepository.save(event);
+    }
+
     public boolean isUserSignedUpOnEvent(String username, Long eventId) {
         AtomicBoolean isSignedUp = new AtomicBoolean(false);
         User user = userRepository.findByEmail(username);
@@ -187,5 +194,4 @@ public class EventService {
     	event.setType(updatedEvent.getType());
     	eventRepository.save(event);
     }
-
 }
