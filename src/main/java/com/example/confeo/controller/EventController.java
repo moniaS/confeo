@@ -1,29 +1,25 @@
 package com.example.confeo.controller;
 
+import com.example.confeo.exception.CannotSignUpOnCanceledEvent;
+import com.example.confeo.exception.ParticipantsLimitReached;
 import com.example.confeo.form.EventSearchForm;
 import com.example.confeo.model.Event;
 import com.example.confeo.model.EventType;
 import com.example.confeo.service.CategoryService;
 import com.example.confeo.service.EventService;
 import com.example.confeo.service.UserService;
-
-import java.time.Duration;
-import java.time.LocalDate;
-
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.validation.Valid;
+import java.time.Duration;
+import java.time.LocalDate;
 
 
 /**
@@ -72,7 +68,7 @@ public class EventController {
     	eventService.saveEvent(event);
         return "redirect:/events/" + event.getId();
     }
-    
+
     @RequestMapping("/events/{id}/edit")
     public String editEvent(Model model, @PathVariable("id") long eventId) {
     	//jesli nie ma takiego wydarzenia -> przejdz do listy wydarzen
@@ -82,18 +78,18 @@ public class EventController {
     	if (!model.containsAttribute("event")){
     		model.addAttribute("event", eventService.findById(eventId));
     	}
-    	
+
         model.addAttribute("eventTypes", EventType.values());
         model.addAttribute("categories", categoryService.findAll());
         return "edit-event";
     }
-    
+
     @PostMapping("/events/edit/save")
     public String saveEventEdit(@ModelAttribute @Valid Event event, BindingResult bindingResult,
     		RedirectAttributes redirectAttributes) {
     	if (!isFormValidated(event, redirectAttributes)){
     		return "redirect:/events/" + event.getId() + "/edit";
-    	}   	
+    	}
     	eventService.saveEvent(event);
         return "redirect:/events/" + event.getId();
     }
@@ -110,23 +106,42 @@ public class EventController {
     private String getEvent(@PathVariable("id") String id, Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUserName = authentication.getName();
+        model.addAttribute("isSignedUpForEvent", eventService.isUserSignedUpOnEvent(currentUserName, Long.valueOf(id)));
         model.addAttribute("currentUser", currentUserName);
-        model.addAttribute("event", eventService.findEvent(Long.valueOf(id)).get());
+        Event event = eventService.findEvent(Long.valueOf(id));
+        model.addAttribute("event", event);
         return "event";
     }
 
     @GetMapping("/events/{id}/cancel")
     private String cancelEvent(@PathVariable("id") String id, Model model) {
         eventService.cancelEvent(Long.valueOf(id));
-        model.addAttribute("event", eventService.findEvent(Long.valueOf(id)).get());
+        model.addAttribute("event", eventService.findEvent(Long.valueOf(id)));
         return "event";
+    }
+
+    @GetMapping("/events/{id}/signUp")
+    private String signUpOnEvent(@PathVariable("id") String id, Model model, RedirectAttributes redirectAttributes) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        try {
+            eventService.signUpOnEventAsParticipant(authentication.getName(), Long.valueOf(id));
+            model.addAttribute("event", eventService.findEvent(Long.valueOf(id)));
+            redirectAttributes.addFlashAttribute("successMessage", "Zostałeś zapisany na wydarzenie");
+        } catch (ParticipantsLimitReached participantsLimitReached) {
+            participantsLimitReached.printStackTrace();
+            redirectAttributes.addFlashAttribute("failureMessage", "Limit miejsc na wydarzenie został już osiągnięty");
+        } catch (CannotSignUpOnCanceledEvent cannotSignUpOnCanceledEvent) {
+            cannotSignUpOnCanceledEvent.printStackTrace();
+            redirectAttributes.addFlashAttribute("failureMessage", "Nie można zapisać się na anulowaną lub zakończoną konferencję");
+        }
+        return "redirect:/events/" + id;
     }
 
     private void addSearchValuesToModel(Model model) {
         model.addAttribute("cities", eventService.findCities());
         model.addAttribute("categories", eventService.findCategories());
     }
-    
+
     private boolean isFormValidated(Event event, RedirectAttributes redirectAttributes){
     	LocalDate testDate = LocalDate.now();
     	if (event.getStartDate() == null || event.getEndDate() == null){
@@ -145,7 +160,7 @@ public class EventController {
     		redirectAttributes.addFlashAttribute("message", "Proszę podać nazwę wydarzenia");
     		redirectAttributes.addFlashAttribute("event", event);
     		return false;
-    	} 
+    	}
     	Duration duration = Duration.between(testDate.atStartOfDay(), event.getStartDate().atStartOfDay());
     	long diff = Math.abs(duration.toDays());
     	if (diff > 180) {

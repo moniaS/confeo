@@ -30,9 +30,17 @@ public class ConfeoApplication {
 	}
 
 	private void createUser() {
+		User user1 = new User();
+		user1.setEmail("email");
+		user1.setPassword("password");
+		userService.save(user1, Role.ROLE_ORGANIZER);
 		User user = new User();
-		user.setEmail("email");
+		user.setEmail("user");
 		user.setPassword("password");
-		userService.save(user, Role.ROLE_ORGANIZER);
+		userService.save(user, Role.ROLE_PARTICIPANT);
+		User user2 = new User();
+		user2.setEmail("user2");
+		user2.setPassword("password");
+		userService.save(user2, Role.ROLE_PARTICIPANT);
 	}
 }

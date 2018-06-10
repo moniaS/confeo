@@ -3105,3 +3105,13 @@ ul.footer-blog li {
     border: solid 1px lightgrey;
     border-radius: 3px;
 }
+
+.error-message {
+    color: red;
+    margin-bottom: 5px;
+}
+
+.success-message {
+    color: #0C9C14;
+    margin-bottom: 5px;
+}
