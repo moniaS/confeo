@@ -31,11 +31,11 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
     @ManyToMany(mappedBy = "users")
-    private Set<Event> organizedEvents = new HashSet<>();
-    @ManyToMany(mappedBy = "users")
     private Set<Event> attendingEvents = new HashSet<>();
     @OneToMany(mappedBy = "user")
     private List<Prelection> prelections = new ArrayList<>();
+    @OneToMany(mappedBy = "organiser")
+    private List<Event> organizedEvents = new ArrayList<>();
 //    @OneToMany
 //    private Set<Payment> receivedPayments = new HashSet<>();
 //    @OneToMany

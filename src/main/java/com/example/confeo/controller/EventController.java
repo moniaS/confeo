@@ -5,26 +5,23 @@ import com.example.confeo.model.Event;
 import com.example.confeo.model.EventType;
 import com.example.confeo.service.CategoryService;
 import com.example.confeo.service.EventService;
+import com.example.confeo.service.UserService;
 
 import java.time.Duration;
-import java.time.temporal.ChronoUnit;
 import java.time.LocalDate;
-import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.time.LocalDate;
-import java.util.List;
 
 /**
  * Created by mstobieniecka on 2018-05-29.
@@ -33,11 +30,13 @@ import java.util.List;
 public class EventController {
     private final EventService eventService;
     private final CategoryService categoryService;
+    private final UserService userService;
 
     @Autowired
-    public EventController(EventService eventService, CategoryService categoryService) {
+    public EventController(EventService eventService, CategoryService categoryService, UserService userService) {
         this.eventService = eventService;
         this.categoryService = categoryService;
+        this.userService = userService;
     }
 
     @RequestMapping("/events")
@@ -62,8 +61,13 @@ public class EventController {
     public String saveEvent(@ModelAttribute @Valid Event event, BindingResult bindingResult,
     		RedirectAttributes redirectAttributes) {
 
+    	LocalDate testDate = LocalDate.now();
     	if (event.getStartDate() == null || event.getEndDate() == null){
     		redirectAttributes.addFlashAttribute("message", "Proszę podać datę rozpoczęcia i zakończenia");
+    		redirectAttributes.addFlashAttribute("event", event);
+    		return "redirect:/events/add";
+    	} else if (!event.getStartDate().isAfter(testDate)){
+    		redirectAttributes.addFlashAttribute("message", "Proszę podać przyszłe daty");
     		redirectAttributes.addFlashAttribute("event", event);
     		return "redirect:/events/add";
     	} else if(event.getEndDate().compareTo(event.getStartDate()) < 0) {
@@ -75,7 +79,7 @@ public class EventController {
     		redirectAttributes.addFlashAttribute("event", event);
     		return "redirect:/events/add";
     	} 
-    	LocalDate testDate = LocalDate.now();
+    	
     	System.out.println("daty: " + testDate + ", " + event.getStartDate());
     	Duration duration = Duration.between(testDate.atStartOfDay(), event.getStartDate().atStartOfDay());
     	//long daysBetween = DAYS.between(testDate, event.getStartDate());
@@ -86,15 +90,11 @@ public class EventController {
     		redirectAttributes.addFlashAttribute("event", event);
     		return "redirect:/events/add";
     	}
-    	//prawdopodobnie nie bedziemy tego fragmentu uzywac
-    	/*if (bindingResult.hasErrors()){
-			List<FieldError> errors = bindingResult.getFieldErrors();
-		    for (FieldError error : errors ) {
-		        System.out.println (error.getObjectName() + " - " + error.getDefaultMessage());
-		    }
-		    redirectAttributes.addFlashAttribute("event", event);
-    		return "redirect:/events/add";
-    	}*/
+    	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    	String currentPrincipalName = authentication.getName();
+    	System.out.println(currentPrincipalName);
+    	
+    	event.setOrganiser(userService.findByUsername(currentPrincipalName));
     	eventService.saveEvent(event);
         return "redirect:/events/" + event.getId();
     }

@@ -3,7 +3,6 @@ package com.example.confeo.model;
 import lombok.Data;
 
 import javax.persistence.*;
-import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Future;
 
@@ -22,12 +21,8 @@ public class Event {
     @Id
     @GeneratedValue
     private Long id;
-    @NotNull
-    @Future
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate startDate;
-    @Future
-    @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
     @OneToOne(cascade = CascadeType.ALL)
@@ -55,6 +50,8 @@ public class Event {
     )
     private Set<User> users = new HashSet<>();
     
+    @ManyToOne
+    User organiser;
     
 /*    @Transient
     private boolean validDateRange;
