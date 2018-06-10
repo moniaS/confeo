@@ -4,6 +4,7 @@ import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
@@ -19,12 +20,8 @@ public class Event {
     @Id
     @GeneratedValue
     private Long id;
-    @NotNull
-    @Future
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate startDate;
-    @Future
-    @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
     @OneToOne(cascade = CascadeType.ALL)
@@ -53,7 +50,9 @@ public class Event {
     )
     private Set<User> users = new HashSet<>();
     
-    
+    @ManyToOne
+    User organiser;
+
 /*    @Transient
     private boolean validDateRange;
     @AssertTrue(message = "Data rozpoczęnia musi być przed datą zakończenia")
