@@ -27,7 +27,7 @@ public class UserService {
 
     public void save(User user) throws EmailAlreadyExists {
         User userByEmail = userRepository.findByEmail(user.getEmail());
-        if(userByEmail != null) {
+        if(userByEmail == null) {
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
             userRepository.save(user);
         } else {

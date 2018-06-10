@@ -5,6 +5,8 @@ import com.example.confeo.exception.ParticipantsLimitReached;
 import com.example.confeo.form.EventSearchForm;
 import com.example.confeo.model.Event;
 import com.example.confeo.model.EventType;
+import com.example.confeo.model.Role;
+import com.example.confeo.model.User;
 import com.example.confeo.service.CategoryService;
 import com.example.confeo.service.EventService;
 import com.example.confeo.service.UserService;
@@ -44,6 +46,18 @@ public class EventController {
         addSearchValuesToModel(model);
         model.addAttribute("eventSearchForm", new EventSearchForm());
         return "events";
+    }
+
+    @RequestMapping("/my/events")
+    private String myEvents(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findByUsername(authentication.getName());
+        if(user.getRole().equals(Role.ROLE_PARTICIPANT)) {
+            model.addAttribute("events", user.getAttendingEvents());
+        } else if(user.getRole().equals(Role.ROLE_ORGANIZER)) {
+            model.addAttribute("events", user.getOrganizedEvents());
+        }
+        return "my-events";
     }
 
     @RequestMapping("/events/add")
