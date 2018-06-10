@@ -1,5 +1,6 @@
 package com.example.confeo.controller;
 
+import com.example.confeo.form.EventSearchForm;
 import com.example.confeo.model.Event;
 import com.example.confeo.model.EventType;
 import com.example.confeo.service.CategoryService;
@@ -22,6 +23,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.LocalDate;
+import java.util.List;
+
 /**
  * Created by mstobieniecka on 2018-05-29.
  */
@@ -38,10 +42,12 @@ public class EventController {
 
     @RequestMapping("/events")
     private String events(Model model) {
-        model.addAttribute("eventsByMonth", eventService.findEventsByMonth());
+        model.addAttribute("eventsByMonth", eventService.findEventsByMonth("%", "%", "%", LocalDate.MIN, LocalDate.MAX));
+        addSearchValuesToModel(model);
+        model.addAttribute("eventSearchForm", new EventSearchForm());
         return "events";
     }
-    
+
     @RequestMapping("/events/add")
     public String addEvent(Model model) {
     	if (!model.containsAttribute("event")){
@@ -51,11 +57,11 @@ public class EventController {
         model.addAttribute("categories", categoryService.findAll());
         return "add-event";
     }
-    
+
     @PostMapping("/events/add/save")
     public String saveEvent(@ModelAttribute @Valid Event event, BindingResult bindingResult,
     		RedirectAttributes redirectAttributes) {
-    	
+
     	if (event.getStartDate() == null || event.getEndDate() == null){
     		redirectAttributes.addFlashAttribute("message", "Proszę podać datę rozpoczęcia i zakończenia");
     		redirectAttributes.addFlashAttribute("event", event);
@@ -91,5 +97,18 @@ public class EventController {
     	}*/
     	eventService.saveEvent(event);
         return "redirect:/events/" + event.getId();
+    }
+
+    @PostMapping("/events/search")
+    private String searchEvents(EventSearchForm eventSearchForm, BindingResult bindingResult, Model model) {
+        model.addAttribute("eventsByMonth", eventService.findEventsByMonth('%' + eventSearchForm.getName() + '%',
+               '%' + eventSearchForm.getCity() + '%', '%' + eventSearchForm.getCategory() + '%', eventSearchForm.getStartDate(), eventSearchForm.getEndDate()));
+        addSearchValuesToModel(model);
+        return "events";
+    }
+
+    private void addSearchValuesToModel(Model model) {
+        model.addAttribute("cities", eventService.findCities());
+        model.addAttribute("categories", eventService.findCategories());
     }
 }

@@ -1,6 +1,9 @@
 package com.example.confeo.service;
 
+import com.example.confeo.model.Category;
 import com.example.confeo.model.Event;
+import com.example.confeo.repository.AddressRepository;
+import com.example.confeo.repository.CategoryRepository;
 import com.example.confeo.repository.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,27 +22,60 @@ import javax.validation.Valid;
 @Service
 public class EventService {
     private final EventRepository eventRepository;
+    private final AddressRepository addressRepository;
+    private final CategoryRepository categoryRepository;
 
     @Autowired
-    public EventService(EventRepository eventRepository) {
+    public EventService(EventRepository eventRepository, AddressRepository addressRepository, CategoryRepository categoryRepository) {
         this.eventRepository = eventRepository;
+        this.addressRepository = addressRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     public List<Event> findAll() {
         return eventRepository.findAll();
     }
 
-    public Map<String, List<Event>> findEventsByMonth() {
-        List<Integer> months = eventRepository.findUpcomingEventMonths(LocalDate.now().getMonthValue());
+    public Map<String, List<Event>> findEventsByMonth(String name, String city, String category, LocalDate startDate, LocalDate endDate) {
+        List<Integer> months = eventRepository.findUpcomingEventMonths(name, city, category, LocalDate.now().getMonthValue());
         Map<String, List<Event>> eventsByMonth = new LinkedHashMap<>();
         for (int month : months) {
             if (month == LocalDate.now().getMonthValue()) {
-                eventsByMonth.put(convertMonthToString(month), eventRepository.findByStartDateMonth(month)
+                eventsByMonth.put(convertMonthToString(month), eventRepository.findEvents(name, city, category, month)
                         .stream()
                         .filter(event -> event.getStartDate().isAfter(LocalDate.now()))
                         .collect(Collectors.toList()));
             }
-            eventsByMonth.put(convertMonthToString(month), eventRepository.findByStartDateMonth(month));
+            eventsByMonth.put(convertMonthToString(month), eventRepository.findEvents(name, city, category, month));
+        }
+        checkEventDates(eventsByMonth, startDate, endDate);
+        return eventsByMonth;
+    }
+
+    public List<String> findCities() {
+        return addressRepository.findDistinctCityNames();
+    }
+
+    public List<Category> findCategories() {
+        return categoryRepository.findAll();
+    }
+
+    private Map<String, List<Event>> checkEventDates(Map<String, List<Event>> eventsByMonth, LocalDate startDate, LocalDate endDate) {
+
+        if(startDate != null) {
+            for(Map.Entry<String, List<Event>> entry: eventsByMonth.entrySet()) {
+                List<Event> events = eventsByMonth.get(entry.getKey()).stream()
+                        .filter(e -> e.getStartDate().isAfter(startDate)).collect(Collectors.toList());
+                entry.setValue(events);
+            }
+        }
+
+        if(endDate != null) {
+            for(Map.Entry<String, List<Event>> entry: eventsByMonth.entrySet()) {
+                List<Event> events = eventsByMonth.get(entry.getKey()).stream()
+                        .filter(e -> e.getStartDate().isBefore(endDate)).collect(Collectors.toList());
+                entry.setValue(events);
+            }
         }
         return eventsByMonth;
     }

@@ -21,34 +21,70 @@
         </div>
     </div>
 </div>
+<div class="search-area" style="background-color: rgb(249, 249, 249);">
+    <div class="container">
+        <div class="row">
+            <form th:object="${eventSearchForm}" th:action="@{/events/search}" method='POST'>
+                <div class="col-sm-3">
+                    <input name="name" th:field="*{name}" type="text" class="form-control" placeholder="Nazwa">
+                </div>
+                <div class="col-sm-4">
+                    <div class="input-group input-daterange">
+                        <input type="date" class="form-control" id="startDate" th:field="*{startDate}">
+                        <div class="input-group-addon">do</div>
+                        <input type="date" class="form-control" id="endDate" th:field="*{endDate}">
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <select name="cities" th:field="*{city}" class="selectpicker" data-live-search="true" data-live-search-style="begins" title="Wybierz miasto">
+                        <option value="" text=""></option>
+                        <option th:each="city : ${cities}" th:value="${city}" th:text="${city}">Miasto</option>
+                    </select>
+                </div>
+                <div class="col-sm-2">
+                    <select name="categories" th:field="*{category}" class="selectpicker" data-live-search="true" data-live-search-style="begins" title="Wybierz kategorię">
+                        <option value="" text=""></option>
+                        <option th:each="category : ${categories}" th:value="${category.name}" th:text="${category.name}">Kategoria</option>
+                    </select>
+                </div>
+                <div class="col-sm-1">
+                    <button class="btn search-btn" type="submit"><i class="fa fa-search"></i></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <div class="events-area" style="background-color: rgb(249, 249, 249);">
     <div class="container">
         <div th:each="eventByMonth : ${eventsByMonth}">
-            <div class="events-month">
-                <span th:text="${eventByMonth.key}"></span>
-            </div>
-            <div class="row event-item" th:each="event : ${eventByMonth.value}">
-                <div class="col-md-3 event-date">
-                    <div th:if="${event.startDate != null && event.endDate != null}">
-                        <span th:if="${event.endDate == event.startDate}" th:text="${#temporals.format(event.startDate, 'dd/MM/yyyy')}"></span>
-                        <div th:if="${event.endDate != event.startDate}"><span class="event-start-date" th:text="${#temporals.format(event.startDate, 'dd/MM/yyyy')}"></span>&nbsp;-&nbsp;<span th:text="${#temporals.format(event.endDate, 'dd/MM/yyyy')}"></span></div>
+            <div th:if="${eventByMonth.value.size() > 0}">
+                <div class="events-month">
+                    <span th:text="${#strings.toUpperCase(eventByMonth.key) + ' 2018'}"></span>
+                </div>
+                <div class="row event-item" th:each="event : ${eventByMonth.value}">
+                    <div class="col-md-3 event-date">
+                        <div th:if="${event.startDate != null && event.endDate != null}">
+                            <span th:if="${event.endDate == event.startDate}" th:text="${#temporals.format(event.startDate, 'dd/MM/yyyy')}"></span>
+                            <div th:if="${event.endDate != event.startDate}"><span class="event-start-date" th:text="${#temporals.format(event.startDate, 'dd/MM/yyyy')}"></span>&nbsp;-&nbsp;<span th:text="${#temporals.format(event.endDate, 'dd/MM/yyyy')}"></span></div>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-2">
-                    <div th:text="${event.address.cityName}"></div>
-                </div>
-                <div class="col-md-2">
-                    <div th:text="${event.name}"></div>
-                </div>
-                <div class="col-md-2">
-                    <div th:text="${event.type}"></div>
-                </div>
-                <div class="col-md-2">
-                    <div th:text="${event.category.name}"></div>
-                </div>
-                <div class="col-md-1">
-                    <div th:if="${event.isFree} == true">BEZPŁATNE</div>
-                    <div th:if="${event.isFree} == false">PŁATNE</div>
+                    <div class="col-md-2">
+                        <div th:text="${event.address.cityName}"></div>
+                    </div>
+                    <div class="col-md-2">
+                        <div th:text="${event.name}"></div>
+                    </div>
+                    <div class="col-md-2">
+                        <div th:text="${event.type}"></div>
+                    </div>
+                    <div class="col-md-2">
+                        <div th:text="${event.category.name}"></div>
+                    </div>
+                    <div class="col-md-1">
+                        <div th:if="${event.isFree} == true">BEZPŁATNE</div>
+                        <div th:if="${event.isFree} == false">PŁATNE</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -58,5 +94,6 @@
 <nav th:include="common/include :: pageFooter"></nav>
 
 <th:block th:include="common/include :: pageFooterIncludes" />
+
 </body>
 </html>
