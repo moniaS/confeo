@@ -5,6 +5,9 @@ import com.example.confeo.model.EventType;
 import com.example.confeo.service.CategoryService;
 import com.example.confeo.service.EventService;
 
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -61,9 +64,19 @@ public class EventController {
     		redirectAttributes.addFlashAttribute("message", "Proszę podać datę rozpoczęcia starszą niż data zakończenia");
     		redirectAttributes.addFlashAttribute("event", event);
     		return "redirect:/events/add";
-    	}
-    	if (event.getName() == null || event.getName() == ""){
+    	} else if (event.getName() == null || event.getName() == ""){
     		redirectAttributes.addFlashAttribute("message", "Proszę podać nazwę wydarzenia");
+    		redirectAttributes.addFlashAttribute("event", event);
+    		return "redirect:/events/add";
+    	} 
+    	LocalDate testDate = LocalDate.now();
+    	System.out.println("daty: " + testDate + ", " + event.getStartDate());
+    	Duration duration = Duration.between(testDate.atStartOfDay(), event.getStartDate().atStartOfDay());
+    	//long daysBetween = DAYS.between(testDate, event.getStartDate());
+    	long diff = Math.abs(duration.toDays());
+    	System.out.println("roznica: " + diff);
+    	if (diff > 180) {
+    		redirectAttributes.addFlashAttribute("message", "Proszę podać datę wydarzenia maksymalnie do pół roku wprzód");
     		redirectAttributes.addFlashAttribute("event", event);
     		return "redirect:/events/add";
     	}
