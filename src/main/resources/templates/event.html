@@ -37,10 +37,10 @@
             </div>
             <div class="col-sm-3">
                 <div sec:authorize="hasRole('ROLE_PARTICIPANT')">
-                    <a th:if="${event.status?.name() == 'UPCOMING' && event.users?.size() < event.maxParticipants && !isSignedUpForEvent}" type="submit" class="btn btn-default" th:href="@{'/events/' + ${event.id} + '/signUp'}">Zapisz się na wydarzenie</a>
+                    <a th:if="${event.status?.name() == 'UPCOMING' && event.users?.size() < event.maxParticipants && !isSignedUpForEventAsParticipant && !isSignedUpForEventAsPrelegent}" type="submit" class="btn btn-default" th:href="@{'/events/' + ${event.id} + '/signUp'}">Zapisz się na wydarzenie</a>
                 </div>
                 <div sec:authorize="hasRole('ROLE_PARTICIPANT')">
-                    <a th:if="${event.status?.name() == 'UPCOMING' && isSignedUpForEvent}" type="submit" class="btn btn-default" th:href="@{'/events/' + ${event.id} + '/signOff'}">Wypisz się z wydarzenia</a>
+                    <a th:if="${event.status?.name() == 'UPCOMING' && isSignedUpForEventAsParticipant}" type="submit" class="btn btn-default" th:href="@{'/events/' + ${event.id} + '/signOff'}">Wypisz się z wydarzenia</a>
                 </div>
                 <div sec:authorize="hasAnyRole('ROLE_ORGANIZER','ROLE_ADMIN')">
                     <button th:if="${event.status?.name() == 'UPCOMING' and currentUser == event.organiser?.email}" type="submit" class="btn btn-default" data-toggle="modal" data-target="#cancel-event-modal">Anuluj wydarzenie</button>
@@ -51,7 +51,7 @@
                     <a th:href="@{/events/{id}/edit(id=${event.id})}"><button th:if="${event.status?.name() == 'UPCOMING' and currentUser == event.organiser?.email}" class="btn btn-default">Edytuj wydarzenie</button></a>
                 </div>
                 <div sec:authorize="hasRole('ROLE_PARTICIPANT')">
-                    <a th:href="@{'/events/' + ${event.id} + '/makePrelection'}" th:if="${event.status?.name() == 'UPCOMING' and !isSignedUpForEvent}" class="btn btn-default">Zostań prelegentem</a>
+                    <a th:href="@{'/events/' + ${event.id} + '/makePrelection'}" th:if="${event.status?.name() == 'UPCOMING' and !isSignedUpForEventAsParticipant}" class="btn btn-default">Zostań prelegentem</a>
                 </div>
             </div>
             

@@ -81,8 +81,9 @@
                     <button sec:authorize="isAuthenticated()" class="navbar-btn nav-button wow fadeInRight"  th:onclick="'window.location.href=\'/logout\''" data-wow-delay="0.48s">Wyloguj</button>
                 </div>
                 <ul class="main-nav nav navbar-nav navbar-right">
-                    <li class="wow fadeInDown" data-wow-delay="0.1s"><a class="" th:href="@{/events}">Wydarzenia</a></li>
                     <li class="wow fadeInDown" data-wow-delay="0.1s"><a class="" th:href="@{/my/events}" sec:authorize="hasAnyRole('ROLE_ORGANIZER','ROLE_PARTICIPANT')">Moje wydarzenia</a></li>
+                    <li class="wow fadeInDown" data-wow-delay="0.1s"><a class="" th:href="@{/my/prelections}" sec:authorize="hasRole('ROLE_PARTICIPANT')">Moje prelekcje</a></li>
+                    <li class="wow fadeInDown" data-wow-delay="0.1s"><a class="" th:href="@{/events}">Wydarzenia</a></li>
                     <li class="wow fadeInDown" data-wow-delay="0.1s"><a class="" th:href="@{/prelegents}">Prelegenci</a></li>
                     <li class="wow fadeInDown" data-wow-delay="0.1s"><a class="" href="">O nas</a></li>
                     <li class="wow fadeInDown" data-wow-delay="0.1s"><a class="" href="">Kontakt</a></li>

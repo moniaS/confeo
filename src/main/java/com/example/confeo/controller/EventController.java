@@ -124,7 +124,8 @@ public class EventController {
     	}
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUserName = authentication.getName();
-        model.addAttribute("isSignedUpForEvent", eventService.isUserSignedUpOnEvent(currentUserName, Long.valueOf(id)));
+        model.addAttribute("isSignedUpForEventAsParticipant", eventService.isUserSignedUpOnEventAsParticipant(currentUserName, Long.valueOf(id)));
+        model.addAttribute("isSignedUpForEventAsPrelegent", eventService.isUserSignedUpOnEventAsPrelegent(currentUserName, Long.valueOf(id)));
         model.addAttribute("currentUser", currentUserName);
         model.addAttribute("event", eventService.findById(Long.valueOf(id)));
         return "event";

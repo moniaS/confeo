@@ -88,12 +88,24 @@ public class EventService {
         eventRepository.save(event);
     }
 
-    public boolean isUserSignedUpOnEvent(String username, Long eventId) {
+    public boolean isUserSignedUpOnEventAsParticipant(String username, Long eventId) {
         AtomicBoolean isSignedUp = new AtomicBoolean(false);
         User user = userRepository.findByEmail(username);
         Event event = eventRepository.getOne(eventId);
         event.getUsers().forEach(u -> {
             if (u.equals(user)) {
+                isSignedUp.set(true);
+            }
+        });
+        return isSignedUp.get();
+    }
+
+    public boolean isUserSignedUpOnEventAsPrelegent(String username, Long eventId) {
+        AtomicBoolean isSignedUp = new AtomicBoolean(false);
+        User user = userRepository.findByEmail(username);
+        Event event = eventRepository.getOne(eventId);
+        event.getPrelections().forEach(prelection -> {
+            if(prelection.getUser().getEmail().equals(username)) {
                 isSignedUp.set(true);
             }
         });

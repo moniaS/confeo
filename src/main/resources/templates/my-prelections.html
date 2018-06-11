@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="common/include :: pageIncludes" />
+    <title>Confeo | Moje prelekcje</title>
+</head>
+<body>
+<div id="preloader">
+    <div id="status">&nbsp;</div>
+</div>
+<header class="main-header" th:include="common/include :: pageHeader"></header>
+<nav class="navbar navbar-default" th:include="common/include :: pageHeaderNav"></nav>
+<div class="page-head">
+    <div class="container">
+        <div class="row">
+            <div class="page-head-content">
+                <h1 class="page-title"><span>Moje prelekcje</span></h1>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="events-area" style="background-color: rgb(249, 249, 249);">
+    <div class="container">
+        <div th:if="${prelections.size() > 0}">
+            <div class="row event-item" th:each="prelection : ${prelections}">
+                <a class="event-link" th:href="@{/prelections/} + ${prelection.id}">
+                    <div class="col-md-3">
+                        <div th:text="${prelection.name}"></div>
+                    </div>
+                    <div class="col-md-2">
+                        <div th:text="${prelection.status}"></div>
+                    </div>
+                    <div class="col-md-2">
+                        <div th:text="${prelection.event.name}"></div>
+                    </div>
+                    <div class="col-md-3 event-date">
+                        <div th:if="${prelection.event.startDate != null && prelection.event.endDate != null}">
+                            <span th:if="${prelection.event.endDate == prelection.event.startDate}" th:text="${#temporals.format(prelection.event.startDate, 'dd/MM/yyyy')}"></span>
+                            <div th:if="${prelection.event.endDate != prelection.event.startDate}"><span class="event-start-date" th:text="${#temporals.format(prelection.event.startDate, 'dd/MM/yyyy')}"></span>&nbsp;-&nbsp;<span th:text="${#temporals.format(prelection.event.endDate, 'dd/MM/yyyy')}"></span></div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div th:text="${prelection.event.address.cityName}"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div th:unless="${prelections.size() > 0}">
+            Nie masz żadnych prelekcji
+        </div>
+    </div>
+</div>
+
+<nav th:include="common/include :: pageFooter"></nav>
+
+<th:block th:include="common/include :: pageFooterIncludes" />
+
+</body>
+</html>

@@ -2,8 +2,10 @@ package com.example.confeo.controller;
 
 import com.example.confeo.model.Event;
 import com.example.confeo.model.Prelection;
+import com.example.confeo.model.User;
 import com.example.confeo.service.EventService;
 import com.example.confeo.service.PrelectionService;
+import com.example.confeo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,11 +23,13 @@ import javax.validation.Valid;
 public class PrelectionController {
     private final PrelectionService prelectionService;
     private final EventService eventService;
+    private final UserService userService;
 
     @Autowired
-    public PrelectionController(PrelectionService prelectionService, EventService eventService) {
+    public PrelectionController(PrelectionService prelectionService, EventService eventService, UserService userService) {
         this.prelectionService = prelectionService;
         this.eventService = eventService;
+        this.userService = userService;
     }
 
     @RequestMapping("/events/{id}/makePrelection")
@@ -55,6 +59,14 @@ public class PrelectionController {
         return "prelection";
     }
 
+    @RequestMapping("/my/prelections")
+    private String myPrelections(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findByUsername(authentication.getName());
+        model.addAttribute("prelections", user.getPrelections());
+        return "my-prelections";
+    }
+
     private boolean isFormValid(Prelection prelection, RedirectAttributes redirectAttributes) {
         boolean isValid = true;
         if (prelection.getName() == null || prelection.getName().equals("")) {
@@ -65,6 +77,6 @@ public class PrelectionController {
             redirectAttributes.addFlashAttribute("descriptionError", "Opis prelekcji musi być podany");
             isValid = false;
         }
-    return isValid;
+        return isValid;
     }
 }
