@@ -30,4 +30,14 @@ public class HomeController extends BasicController{
     public String aboutUs(){
     	return "about-us";
     }
+    
+    @RequestMapping("/terms-of-use")
+    public String termsOfUse(){
+    	return "terms-of-use";
+    }
+    
+    @RequestMapping("/contact")
+    public String contact(){
+    	return "contact";
+    }
 }

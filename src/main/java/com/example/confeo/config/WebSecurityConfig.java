@@ -41,6 +41,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/prelegents",
                         "/contact",
                         "/about-us",
+                        "/terms-of-use",
                         "/h2_console/**",
                         "/js/**",
                         "/css/**",
