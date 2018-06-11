@@ -84,6 +84,13 @@ public class PrelectionController extends BasicController {
         return "my-prelections";
     }
 
+    @GetMapping("/prelections/{id}/cancel")
+    private String cancelPrelection(@PathVariable("id") String id, Model model) {
+        prelectionService.cancelPrelection(Long.valueOf(id));
+        model.addAttribute("prelection", prelectionService.findPrelection(Long.valueOf(id)));
+        return "prelection";
+    }
+
     private boolean isFormValid(Prelection prelection, RedirectAttributes redirectAttributes) {
         boolean isValid = true;
         if (prelection.getName() == null || prelection.getName().equals("")) {

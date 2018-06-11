@@ -45,6 +45,12 @@ public class PrelectionService {
         return prelectionRepository.save(prelectionToSave);
     }
 
+    public void cancelPrelection(long id) {
+        Prelection prelectionToSave = prelectionRepository.getOne(id);
+        prelectionToSave.setStatus(PrelectionStatus.CANCELED);
+        prelectionRepository.save(prelectionToSave);
+    }
+
     public Prelection findPrelection(long id) {
         return prelectionRepository.getOne(id);
     }

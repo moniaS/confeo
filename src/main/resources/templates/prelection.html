@@ -26,12 +26,17 @@
             <div class="col-sm-2" >
                 <label>Status: </label>
             </div>
-            <div class="col-sm-8">
+            <div class="col-sm-6">
                 <div th:text="${prelection.status}"></div>
             </div>
             <div class="col-sm-2">
                 <div sec:authorize="hasAnyRole('ROLE_PARTICIPANT','ROLE_ADMIN')">
                     <a th:if="${prelection.status?.name() == 'WAITING' and (currentUser.email == prelection.user?.email || currentUser.role?.name() == 'ADMIN')}" type="submit" class="btn btn-default" th:href="@{'/prelections/' + ${prelection.id} + '/edit'}">Edytuj prelekcję</a>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div sec:authorize="hasAnyRole('ROLE_PARTICIPANT','ROLE_ADMIN')">
+                    <button th:if="${prelection.status?.name() == 'WAITING' and (currentUser.email == prelection.user?.email || currentUser.role?.name() == 'ADMIN')}" class="btn btn-default" data-toggle="modal" data-target="#cancel-prelection-modal">Anuluj prelekcję</button>
                 </div>
             </div>
         </div>
@@ -72,6 +77,27 @@
         </div>
     </div>
 </div>
+
+<!-- Modal -->
+<div id="cancel-prelection-modal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Anulowanie prelekcji</h4>
+            </div>
+            <div class="modal-body">
+                <p>Jesteś pewien, że chcesz anulować prelekcję <span th:text="${prelection.name}"></span>?</p>
+            </div>
+            <div class="modal-footer">
+                <a type="button" class="btn btn-default" th:href="@{'/prelections/' + ${prelection.id} + '/cancel'}">Tak</a>
+                <button type="button" class="btn dismiss-btn" data-dismiss="modal">Zamknij</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <nav th:include="common/include :: pageFooter"></nav>
 

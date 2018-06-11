@@ -6,6 +6,7 @@ package com.example.confeo.model;
 public enum PrelectionStatus {
     WAITING("Oczekująca"),
     SUBMITTED("Zatwierdzona"),
+    CANCELED("Anulowana"),
     REJECTED("Odrzucona");
 
     private final String text;
