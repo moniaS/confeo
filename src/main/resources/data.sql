@@ -38,8 +38,8 @@ insert into user (id, email, password, firstname, lastname, role)
 	values (103, 'zuzanna@gmail.com', '$2a$10$FvyEHmj7zJKw4V4iBdJqL.mugH9VTPOQkc6HzlhNsqLkO.0KFla2O', 'Zuzanna', 'Nowak', 'ROLE_ORGANIZER');
 
 insert into prelection(id, name, description, status, user_id, event_id)
-	values (1, 'Prelekcja 1', 'Bardzo fajna prelekcja na ciekawy temat', 1, 100, 20);
+	values (101, 'Prelekcja 1', 'Bardzo fajna prelekcja na ciekawy temat', 1, 100, 20);
 insert into prelection(id, name, description, status, user_id, event_id)
-	values (2, 'Prelekcja 2', 'Bardzo fajna prelekcja na ciekawszy temat', 1, 102, 21);
+	values (102, 'Prelekcja 2', 'Bardzo fajna prelekcja na ciekawszy temat', 1, 102, 21);
 insert into prelection(id, name, description, status, user_id, event_id)
-	values (3, 'Prelekcja 3', 'Bardzo fajna prelekcja na ciekawy temat', 1, 100, 20);
+	values (103, 'Prelekcja 3', 'Bardzo fajna prelekcja na ciekawy temat', 1, 100, 20);

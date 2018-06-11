@@ -2,6 +2,7 @@ package com.example.confeo.model;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -15,6 +16,7 @@ import java.util.Set;
 @Data
 @Entity
 @EqualsAndHashCode(exclude={"organiser","users","prelections"})
+@ToString(exclude={"prelections"})
 public class Event {
     @Id
     @GeneratedValue

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="common/include :: pageIncludes" />
+    <title>Confeo | Strona prelekcji</title>
+    <meta charset="utf-8">
+</head>
+<body>
+<div id="preloader">
+    <div id="status">&nbsp;</div>
+</div>
+<header class="main-header" th:include="common/include :: pageHeader"></header>
+<nav class="navbar navbar-default" th:include="common/include :: pageHeaderNav"></nav>
+<div class="page-head">
+    <div class="container">
+        <div class="row">
+            <div class="page-head-content">
+                <h1 class="page-title" th:text="${prelection.name}">a</h1>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="event-details">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-2" >
+                <label>Status: </label>
+            </div>
+            <div class="col-sm-8">
+                <div th:text="${prelection.status}"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2" >
+                <label>Opis: </label>
+            </div>
+            <div class="col-sm-8">
+                <div th:text="${prelection.description}"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2" >
+                <label>Wydarzenie: </label>
+            </div>
+            <div class="col-sm-6">
+                <a th:text="${prelection.event.name}" th:href="@{'/events/' + ${prelection.event.id}}"></a>
+            </div>
+            <!--<div class="col-sm-2">-->
+                <!--<div sec:authorize="hasRole('ROLE_PARTICIPANT')">-->
+                    <!--<a th:if="${event.status?.name() == 'UPCOMING' && event.users?.size() < event.maxParticipants && !isSignedUpForEvent}" type="submit" class="btn btn-default" th:href="@{'/events/' + ${event.id} + '/signUp'}">Zapisz się na wydarzenie</a>-->
+                <!--</div>-->
+                <!--<div sec:authorize="hasRole('ROLE_PARTICIPANT')">-->
+                    <!--<a th:if="${event.status?.name() == 'UPCOMING' && isSignedUpForEvent}" type="submit" class="btn btn-default" th:href="@{'/events/' + ${event.id} + '/signOff'}">Wypisz się z wydarzenia</a>-->
+                <!--</div>-->
+                <!--<div sec:authorize="hasAnyRole('ROLE_ORGANIZER','ROLE_ADMIN')">-->
+                    <!--<button th:if="${event.status?.name() == 'UPCOMING' and currentUser == event.organiser?.email}" type="submit" class="btn btn-default" data-toggle="modal" data-target="#cancel-event-modal">Anuluj wydarzenie</button>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="col-sm-2">-->
+                <!--<div sec:authorize="hasAnyRole('ROLE_ORGANIZER','ROLE_ADMIN')">-->
+                    <!--<a th:href="@{/events/{id}/edit(id=${event.id})}"><button th:if="${event.status?.name() == 'UPCOMING' and currentUser == event.organiser?.email}" class="btn btn-default">Edytuj wydarzenie</button></a>-->
+                <!--</div>-->
+                <!--<div sec:authorize="hasRole('ROLE_PARTICIPANT')">-->
+                    <!--<a th:href="@{'/events/' + ${event.id} + '/makePrelection'}" th:if="${event.status?.name() == 'UPCOMING' and !isSignedUpForEvent}" class="btn btn-default">Zostań prelegentem</a>-->
+                <!--</div>-->
+            <!--</div>-->
+        </div>
+        <div class="row">
+            <div class="col-sm-2" >
+                <label>Data wydarzenia: </label>
+            </div>
+            <div class="col-sm-6">
+                <div th:if="${prelection.event.startDate != null && prelection.event.endDate != null}">
+                    <span th:if="${prelection.event.endDate == prelection.event.startDate}" th:text="${#temporals.format(prelection.event.startDate, 'dd/MM/yyyy')}"></span>
+                    <div th:if="${prelection.event.endDate != prelection.event.startDate}"><span class="event-start-date" th:text="${#temporals.format(prelection.event.startDate, 'dd/MM/yyyy')}"></span>&nbsp;-&nbsp;<span th:text="${#temporals.format(prelection.event.endDate, 'dd/MM/yyyy')}"></span></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2" >
+                <label>Adres wydarzenia: </label>
+            </div>
+            <div class="col-sm-6">
+                <div th:text="${prelection.event.address.cityName + ', ' + prelection.event.address.streetName + ' ' + prelection.event.address.streetNumber}"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<nav th:include="common/include :: pageFooter"></nav>
+
+<th:block th:include="common/include :: pageFooterIncludes" />
+
+<script>
+</script>
+</body>
+</html>
