@@ -28,7 +28,7 @@ import java.time.LocalDate;
  * Created by mstobieniecka on 2018-05-29.
  */
 @Controller
-public class EventController {
+public class EventController extends BasicController {
     private final EventService eventService;
     private final CategoryService categoryService;
     private final UserService userService;
@@ -126,7 +126,6 @@ public class EventController {
         String currentUserName = authentication.getName();
         model.addAttribute("isSignedUpForEventAsParticipant", eventService.isUserSignedUpOnEventAsParticipant(currentUserName, Long.valueOf(id)));
         model.addAttribute("isSignedUpForEventAsPrelegent", eventService.isUserSignedUpOnEventAsPrelegent(currentUserName, Long.valueOf(id)));
-        model.addAttribute("currentUser", currentUserName);
         model.addAttribute("event", eventService.findById(Long.valueOf(id)));
         return "event";
     }

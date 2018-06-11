@@ -20,7 +20,7 @@ import javax.validation.Valid;
  * Created by mstobieniecka on 2018-06-11.
  */
 @Controller
-public class PrelectionController {
+public class PrelectionController extends BasicController {
     private final PrelectionService prelectionService;
     private final EventService eventService;
     private final UserService userService;
@@ -52,11 +52,28 @@ public class PrelectionController {
         return "redirect:/prelections/" + savedPrelection.getId();
     }
 
+    @PostMapping("/prelections/edit/save")
+    public String editPrelection(@ModelAttribute @Valid Prelection prelection, Model model, RedirectAttributes redirectAttributes) {
+        if(!isFormValid(prelection, redirectAttributes)) {
+            return "redirect:/prelections/" + prelection.getId() + "/edit";
+        }
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Prelection savedPrelection = prelectionService.editPrelection(prelection);
+        return "redirect:/prelections/" + savedPrelection.getId();
+    }
+
     @GetMapping("/prelections/{id}")
     public String getPrelection(@PathVariable("id") long id, Model model) {
         Prelection prelection = prelectionService.findPrelection(id);
         model.addAttribute("prelection", prelection);
         return "prelection";
+    }
+
+    @GetMapping("/prelections/{id}/edit")
+    public String editPrelection(@PathVariable("id") long id, Model model) {
+        Prelection prelection = prelectionService.findPrelection(id);
+        model.addAttribute("prelection", prelection);
+        return "edit-prelection";
     }
 
     @RequestMapping("/my/prelections")

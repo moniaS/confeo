@@ -38,6 +38,13 @@ public class PrelectionService {
         return prelectionRepository.save(prelectionToSave);
     }
 
+    public Prelection editPrelection(Prelection prelection) {
+        Prelection prelectionToSave = prelectionRepository.getOne(prelection.getId());
+        prelectionToSave.setDescription(prelection.getDescription());
+        prelectionToSave.setName(prelection.getName());
+        return prelectionRepository.save(prelectionToSave);
+    }
+
     public Prelection findPrelection(long id) {
         return prelectionRepository.getOne(id);
     }
