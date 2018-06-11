@@ -77,12 +77,12 @@
                         <hr/>
                         <div class="form-group">
                         	<label for="isFree">Wydarzenie darmowe
-                        		<input type="checkbox" id="isFree" th:field="*{isFree}" onclick="showHidePrice();" />
+                        		<input type="checkbox" class="free-event-checkbox form-control" id="isFree" th:field="*{isFree}" />
                         	</label>
                        	</div>
                        	<div class="form-group" id="price-form-group">
                         	<label for="price">Cena za udział w wydarzeniu (zł)</label>
-                        	<input type="text" class="form-control" id="price" th:field="*{pricePerParticipant}">
+                        	<input type="text" class="form-control" id="price" th:field="*{pricePerParticipant}" >
                         </div>
                         <div class="form-group">
                         	<label for="maxParticipants">Maksymalna liczba uczestników</label>
@@ -104,15 +104,31 @@
 <th:block th:include="common/include :: pageFooterIncludes" />
 
 <script>
+/* $('#isFree').click(function(){
+    alert('kliknieto');
+});
 	function showHidePrice() {
+		
+
 		var checkbox = document.getElementById("isFree");
-		if (checkbox.checked == true){
+		if (checkbox.checked){
 			alert("tak");
 			document.getElementById("price-form-group").style.display = 'none';
 		} else {
 			alert("nie");
 			document.getElementById("price-form-group").style.display = 'block';
 		}
+	}
+	 */
+	document.getElementById("isFree").onchange = function() {myFunction()};
+
+	function myFunction() {
+	var checkbox = document.getElementById("isFree");
+		if (checkbox.checked){
+				document.getElementById("price-form-group").style.display = 'none';
+			} else {
+				document.getElementById("price-form-group").style.display = 'block';
+			}
 	}
 </script>
 </body>

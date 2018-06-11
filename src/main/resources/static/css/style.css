@@ -2696,7 +2696,7 @@ blog
     float: left;
     width: 24px;
     height: 24px;
-    content: "";
+    content: "ď�§";
     color: #FDC600;
     font-size: 16px;
     line-height: 24px;
@@ -3121,4 +3121,12 @@ ul.footer-blog li {
     width: 100%  !important;
     height: 2em  !important;
     opacity: 1.0  !important;
+}
+
+.free-event-checkbox {
+	border: 0px !important;
+    width: 100%  !important;
+    height: 2em  !important;
+    opacity: 1.0  !important;
+    margin-left: 10px !important;
 }
