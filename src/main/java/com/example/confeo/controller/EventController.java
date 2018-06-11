@@ -7,10 +7,12 @@ import com.example.confeo.model.Event;
 import com.example.confeo.model.EventType;
 import com.example.confeo.model.Role;
 import com.example.confeo.model.User;
+import com.example.confeo.pdf.PdfGenerator;
 import com.example.confeo.service.CategoryService;
 import com.example.confeo.service.EventService;
 import com.example.confeo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -19,7 +21,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDate;
 
@@ -29,7 +34,7 @@ import java.time.LocalDate;
  */
 @Controller
 public class EventController extends BasicController {
-    private final EventService eventService;
+    private EventService eventService;
     private final CategoryService categoryService;
     private final UserService userService;
 
@@ -164,6 +169,19 @@ public class EventController extends BasicController {
         model.addAttribute("event", eventService.findEvent(Long.valueOf(id)));
         redirectAttributes.addFlashAttribute("successMessage", "Zostałeś wypisany z wydarzenia");
         return "redirect:/events/" + id;
+    }
+
+    @RequestMapping(value = "/events/{id}/pdf", method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_PDF_VALUE)
+    public void generatePdf(@PathVariable("id") long id,  HttpServletResponse response) throws IOException {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findByUsername(authentication.getName());
+        Event event = eventService.findEvent(id);
+        response.setContentType("application/pdf");
+        ByteArrayInputStream bis = PdfGenerator.generateInvoice(event, user, "2018/06/" + eventService.getInvoiceNumber().toString());
+        eventService.setInvoiceNumber(eventService.getInvoiceNumber() + 1);
+        org.apache.commons.io.IOUtils.copy(bis, response.getOutputStream());
+        response.flushBuffer();
     }
 
     private void addSearchValuesToModel(Model model) {

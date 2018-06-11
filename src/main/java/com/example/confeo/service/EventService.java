@@ -27,6 +27,7 @@ public class EventService {
     private final AddressRepository addressRepository;
     private final CategoryRepository categoryRepository;
     private final UserRepository userRepository;
+    private Integer invoiceNumber = 1;
 
     @Autowired
     public EventService(EventRepository eventRepository, AddressRepository addressRepository, CategoryRepository categoryRepository, UserRepository userRepository) {
@@ -225,5 +226,13 @@ public class EventService {
     	event.setStartDate(updatedEvent.getStartDate());
     	event.setType(updatedEvent.getType());
     	eventRepository.save(event);
+    }
+
+    public Integer getInvoiceNumber() {
+        return invoiceNumber;
+    }
+
+    public void setInvoiceNumber(int invoiceNumber) {
+        this.invoiceNumber = invoiceNumber;
     }
 }
