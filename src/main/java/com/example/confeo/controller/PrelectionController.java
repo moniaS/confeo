@@ -2,6 +2,7 @@ package com.example.confeo.controller;
 
 import com.example.confeo.model.Event;
 import com.example.confeo.model.Prelection;
+import com.example.confeo.model.PrelectionStatus;
 import com.example.confeo.model.User;
 import com.example.confeo.service.EventService;
 import com.example.confeo.service.PrelectionService;
@@ -89,6 +90,26 @@ public class PrelectionController extends BasicController {
         prelectionService.cancelPrelection(Long.valueOf(id));
         model.addAttribute("prelection", prelectionService.findPrelection(Long.valueOf(id)));
         return "prelection";
+    }
+
+    @GetMapping("/prelections/{id}/submit")
+    private String submitPrelection(@PathVariable("id") String id, Model model) {
+        prelectionService.updatePrelectionStatus(Long.valueOf(id), PrelectionStatus.SUBMITTED);
+        model.addAttribute("prelection", prelectionService.findPrelection(Long.valueOf(id)));
+        return "prelection";
+    }
+
+    @GetMapping("/prelections/{id}/reject")
+    private String rejectPrelection(@PathVariable("id") String id, Model model) {
+        prelectionService.updatePrelectionStatus(Long.valueOf(id), PrelectionStatus.REJECTED);
+        model.addAttribute("prelection", prelectionService.findPrelection(Long.valueOf(id)));
+        return "prelection";
+    }
+
+    @GetMapping("/events/{id}/prelections")
+    private String getEventPrelections(@PathVariable("id") String id, Model model) {
+        model.addAttribute("prelections", eventService.findEvent(Long.valueOf(id)).getPrelections());
+        return "event-prelections";
     }
 
     private boolean isFormValid(Prelection prelection, RedirectAttributes redirectAttributes) {

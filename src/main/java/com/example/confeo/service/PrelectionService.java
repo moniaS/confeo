@@ -51,6 +51,12 @@ public class PrelectionService {
         prelectionRepository.save(prelectionToSave);
     }
 
+    public void updatePrelectionStatus(long id, PrelectionStatus prelectionStatus) {
+        Prelection prelection = prelectionRepository.getOne(id);
+        prelection.setStatus(prelectionStatus);
+        prelectionRepository.save(prelection);
+    }
+
     public Prelection findPrelection(long id) {
         return prelectionRepository.getOne(id);
     }
