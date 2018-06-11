@@ -3130,3 +3130,13 @@ ul.footer-blog li {
     opacity: 1.0  !important;
     margin-left: 10px !important;
 }
+
+.panel-prelegent {
+	margin-right: 40px !important;
+	margin-left: 40px !important;
+	height: 250px;
+	margin-top: 15px !important;
+	border: 1px solid #cccccc;
+	border-radius: 5px;
+	background-color: #f2f2f2 !important;
+}
