@@ -14,9 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
@@ -122,6 +120,27 @@ public class EventService {
 
     public List<Category> findCategories() {
         return categoryRepository.findAll();
+    }
+
+    public List<Event> findUpcomingEventsForHomepage() {
+        List<Event> events = eventRepository.findByStartDateAfter(LocalDate.now());
+        events.sort(Comparator.comparing(Event::getStartDate));
+        if(events.size() < 5) {
+            return events;
+        } else {
+            return events.subList(0, 5);
+        }
+    }
+
+    public List<Event> findFinishedEventsForHomepage() {
+        List<Event> events = eventRepository.findByEndDateBefore(LocalDate.now());
+        events.sort(Comparator.comparing(Event::getEndDate));
+        Collections.reverse(events);
+        if(events.size() < 5) {
+            return events;
+        } else {
+            return events.subList(0, 5);
+        }
     }
 
     private Map<String, List<Event>> checkEventDates(Map<String, List<Event>> eventsByMonth, LocalDate startDate, LocalDate endDate) {

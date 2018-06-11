@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDate;
 import java.util.List;
 /**
  * Created by mstobieniecka on 2018-05-26.
@@ -19,4 +20,6 @@ public interface EventRepository extends JpaRepository<Event, Long> {
     List<Event> findEvents(@Param("name") String name, @Param("city") String city,
                                                               @Param("category") String category, @Param("month") int month);
 
+    List<Event> findByStartDateAfter(LocalDate now);
+    List<Event> findByEndDateBefore(LocalDate now);
 }

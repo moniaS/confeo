@@ -3092,7 +3092,7 @@ ul.footer-blog li {
     margin-top: 10px;
 }
 
-.events-area .event-link {
+.events-area .event-link, .homepage-area a {
     font-weight: normal;
     color: grey;
 }
