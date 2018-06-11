@@ -13,4 +13,9 @@ public class HomeController extends BasicController{
     public String index() {
         return "index";
     }
+    
+    @RequestMapping("/about-us")
+    public String aboutUs(){
+    	return "about-us";
+    }
 }

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="common/include :: pageIncludes" />
+    <title>Confeo | O nas</title>
+    <meta charset="utf-8">
+</head>
+<body>
+<div id="preloader">
+    <div id="status">&nbsp;</div>
+</div>
+<header class="main-header" th:include="common/include :: pageHeader"></header>
+<nav class="navbar navbar-default" th:include="common/include :: pageHeaderNav"></nav>
+<div class="page-head">
+    <div class="container">
+        <div class="row">
+            <div class="page-head-content">
+                <h1 class="page-title">O serwisie</h1>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+	<div class="col-md-8 col-md-offset-2 text-justify">
+	
+	</br></br><b>Confeo</b> jest ogólnopolskim serwisem, który pozwala na wyszukiwanie konferencji, szkoleń,
+	wykładów oraz warsztatów. Obsługuje głównie wydarzenia z zakresu branży informatycznej. 
+	Tematy szkoleń i konferencji będą głównie dotyczyły wytwarzania oprogramowania, jakości 
+	oprogramowania, metodologii pracy w branży IT, social media, e-marketingu, języków programowania, 
+	testowania, nowinek technologicznych, bezpieczeństwa, zarządzania projektami oraz wielu innych zagadnień.</br></br>
+
+<b>Confeo</b> skierowany jest do wszystkich osób zainteresowanych branżą IT. Co istotne, serwis obejmuje nie tylko duże, 
+wszystkim znane wydarzenia, ale także te mniejsze spotkania, które często są równie ciekawe.
+Nad poprawnym działaniem serwisu czuwa zespół, który dba o jakość treści zamieszczanych na portalu.
+</br></br>Jeśli jesteś organizatorem wydarzenia, skontaktuj się z nami a pomożemy Ci w utworzeniu i promowaniu Twojego wydarzenia.
+Wydarzenia na serwisie są uporządkowane w kategorie oraz rodzaje spotkań, co pomoże zainteresowanym w odnalezieniu interesujących ich wydarzeń.</br></br>
+	</div>
+</div>
+
+<nav th:include="common/include :: pageFooter"></nav>
+
+<th:block th:include="common/include :: pageFooterIncludes" />
+</body>
+</html>
