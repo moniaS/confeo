@@ -189,6 +189,9 @@ public class EventController extends BasicController {
     		redirectAttributes.addFlashAttribute("message", "Proszę podać nazwę wydarzenia");
     		redirectAttributes.addFlashAttribute("event", event);
     		return false;
+    	} else if (event.getDescription().length() > 254){
+    		redirectAttributes.addFlashAttribute("message", "Proszę podać opis wydarzenia do 250 znaków");
+    		redirectAttributes.addFlashAttribute("event", event);
     	}
     	Duration duration = Duration.between(testDate.atStartOfDay(), event.getStartDate().atStartOfDay());
     	long diff = Math.abs(duration.toDays());

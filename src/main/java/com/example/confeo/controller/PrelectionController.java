@@ -122,6 +122,7 @@ public class PrelectionController extends BasicController {
             redirectAttributes.addFlashAttribute("descriptionError", "Opis prelekcji musi być podany");
             isValid = false;
         }
+        redirectAttributes.addFlashAttribute("prelection", prelection);
         return isValid;
     }
 }

@@ -125,7 +125,7 @@
             <div class="row">
                 <div class="col-sm-5">
                     <div th:each="user : ${event.users}" >
-                        <div th:text="${user.firstname + ' ' + user.lastname}"></div>
+                        <div th:text="${user.firstname + ' ' + user.lastname + '(e-mail: ' + user.email +')'}"></div>
                     </div>
                 </div>
             </div>
