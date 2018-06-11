@@ -16,7 +16,7 @@ import java.util.*;
 @Data
 @Entity
 @NoArgsConstructor
-@ToString(exclude={"prelections"})
+@ToString(exclude={"prelections","attendingEvents","organizedEvents"})
 public class User implements UserDetails {
     @Id
     @GeneratedValue

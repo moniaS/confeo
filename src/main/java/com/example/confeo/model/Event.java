@@ -16,7 +16,7 @@ import java.util.Set;
 @Data
 @Entity
 @EqualsAndHashCode(exclude={"organiser","users","prelections"})
-@ToString(exclude={"prelections"})
+@ToString(exclude={"prelections","users"})
 public class Event {
     @Id
     @GeneratedValue
