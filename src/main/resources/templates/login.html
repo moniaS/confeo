@@ -3,6 +3,7 @@
 <head>
     <th:block th:include="common/include :: pageIncludes" />
     <title>Confeo | Strona rejestracji i logowania</title>
+    <meta charset="utf-8">
 </head>
 <body>
 <div id="preloader">
@@ -49,8 +50,13 @@
                             <input type="text" class="form-control" id="register-email" th:field="*{email}">
                         </div>
                         <div class="form-group">
-                            <label for="register-password">Password</label>
+                            <label for="register-password">Hasło</label>
                             <input type="password" class="form-control" id="register-password" th:field="*{password}">
+                        </div>
+                        <div class="form-group">
+                            <label for="register-password">Akceptuję warunki regulaminu serwisu
+                            <input type="checkbox" class="form-control" id="register-checkbox" name="register-checkbox">
+                            </label>
                         </div>
                         <div class="text-center">
                             <button type="submit" class="btn btn-default">Zarejestruj</button>
