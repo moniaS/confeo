@@ -25,4 +25,9 @@ public class HomeController extends BasicController{
         model.addAttribute("finishedEvents", eventService.findFinishedEventsForHomepage());
         return "index";
     }
+    
+    @RequestMapping("/about-us")
+    public String aboutUs(){
+    	return "about-us";
+    }
 }
