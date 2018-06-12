@@ -50,8 +50,9 @@ public class EventService {
                         .stream()
                         .filter(event -> event.getStartDate().isAfter(LocalDate.now()))
                         .collect(Collectors.toList()));
+            } else {
+                eventsByMonth.put(convertMonthToString(month), eventRepository.findEvents(name, city, category, month));
             }
-            eventsByMonth.put(convertMonthToString(month), eventRepository.findEvents(name, city, category, month));
         }
         checkEventDates(eventsByMonth, startDate, endDate);
         return eventsByMonth;
@@ -149,7 +150,8 @@ public class EventService {
         if(startDate != null) {
             for(Map.Entry<String, List<Event>> entry: eventsByMonth.entrySet()) {
                 List<Event> events = eventsByMonth.get(entry.getKey()).stream()
-                        .filter(e -> e.getStartDate().isAfter(startDate)).collect(Collectors.toList());
+                        .filter(e -> e.getStartDate().isAfter(startDate))
+                        .sorted(Comparator.comparing(Event::getStartDate)).collect(Collectors.toList());
                 entry.setValue(events);
             }
         }
@@ -157,7 +159,8 @@ public class EventService {
         if(endDate != null) {
             for(Map.Entry<String, List<Event>> entry: eventsByMonth.entrySet()) {
                 List<Event> events = eventsByMonth.get(entry.getKey()).stream()
-                        .filter(e -> e.getStartDate().isBefore(endDate)).collect(Collectors.toList());
+                        .filter(e -> e.getStartDate().isBefore(endDate))
+                        .sorted(Comparator.comparing(Event::getStartDate)).collect(Collectors.toList());
                 entry.setValue(events);
             }
         }
