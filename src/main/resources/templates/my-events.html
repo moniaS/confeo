@@ -22,7 +22,7 @@
 </div>
 <div class="events-area" style="background-color: rgb(249, 249, 249);">
     <div class="container">
-        <div th:if="${events.value.size() > 0}">
+        <div th:if="${events.size() > 0}">
             <div class="row event-item" th:each="event : ${events}">
                 <a class="event-link" th:href="@{/events/} + ${event.id}">
                     <div class="col-md-2 event-date">
@@ -48,12 +48,12 @@
                         <div th:if="${event.isFree} == false">PŁATNE</div>
                     </div>
                     <div class="col-md-1">
-                        <a th:if="${event.pricePerParticipant > 0}" th:href="@{'/events/' + ${event.id} + '/pdf'}">PDF</a>
+                        <a th:if="${!event.isFree && currentUser.role == 'ORGANIZER'}" th:href="@{'/events/' + ${event.id} + '/pdf'}">Faktura</a>
                     </div>
                 </a>
             </div>
         </div>
-        <div th:unless="${events.value.size() > 0}">
+        <div th:unless="${events.size() > 0}">
             <br><h3>Aktualnie nie masz żadnych wydarzeń.</h3><br>
         </div>
     </div>

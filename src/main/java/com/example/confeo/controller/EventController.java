@@ -27,6 +27,8 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDate;
+import java.util.Comparator;
+import java.util.stream.Collectors;
 
 
 /**
@@ -58,9 +60,9 @@ public class EventController extends BasicController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findByUsername(authentication.getName());
         if(user.getRole().equals(Role.ROLE_PARTICIPANT)) {
-            model.addAttribute("events", user.getAttendingEvents());
+            model.addAttribute("events", user.getAttendingEvents().stream().sorted(Comparator.comparing(Event::getStartDate)).collect(Collectors.toList()));
         } else if(user.getRole().equals(Role.ROLE_ORGANIZER)) {
-            model.addAttribute("events", user.getOrganizedEvents());
+            model.addAttribute("events", user.getOrganizedEvents().stream().sorted(Comparator.comparing(Event::getStartDate)).collect(Collectors.toList()));
         }
         return "my-events";
     }
