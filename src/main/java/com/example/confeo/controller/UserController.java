@@ -36,8 +36,12 @@ public class UserController extends BasicController {
     @PostMapping("/register")
     public String register(User user, RedirectAttributes redirectAttributes) {
         try {
-            userService.save(user);
-            redirectAttributes.addFlashAttribute("successRegisterMessage", "Konto zostało utworzone");
+            if(!isRegisterFormValid(user, redirectAttributes)) {
+                return "redirect:/login";
+            } else {
+                userService.save(user);
+                redirectAttributes.addFlashAttribute("successRegisterMessage", "Konto zostało utworzone");
+            }
         } catch (EmailAlreadyExists emailAlreadyExists) {
             emailAlreadyExists.printStackTrace();
             redirectAttributes.addFlashAttribute("errorRegisterMessage", "Konto z podanym adresem email już istnieje");
@@ -49,5 +53,30 @@ public class UserController extends BasicController {
     public String showPrelegents(Model model){
     	model.addAttribute("prelegents", userService.getPrelegents());
     	return "prelegents";
+    }
+
+    private boolean isRegisterFormValid(User user, RedirectAttributes redirectAttributes) {
+        boolean isFormValid = true;
+        if(user.getFirstname() == null || user.getFirstname().equals("")) {
+            redirectAttributes.addFlashAttribute("errorFirstname", "Imię musi zostać podane");
+            isFormValid = false;
+        }
+        if(user.getLastname() == null || user.getLastname().equals("")) {
+            redirectAttributes.addFlashAttribute("errorLastname", "Nazwisko musi zostać podane");
+            isFormValid = false;
+        }
+        if(user.getEmail() == null || user.getEmail().equals("")) {
+            redirectAttributes.addFlashAttribute("errorEmail", "Email musi zostać podany");
+            isFormValid = false;
+        }
+        if(user.getPassword() == null || user.getPassword().equals("")) {
+            redirectAttributes.addFlashAttribute("errorPassword", "Hasło musi zostać podane");
+            isFormValid = false;
+        }
+        if(user.getRole() == null) {
+            redirectAttributes.addFlashAttribute("errorRole", "Rodzaj konta musi zostać wybrany");
+            isFormValid = false;
+        }
+        return isFormValid;
     }
 }
