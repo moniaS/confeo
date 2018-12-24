@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <th:block th:include="common/include :: pageIncludes" />
+    <th:block th:include="common/include :: pageIncludes"/>
     <title>Confeo | Strona rejestracji i logowania</title>
     <meta charset="utf-8">
 </head>
@@ -26,53 +26,60 @@
             <div class="box-for overflow">
                 <div class="col-md-12 col-xs-12 register-blocks">
                     <h2>Zarejestruj : </h2>
-                    <div id="terms-of-use-error" class="error-message"
-                         role="alert" style="display: none">Regulamin musi zostać zaakceptowany</div>
-                    <div th:if="${errorRole}" class="error-message"
-                         role="alert" th:text="${errorRole}"></div>
-                    <div th:if="${errorFirstname}" class="error-message"
-                         role="alert" th:text="${errorFirstname}"></div>
-                    <div th:if="${errorLastname}" class="error-message"
-                         role="alert" th:text="${errorLastname}"></div>
-                    <div th:if="${errorEmail}" class="error-message"
-                         role="alert" th:text="${errorEmail}"></div>
-                    <div th:if="${errorPassword}" class="error-message"
-                         role="alert" th:text="${errorPassword}"></div>
-                    <div th:if="${successRegisterMessage}" class="success-message"
-                         role="alert" th:text="${successRegisterMessage}"></div>
-                    <div th:if="${errorRegisterMessage}" class="error-message"
-                         role="alert" th:text="${errorRegisterMessage}"></div>
-                    <form th:action="@{/register}" th:object="${registerUser}" method="post" onsubmit="return areTermsOfUseSumbitted()">
+                    <!--<div id="terms-of-use-error" class="error-message"-->
+                    <!--role="alert" style="display: none">Regulamin musi zostać zaakceptowany</div>-->
+                    <!--<div th:if="${errorRole}" class="error-message"-->
+                    <!--role="alert" th:text="${errorRole}"></div>-->
+                    <!--<div th:if="${errorFirstname}" class="error-message"-->
+                    <!--role="alert" th:text="${errorFirstname}"></div>-->
+                    <!--<div th:if="${errorLastname}" class="error-message"-->
+                    <!--role="alert" th:text="${errorLastname}"></div>-->
+                    <!--<div th:if="${errorEmail}" class="error-message"-->
+                    <!--role="alert" th:text="${errorEmail}"></div>-->
+                    <!--<div th:if="${errorPassword}" class="error-message"-->
+                    <!--role="alert" th:text="${errorPassword}"></div>-->
+                    <!--<div th:if="${successRegisterMessage}" class="success-message"-->
+                    <!--role="alert" th:text="${successRegisterMessage}"></div>-->
+                    <!--<div th:if="${errorRegisterMessage}" class="error-message"-->
+                    <!--role="alert" th:text="${errorRegisterMessage}"></div>-->
+                    <form th:action="@{/register}" th:object="${registerUser}" method="post"
+                          onsubmit="return areTermsOfUseSumbitted()">
                         <ul>
                             <li th:each="role : ${roles}" class="radio-inline">
-                                <input type="radio" class="role-radio-button" th:field="*{role}" th:value="${role.name()}"/>
-                                <label th:for="${#ids.prev('role')}" th:text="${role}">Rola</label>
+                                <input type="radio" class="role-radio-button" th:field="*{role}"
+                                       th:value="${role.name()}"/>
+                                <label th:for="${#ids.prev('role')}" th:text="${role}">Rola *</label>
                             </li>
                         </ul>
                         <div class="form-group">
-                            <label for="firstname">Imię</label>
-                            <input type="text" class="form-control" id="firstname" th:field="*{firstname}">
+                            <label for="firstname">Imię *</label>
+                            <input type="text" class="form-control" id="firstname" th:field="*{firstname}"
+                                   oninput="isNotEmpty('firstname')">
                         </div>
                         <div class="form-group">
-                            <label for="lastname">Nazwisko</label>
-                            <input type="text" class="form-control" id="lastname" th:field="*{lastname}">
+                            <label for="lastname">Nazwisko *</label>
+                            <input type="text" class="form-control" id="lastname" th:field="*{lastname}"
+                                   oninput="isNotEmpty('lastname')">
                         </div>
                         <div class="form-group">
-                            <label for="register-email">Email</label>
-                            <input type="text" class="form-control" id="register-email" th:field="*{email}">
+                            <label for="register-email">Email *</label>
+                            <input type="text" class="form-control" id="register-email" th:field="*{email}"
+                                   oninput="validateEmail('register-email')">
                         </div>
                         <div class="form-group">
-                            <label for="register-password">Hasło</label>
-                            <input type="password" class="form-control" id="register-password" th:field="*{password}">
+                            <label for="register-password">Hasło *</label>
+                            <input type="password" class="form-control" id="register-password" th:field="*{password}" oninput="validatePassword('register-password')">
+                            <span toggle="#register-password" class="fa fa-fw fa-eye field-icon toggle-password"></span>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group terms-of-use-block">
                             <label for="register-checkbox">
-                            <input type="checkbox" class="form-control" id="register-checkbox" name="register-checkbox">
+                                <input type="checkbox" class="form-control" id="register-checkbox"
+                                       name="register-checkbox" onclick="areTermsOfUseSumbitted()">
                                 &nbsp;&nbsp;Akceptuję warunki <a th:href="@{/terms-of-use}"> regulaminu</a> serwisu
                             </label>
                         </div>
                         <div class="text-center">
-                            <button type="submit" class="btn btn-default">Zarejestruj</button>
+                            <button type="submit" class="btn btn-default" onclick="return validateRegisterForm()">Zarejestruj</button>
                         </div>
                     </form>
                 </div>
@@ -106,16 +113,102 @@
 
 <nav th:include="common/include :: pageFooter"></nav>
 
-<th:block th:include="common/include :: pageFooterIncludes" />
+<th:block th:include="common/include :: pageFooterIncludes"/>
 <script>
+
+    $('#register-password').popover({
+        trigger: 'focus',
+        content: 'Musi zawierac co najmniej 8 znakow.\nMusi zawierac co najmniej jedna mala i jedna wielka litere.\nMusi zawierac co najmniej jedna cyfre.',
+        placement: 'bottom'
+    });
+
+    $(".toggle-password").on("click", function() {
+        $(this).toggleClass("fa-eye fa-eye-slash");
+        var input = $($(this).attr("toggle"));
+        if (input.attr("type") == "password") {
+            input.attr("type", "text");
+        } else {
+            input.attr("type", "password");
+        }
+    });
+
+    markUserRoleRadioButton();
+
+    function markUserRoleRadioButton() {
+        $(".register-blocks input:radio:first").attr('checked', true);
+    }
+
+    function isNotEmpty(inputId) {
+        var selector = '#' + inputId;
+        var notEmptyField = $(selector).val().trim() != '';
+        if (notEmptyField) {
+            makeFieldValid(selector)
+        } else {
+            makeFieldInvalid(selector)
+        }
+        return notEmptyField;
+    }
+
+    function makeFieldValid(selector) {
+        $(selector).removeClass('invalid-field');
+        $(selector).addClass('valid-field');
+    }
+
+    function makeFieldInvalid(selector) {
+        $(selector).removeClass('valid-field');
+        $(selector).addClass('invalid-field');
+    }
+
+    function validateEmail(inputId) {
+        if (isNotEmpty(inputId)) {
+            checkIfEmailIsValid(inputId);
+        }
+    }
+
+    function checkIfEmailIsValid(inputId) {
+        var selector = '#' + inputId;
+        //email validation needs to be changed
+        var emailPattern = new RegExp("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
+        var conditionValue = emailPattern.test($(selector).val());
+        if (conditionValue) {
+            makeFieldValid(selector);
+        } else {
+            makeFieldInvalid(selector)
+        }
+        return conditionValue;
+    }
+
     function areTermsOfUseSumbitted() {
-        if(document.getElementById("register-checkbox").checked === true) {
-            document.getElementById("terms-of-use-error").style.display = 'none';
+        if (document.getElementById("register-checkbox").checked === true) {
+            document.getElementsByClassName("terms-of-use-block")[0].style.border = 'none';
             return true;
         } else {
-            document.getElementById("terms-of-use-error").style.display = 'block';
+            document.getElementsByClassName("terms-of-use-block")[0].style.border = 'solid 1px red';
             return false;
         }
+    }
+
+    function validatePassword(passwordFieldId) {
+        var element = $("#" + passwordFieldId);
+        var value = element.val();
+        var upperCase= new RegExp('[A-Z]');
+        var lowerCase= new RegExp('[a-z]');
+        var numbers = new RegExp('[0-9]');
+        var conditionValue = value.match(upperCase) != null && value.match(lowerCase) != null
+                        && value.match(numbers) != null && value.length >= 8;
+
+        if(conditionValue) {
+            makeFieldValid('#' + passwordFieldId);
+        }
+        else {
+            makeFieldInvalid('#' + passwordFieldId);
+        }
+        return conditionValue;
+    }
+
+    function validateRegisterForm() {
+         return (isNotEmpty('firstname') && isNotEmpty('lastname') && validatePassword('register-password') && areTermsOfUseSumbitted()
+                    && validateEmail('register-email'));
     }
 </script>
 </body>
