@@ -3162,7 +3162,7 @@ ul.footer-blog li {
 
 .field-icon {
     float: right;
-    margin-right: -10px;
+    margin-right: 10px;
     margin-top: -28px;
     position: relative;
     z-index: 2;
@@ -3170,4 +3170,8 @@ ul.footer-blog li {
 
 .terms-of-use-block {
     padding-top: 8px;
+}
+
+.popover {
+    white-space: pre-wrap;
 }
