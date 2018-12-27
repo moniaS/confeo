@@ -4,6 +4,10 @@
     <th:block th:include="common/include :: pageIncludes" />
     <title>Confeo | Strona rejestracji i logowania</title>
     <meta charset="utf-8">
+    <link rel="stylesheet" th:href="@{/css/my-css/add-event.css}"	href="/resources/static/css/my-css/event.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script th:src="@{/js/my-js/add-event.js}"></script>
+    
 </head>
 <body>
 <div id="preloader">
@@ -34,30 +38,37 @@
                             <label for="name">Nazwa *</label>
                             <input type="text" class="form-control" id="name" th:field="*{name}">
                              <p th:if="${#fields.hasErrors('name')}" class="label label-danger" th:errors="*{name}">Należy podać imię wydarzenia</p>
+                        	<span style='display: none;' id="name-error-message" class="help-block">Proszę podać nazwę wydarzenia</span> 
                         </div>
                         <div class="form-group">
                             <label for="startDate">Data rozpoczęcia *</label>
                             <input type="date" class="form-control" id="startDate" th:field="*{startDate}">
+                            <span style='display: none;' id="startDate-error-message" class="help-block">Proszę podać przyszłą datę rozpoczęcia wydarzenia</span> 
                         </div>
                         <div class="form-group">
                             <label for="endDate">Data zakończenia *</label>
                             <input type="date" class="form-control" id="endDate" th:field="*{endDate}">
+                            <span style='display: none;' id="endDate-error-message" class="help-block">Proszę podać datę zakończenia wydarzenia<br/>Data musi być późniejsza od daty rozpoczęcia wydarzenia</span> 
                         </div>
                        <div class="form-group">
                             <label for="type">Typ wydarzenia</label>
                             <select class="form-control" th:field="*{type}">
                             	<option th:each="type: ${eventTypes}" th:value="${{type}}" th:text="${type}">Brak</option>
                             </select>
+                            <span style='display: none;' id="type-error-message" class="help-block">Proszę wybrać type wydarzenai</span> 
                         </div>
                         <div class="form-group">
                             <label for="category">Kategoria</label>
                             <select class="form-control" th:field="*{category}">
                             	<option th:each="category: ${categories}" th:value="${category.id}" th:text="${category.name}">Brak</option>
                             </select>
+                            <span style='display: none;' id="category-error-message" class="help-block">Proszę wybrać kategorię wydarzenia</span> 
                         </div>
                         <div class="form-group">
                             <label for="description">Opis</label>
                             <textarea rows="6" class="form-control" name="description" id="description" th:field="*{description}"></textarea>
+                        	<span class="text-right" id="chars_description">0 / 250</span>
+                        	<span style='display: none;' id="description-error-message" class="help-block">Opis może zawierać maksymalnie 250 znaków</span> 
                         </div>
                         <hr/>
                         <div class="text-uppercase">Miejsce szkolenia</div>
@@ -75,15 +86,15 @@
                             <input type="text" class="form-control" name="city" id="city" th:field="*{address.cityName}">
                         </div>
                         <hr/>
-                        <div class="form-group">
-                        	<label for="isFree">Wydarzenie darmowe
-                        		<input type="checkbox" class="free-event-checkbox form-control" id="isFree" th:field="*{isFree}" />
-                        	</label>
+                        <!-- <div class="form-group">
+                        	<label for="isFree">Wydarzenie darmowe</label>
+                       		<input type="checkbox" class="free-event-checkbox form-control" id="isFree" th:field="*{isFree}" />
+                        	
                        	</div>
                        	<div class="form-group" id="price-form-group">
                         	<label for="price">Cena za udział w wydarzeniu (zł)</label>
                         	<input type="text" class="form-control" id="price" th:field="*{pricePerParticipant}" >
-                        </div>
+                        </div> -->
                         <div class="form-group">
                         	<label for="maxParticipants">Maksymalna liczba uczestników</label>
                         	<input type="number" class="form-control" id="maxParticipants" th:field="*{maxParticipants}">
@@ -104,32 +115,7 @@
 <th:block th:include="common/include :: pageFooterIncludes" />
 
 <script>
-/* $('#isFree').click(function(){
-    alert('kliknieto');
-});
-	function showHidePrice() {
-		
 
-		var checkbox = document.getElementById("isFree");
-		if (checkbox.checked){
-			alert("tak");
-			document.getElementById("price-form-group").style.display = 'none';
-		} else {
-			alert("nie");
-			document.getElementById("price-form-group").style.display = 'block';
-		}
-	}
-	 */
-	document.getElementById("isFree").onchange = function() {myFunction()};
-
-	function myFunction() {
-	var checkbox = document.getElementById("isFree");
-		if (checkbox.checked){
-				document.getElementById("price-form-group").style.display = 'none';
-			} else {
-				document.getElementById("price-form-group").style.display = 'block';
-			}
-	}
 </script>
 </body>
 </html>

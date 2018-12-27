@@ -12,7 +12,7 @@ insert into category values (5, 'IT');
 insert into user (id, email, password, firstname, lastname, role)
 	values (100, 'pawel@gmail.com', '$2a$10$FvyEHmj7zJKw4V4iBdJqL.mugH9VTPOQkc6HzlhNsqLkO.0KFla2O', 'Paweł', 'Kowalczyk', 'ROLE_PARTICIPANT');
 insert into user (id, email, password, firstname, lastname, role)
-	values (101, 'katarzyna@gmail.com', '$2a$10$FvyEHmj7zJKw4V4iBdJqL.mugH9VTPOQkc6HzlhNsqLkO.0KFla2O', 'Katarzyna', 'Kwiatowa', 'ROLE_PARTICIPANT');
+	values (101, 'katarzyna@gmail.com', '$2a$04$jdJGuOMv4iY/32BzFKHRTOR0qcOSwqaE9lzLkLFgirzsSOq0fAb0e', 'Katarzyna', 'Kwiatowa', 'ROLE_PARTICIPANT');
 insert into user (id, email, password, firstname, lastname, role)
 	values (102, 'damian@gmail.com', '$2a$10$FvyEHmj7zJKw4V4iBdJqL.mugH9VTPOQkc6HzlhNsqLkO.0KFla2O', 'Damian', 'Kowalski', 'ROLE_PARTICIPANT');
 insert into user (id, email, password, firstname, lastname, role)
@@ -20,7 +20,7 @@ insert into user (id, email, password, firstname, lastname, role)
 insert into user (id, email, password, firstname, lastname, role)
 	values (104, 'malgorzata@gmail.com', '$2a$10$FvyEHmj7zJKw4V4iBdJqL.mugH9VTPOQkc6HzlhNsqLkO.0KFla2O', 'Małgorzata', 'Nowak', 'ROLE_PARTICIPANT');
 insert into user (id, email, password, firstname, lastname, role)
-	values (105, 'zuzanna@gmail.com', '$2a$10$FvyEHmj7zJKw4V4iBdJqL.mugH9VTPOQkc6HzlhNsqLkO.0KFla2O', 'Zuzanna', 'Nowak', 'ROLE_ORGANIZER');
+	values (105, 'zuzanna@gmail.com', '$2a$04$jdJGuOMv4iY/32BzFKHRTOR0qcOSwqaE9lzLkLFgirzsSOq0fAb0e', 'Zuzanna', 'Nowak', 'ROLE_ORGANIZER');
 insert into user (id, email, password, firstname, lastname, role)
 	values (106, 'milosz@gmail.com', '$2a$10$FvyEHmj7zJKw4V4iBdJqL.mugH9VTPOQkc6HzlhNsqLkO.0KFla2O', 'Miłosz', 'Zawada', 'ROLE_ORGANIZER');
 
