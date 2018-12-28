@@ -36,7 +36,8 @@ public class UserController extends BasicController {
     @PostMapping("/register")
     public String register(User user, RedirectAttributes redirectAttributes) {
         try {
-            if(!isRegisterFormValid(user, redirectAttributes)) {
+            if (!isRegisterFormValid(user, redirectAttributes)) {
+                redirectAttributes.addFlashAttribute("errorRegisterMessage", "Formularz rejestracji zawiera błędy");
                 return "redirect:/login";
             } else {
                 userService.save(user);
@@ -48,33 +49,28 @@ public class UserController extends BasicController {
         }
         return "redirect:/login";
     }
-    
+
     @RequestMapping("/prelegents")
-    public String showPrelegents(Model model){
-    	model.addAttribute("prelegents", userService.getPrelegents());
-    	return "prelegents";
+    public String showPrelegents(Model model) {
+        model.addAttribute("prelegents", userService.getPrelegents());
+        return "prelegents";
     }
 
     private boolean isRegisterFormValid(User user, RedirectAttributes redirectAttributes) {
         boolean isFormValid = true;
-        if(user.getFirstname() == null || user.getFirstname().equals("")) {
-            redirectAttributes.addFlashAttribute("errorFirstname", "Imię musi zostać podane");
+        if (user.getFirstname() == null || user.getFirstname().equals("")) {
             isFormValid = false;
         }
-        if(user.getLastname() == null || user.getLastname().equals("")) {
-            redirectAttributes.addFlashAttribute("errorLastname", "Nazwisko musi zostać podane");
+        if (user.getLastname() == null || user.getLastname().equals("")) {
             isFormValid = false;
         }
-        if(user.getEmail() == null || user.getEmail().equals("")) {
-            redirectAttributes.addFlashAttribute("errorEmail", "Email musi zostać podany");
+        if (user.getEmail() == null || user.getEmail().equals("")) {
             isFormValid = false;
         }
-        if(user.getPassword() == null || user.getPassword().equals("")) {
-            redirectAttributes.addFlashAttribute("errorPassword", "Hasło musi zostać podane");
+        if (user.getPassword() == null || user.getPassword().equals("")) {
             isFormValid = false;
         }
-        if(user.getRole() == null) {
-            redirectAttributes.addFlashAttribute("errorRole", "Rodzaj konta musi zostać wybrany");
+        if (user.getRole() == null) {
             isFormValid = false;
         }
         return isFormValid;
