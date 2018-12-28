@@ -155,20 +155,44 @@ function validateDescription(selector){
 	}
 }
 
-function validateStreet(){
-	
+function validateStreet(selector){
+	if ($(selector).val() == ''){
+		makeFieldInvalid(selector);
+		$('#street-error-message').show();
+	} else {
+		makeFieldValid(selector);
+		$('#street-error-message').hide();
+	}
 }
 
-function validateStreetNumber(){
-	
+function validateStreetNumber(selector){
+	if ($(selector).val() == ''){
+		makeFieldInvalid(selector);
+		$('#streetNumber-error-message').show();
+	} else {
+		makeFieldValid(selector);
+		$('#streetNumber-error-message').hide();
+	}
 }
 
-function validateCity(){
-	
+function validateCity(selector){
+	if ($(selector).val() == ''){
+		makeFieldInvalid(selector);
+		$('#city-error-message').show();
+	} else {
+		makeFieldValid(selector);
+		$('#city-error-message').hide();
+	}
 }
 
-function validateMaxParticipants(){
-	
+function validateMaxParticipants(selector){
+	if ($(selector).val() == ''){
+		makeFieldInvalid(selector);
+		$('#maxParticipants-error-message').show();
+	} else {
+		makeFieldValid(selector);
+		$('#maxParticipants-error-message').hide();
+	}
 }
 
 function makeFieldValid(selector) {
