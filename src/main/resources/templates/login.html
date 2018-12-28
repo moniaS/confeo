@@ -33,36 +33,33 @@
                          th:text="${errorRegisterMessage}"></div>
                     <form th:action="@{/register}" th:object="${registerUser}" method="post"
                           onsubmit="return areTermsOfUseSumbitted()">
-                        <ul>
+                        <ul class="user-role-radio-button">
                             <li th:each="role : ${roles}" class="radio-inline">
                                 <input type="radio" class="role-radio-button" th:field="*{role}"
                                        th:value="${role.name()}"/>
                                 <label th:for="${#ids.prev('role')}" th:text="${role}">Rola *</label>
                             </li>
                         </ul>
+                        <span style='display: none;' id="role-error-message" class="help-block">Rola musi zostać wybrana</span>
                         <div class="form-group">
                             <label for="firstname">Imię *</label>
-                            <input type="text" class="form-control" id="firstname" th:field="*{firstname}"
-                                   oninput="isFirstnameValid()">
+                            <input type="text" class="form-control" id="firstname" th:field="*{firstname}">
                             <span style='display: none;' id="firstname-error-message" class="help-block">Imie musi zostać podane</span>
                         </div>
                         <div class="form-group">
                             <label for="lastname">Nazwisko *</label>
-                            <input type="text" class="form-control" id="lastname" th:field="*{lastname}"
-                                   oninput="isLastnameValid()">
+                            <input type="text" class="form-control" id="lastname" th:field="*{lastname}">
                             <span style='display: none;' id="lastname-error-message" class="help-block">Nazwisko musi zostać podane</span>
                         </div>
                         <div class="form-group">
                             <label for="register-email">Email *</label>
-                            <input type="text" class="form-control" id="register-email" th:field="*{email}"
-                                   oninput="isEmailValid()">
+                            <input type="text" class="form-control" id="register-email" th:field="*{email}">
                             <span style='display: none;' id="register-email-error-message-empty" class="help-block">Email musi zostać podany</span>
                             <span style='display: none;' id="register-email-error-message-invalid" class="help-block">Email ma niepoprawny format</span>
                         </div>
                         <div class="form-group">
                             <label for="register-password">Hasło *</label>
-                            <input type="password" class="form-control" id="register-password" th:field="*{password}"
-                                   oninput="isPasswordValid()">
+                            <input type="password" class="form-control" id="register-password" th:field="*{password}">
                             <span toggle="#register-password" class="fa fa-fw fa-eye field-icon toggle-password"></span>
                             <span style='display: none;' id="register-password-error-message-empty" class="help-block">Haslo musi zostać podane</span>
                             <span style='display: none;' id="register-password-error-message-invalid" class="help-block">Minimalna dlugosc hasla to 8 znakow. Haslo musi zawierac
@@ -122,6 +119,16 @@
 <th:block th:include="common/include :: pageFooterIncludes"/>
 <script>
 
+    $('.role-radio-button').on('click', isUserRoleValid);
+
+    $('#firstname').on('input', delay(isFirstnameValid, 500));
+
+    $('#lastname').on('input', delay(isLastnameValid, 500));
+
+    $('#register-email').on('input', delay(isEmailValid, 1000));
+
+    $('#register-password').on('input', delay(isPasswordValid, 1000));
+
     $('#register-password').popover({
         trigger: 'focus',
         content: 'Musi zawierać co najmniej 8 znaków.\nMusi zawierać co najmniej jedną małą i jedną wielką literę.\nMusi zawierać co najmniej jedną cyfrę.',
@@ -139,6 +146,17 @@
     });
 
     markUserRoleRadioButton();
+
+    function delay(callback, ms) {
+        var timer = 0;
+        return function() {
+            var context = this, args = arguments;
+            clearTimeout(timer);
+            timer = setTimeout(function () {
+                callback.apply(context, args);
+            }, ms || 0);
+        };
+    }
 
     function markUserRoleRadioButton() {
         $(".register-blocks input:radio:first").attr('checked', true);
@@ -162,6 +180,18 @@
     function makeFieldInvalid(selector) {
         $(selector).removeClass('valid-field');
         $(selector).addClass('invalid-field');
+    }
+
+    function isUserRoleValid () {
+        if ($('input[name="role"]:checked').length === 0) {
+            $('#role-error-message').show();
+            $('.user-role-radio-button').css({"border-color": "red",
+                "border-width":"1px",
+                "border-style":"solid"});
+        } else {
+            $('#role-error-message').hide();
+            $('.user-role-radio-button').css({"border": "none"});
+        }
     }
 
     function areTermsOfUseSumbitted() {
