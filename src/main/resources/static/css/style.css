@@ -3151,12 +3151,11 @@ ul.footer-blog li {
 
 /*============VALIDATION==============*/
 .form-control.invalid-field {
-    background-color: #fff3f1!important;
+    background-color: #FFF8F6!important;
     border: 1px solid #ff1c19;
 }
 
 .form-control.valid-field {
-    background-color: #e0ffc5!important;
     border: 1px solid #0C9C14;
 }
 
@@ -3174,4 +3173,14 @@ ul.footer-blog li {
 
 .popover {
     white-space: pre-wrap;
+}
+
+.register-checkbox-label {
+    padding-top: 6px;
+    padding-right: 8px;
+    padding-bottom: 4px;
+}
+
+.help-block {
+    color: #d93900;
 }

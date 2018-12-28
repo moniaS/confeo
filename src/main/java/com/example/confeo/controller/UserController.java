@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Arrays;
+import java.util.regex.Pattern;
 
 /**
  * Created by mstobieniecka on 2018-05-26.
@@ -58,21 +59,31 @@ public class UserController extends BasicController {
 
     private boolean isRegisterFormValid(User user, RedirectAttributes redirectAttributes) {
         boolean isFormValid = true;
-        if (user.getFirstname() == null || user.getFirstname().equals("")) {
+        if (isStringEmpty(user.getFirstname())) {
             isFormValid = false;
         }
-        if (user.getLastname() == null || user.getLastname().equals("")) {
+        if (isStringEmpty(user.getLastname())) {
             isFormValid = false;
         }
-        if (user.getEmail() == null || user.getEmail().equals("")) {
+        //TODO add email validation
+        if (isStringEmpty(user.getEmail())) {
             isFormValid = false;
         }
-        if (user.getPassword() == null || user.getPassword().equals("")) {
+        if (isStringEmpty(user.getPassword()) || !isPasswordValid(user.getPassword())) {
             isFormValid = false;
         }
         if (user.getRole() == null) {
             isFormValid = false;
         }
         return isFormValid;
+    }
+
+    private boolean isPasswordValid (String value) {
+        final Pattern passwordPattern = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).+$");
+        return passwordPattern.matcher(value).matches();
+    }
+
+    private boolean isStringEmpty(String value) {
+        return value == null || value.equals("");
     }
 }
