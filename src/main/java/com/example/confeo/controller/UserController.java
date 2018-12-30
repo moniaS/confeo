@@ -11,8 +11,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
 import java.util.Arrays;
 import java.util.regex.Pattern;
+import java.util.regex.*;
 
 /**
  * Created by mstobieniecka on 2018-05-26.
@@ -65,8 +68,7 @@ public class UserController extends BasicController {
         if (isStringEmpty(user.getLastname())) {
             isFormValid = false;
         }
-        //TODO add email validation
-        if (isStringEmpty(user.getEmail())) {
+        if (isStringEmpty(user.getEmail()) || !isEmailValid(user.getEmail())) {
             isFormValid = false;
         }
         if (isStringEmpty(user.getPassword()) || !isPasswordValid(user.getPassword())) {
@@ -85,5 +87,25 @@ public class UserController extends BasicController {
 
     private boolean isStringEmpty(String value) {
         return value == null || value.equals("");
+    }
+
+    private boolean isEmailValid(String email) {
+        boolean isValid = true;
+        try {
+            InternetAddress internetAddress = new InternetAddress(email);
+            internetAddress.validate();
+            if (!hasNameAndDomain(email)) {
+                isValid = false;
+            }
+        } catch (AddressException e) {
+            System.out.println("Exception during email validation for email: " + email);
+            isValid = false;
+        }
+        return isValid;
+    }
+
+    private static boolean hasNameAndDomain(String email){
+        String[] tokens = email.split("@");
+        return tokens.length == 2 && !tokens[0].isEmpty() && !tokens[1].isEmpty();
     }
 }
