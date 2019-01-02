@@ -3151,7 +3151,6 @@ ul.footer-blog li {
 
 /*============VALIDATION==============*/
 .form-control.invalid-field {
-    background-color: #FFF8F6!important;
     border: 1px solid #ff1c19;
 }
 
@@ -3183,4 +3182,42 @@ ul.footer-blog li {
 
 .help-block {
     color: #d93900;
+}
+
+.valid-icon {
+    width: 18px;
+    right: 10px !important;
+}
+
+.invalid-icon {
+    width: 26px;
+}
+
+.input-icon {
+    position: absolute;
+    top: 46px;
+    right: 8px;
+}
+
+.form-group {
+    position: relative;
+}
+
+.invalid {
+    background: url(../img/invalid.png) no-repeat 0 50%;
+    background-size: 18px auto;
+    color: #ec3f41;
+    padding-left: 22px;
+    padding-top: -8px;
+}
+
+.valid {
+    background: url(../img/tick.png) no-repeat 4px 50%;
+    background-size: 14px auto;
+    color: #3a7d34;
+    padding-left: 22px;
+}
+
+#password-requirements ul, li {
+    list-style-type: none;
 }

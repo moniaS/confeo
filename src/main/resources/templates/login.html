@@ -46,17 +46,23 @@
                             <label for="firstname">Imię *</label>
                             <input type="text" class="form-control" id="firstname" th:field="*{firstname}">
                             <span style='display: none;' id="firstname-error-message" class="help-block">Podanie imienia jest wymagane.</span>
+                            <img class="valid-icon input-icon" style="display: none" th:src="@{/img/tick.png}" alt="Valid field icon">
+                            <img class="invalid-icon input-icon" style="display: none" th:src="@{/img/invalid.png}" alt="Invalid field icon">
                         </div>
                         <div class="form-group">
                             <label for="lastname">Nazwisko *</label>
                             <input type="text" class="form-control" id="lastname" th:field="*{lastname}">
                             <span style='display: none;' id="lastname-error-message" class="help-block">Podanie nazwiska jest wymagane.</span>
+                            <img class="valid-icon input-icon" style="display: none" th:src="@{/img/tick.png}" alt="Valid field icon">
+                            <img class="invalid-icon input-icon" style="display: none" th:src="@{/img/invalid.png}" alt="Invalid field icon">
                         </div>
                         <div class="form-group">
                             <label for="register-email">Email *</label>
                             <input type="text" class="form-control" id="register-email" th:field="*{email}">
                             <span style='display: none;' id="register-email-error-message-empty" class="help-block">Podanie adresu email jest wymagane.</span>
                             <span style='display: none;' id="register-email-error-message-invalid" class="help-block">Wprowadz prawidlowy adres email.</span>
+                            <img class="valid-icon input-icon" style="display: none" th:src="@{/img/tick.png}" alt="Valid field icon">
+                            <img class="invalid-icon input-icon" style="display: none" th:src="@{/img/invalid.png}" alt="Invalid field icon">
                         </div>
                         <div class="form-group">
                             <label for="register-password">Hasło *</label>
@@ -66,6 +72,15 @@
                             <span style='display: none;' id="register-password-error-message-invalid"
                                   class="help-block">Minimalna dlugosc hasla to 8 znakow. Haslo musi zawierac
                                 co najmniej jedna mala i wielka litere oraz cyfre</span>
+                            <div id="password-requirements">
+                                <span>Hasło musi spełniać następujące wymagania:</span>
+                                <ul>
+                                    <li id="lower-letter">Co najmniej <strong>jedna mała litera</strong></li>
+                                    <li id="capital-letter">Co najmniej <strong>jedna wielka litera</strong></li>
+                                    <li id="number">Co najmniej <strong>jedna cyfra</strong></li>
+                                    <li id="length">Co najmniej <strong>8 znaków</strong></li>
+                                </ul>
+                            </div>
                         </div>
                         <div class="form-group terms-of-use-block">
                             <label for="register-checkbox" class="register-checkbox-label">
@@ -120,301 +135,7 @@
 <nav th:include="common/include :: pageFooter"></nav>
 
 <th:block th:include="common/include :: pageFooterIncludes"/>
-<script>
+<script th:src="@{/js/my-js/login-register.js}"></script>
 
-    $('.role-radio-button').on('click', isUserRoleValid);
-
-    $('#firstname').on('input', delay(500, isFirstnameValid));
-
-    $('#lastname').on('input', delay(500, isLastnameValid));
-
-    $('#register-email').on('input', delay(1000, isEmailValid, [false]));
-
-    $('#register-password').on('input', delay(1000, isRegisterPasswordValid, [false]));
-
-    $('#register-password').popover({
-        trigger: 'focus',
-        content: 'Musi zawierać co najmniej 8 znaków.\nMusi zawierać co najmniej jedną małą i jedną wielką literę.\nMusi zawierać co najmniej jedną cyfrę.',
-        placement: 'bottom'
-    });
-
-    $('#login-email').on('input', delay(1000, isEmailValid, [true]));
-
-    $('#login-password').on('input', delay(1000, isLoginPasswordValid));
-
-    $(".toggle-password").on("click", function () {
-        $(this).toggleClass("fa-eye fa-eye-slash");
-        var input = $($(this).attr("toggle"));
-        if (input.attr("type") == "password") {
-            input.attr("type", "text");
-        } else {
-            input.attr("type", "password");
-        }
-    });
-
-    markUserRoleRadioButton();
-
-    // *******************REGISTER FORM*********************
-
-    function markUserRoleRadioButton() {
-        $(".register-blocks input:radio:first").attr('checked', true);
-    }
-
-    function isUserRoleValid() {
-        if ($('input[name="role"]:checked').length === 0) {
-            $('#role-error-message').show();
-            $('.user-role-radio-button').css({
-                "border-color": "red",
-                "border-width": "1px",
-                "border-style": "solid"
-            });
-        } else {
-            $('#role-error-message').hide();
-            $('.user-role-radio-button').css({"border": "none"});
-        }
-    }
-
-    function areTermsOfUseSumbitted() {
-        if (document.getElementById("register-checkbox").checked === true) {
-            $('.terms-of-use-block .register-checkbox-label').css({"border": "none"});
-            return true;
-        } else {
-            $('.terms-of-use-block .register-checkbox-label').css({
-                "border-color": "red",
-                "border-width": "1px",
-                "border-style": "solid"
-            });
-            $("#terms-error-message").show();
-            return false;
-        }
-    }
-
-    function validateFirstname() {
-        var isValid = isFirstnameValid();
-        if (!isValid) {
-            $("#firstname-error-message").show();
-        }
-        return isValid;
-    }
-
-    function isFirstnameValid() {
-        var selector = '#firstname';
-        var isValid = isNotEmpty(selector);
-        if (!isValid) {
-            makeFieldInvalid(selector);
-        } else {
-            makeFieldValid(selector);
-            $("#firstname-error-message").hide();
-        }
-        return isValid;
-    }
-
-    function validateLastname() {
-        var isValid = isLastnameValid();
-        if (!isValid) {
-            $("#lastname-error-message").show();
-        }
-        return isValid;
-    }
-
-    function isLastnameValid() {
-        var selector = '#lastname';
-        var isValid = isNotEmpty(selector);
-        if (!isValid) {
-            makeFieldInvalid(selector);
-        } else {
-            makeFieldValid(selector);
-            $("#lastname-error-message").hide();
-        }
-        return isValid;
-    }
-
-    function validateRegisterPassword() {
-        var selector = '#register-password';
-        var emptyMessageErrorSelector = '#register-password-error-message-empty';
-        var invalidMessageErrorSelector = '#register-password-error-message-invalid';
-
-        var isNotEmptyField = isNotEmpty(selector);
-        var isCorrectFormat = isPasswordFormatCorrect(selector);
-        if (!isNotEmptyField) {
-            $(emptyMessageErrorSelector).show();
-            makeFieldInvalid(selector);
-        } else {
-            if (!isCorrectFormat) {
-                $(invalidMessageErrorSelector).show();
-                makeFieldInvalid(selector);
-            }
-        }
-        return (isNotEmptyField && isCorrectFormat);
-    }
-
-    function isPasswordFormatCorrect(selector) {
-        var element = $(selector);
-        var value = element.val();
-        var upperCase = new RegExp('[A-Z]');
-        var lowerCase = new RegExp('[a-z]');
-        var numbers = new RegExp('[0-9]');
-        return value.match(upperCase) != null && value.match(lowerCase) != null
-            && value.match(numbers) != null && value.length >= 8;
-    }
-
-    function isRegisterPasswordValid() {
-        var selector = '#register-password';
-        var emptyMessageErrorSelector = '#register-password-error-message-empty';
-        var invalidMessageErrorSelector = '#register-password-error-message-invalid';
-
-        var isNotEmptyField = isNotEmpty(selector);
-        var isCorrectFormat = isPasswordFormatCorrect(selector);
-        var condition = isNotEmptyField && isCorrectFormat;
-        if (isNotEmptyField || isCorrectFormat) {
-            makeFieldValid(selector);
-            $(emptyMessageErrorSelector).hide();
-            $(invalidMessageErrorSelector).hide();
-            if (condition) {
-                makeFieldValid(selector);
-            } else {
-                makeFieldInvalid(selector);
-            }
-        } else {
-            makeFieldInvalid(selector);
-        }
-        return condition;
-    }
-
-    function validateRegisterForm() {
-        var isFirstnameValid = validateFirstname();
-        var isLastnameValid = validateLastname();
-        var isPasswordValid = validateRegisterPassword();
-        var areTermsSumbitted = areTermsOfUseSumbitted();
-        var isEmailValid = validateEmail(false);
-        return (isFirstnameValid && isLastnameValid && isPasswordValid && areTermsSumbitted
-            && isEmailValid);
-    }
-
-    // *******************LOGIN FORM*********************
-
-    function validateLoginPassword() {
-        var selector = '#login-password';
-        var emptyMessageErrorSelector = '#login-password-error-message-empty';
-
-        var isNotEmptyField = isNotEmpty(selector);
-        if (!isNotEmptyField) {
-            $(emptyMessageErrorSelector).show();
-            makeFieldInvalid(selector);
-        } else {
-            makeFieldValid(selector);
-        }
-    }
-
-    function isLoginPasswordValid() {
-        var selector = '#login-password';
-        var emptyMessageErrorSelector = '#login-password-error-message-empty';
-        var isNotEmptyField = isNotEmpty(selector);
-        if (isNotEmptyField) {
-            makeFieldValid(selector);
-            $(emptyMessageErrorSelector).hide();
-        } else {
-            makeFieldInvalid(selector);
-        }
-        return isNotEmptyField;
-    }
-
-    function validateLoginForm() {
-        var isLoginValid = validateEmail(true);
-        var isPasswordValid = validateLoginPassword();
-        return (isLoginValid && isPasswordValid);
-    }
-
-    //********************COMMON FUNCTIONS FOR BOTH FORMS*******************
-
-    function delay(ms, callback, params) {
-        var timer = 0;
-        return function () {
-            var context = this;
-            clearTimeout(timer);
-            timer = setTimeout(function () {
-                callback.apply(context, params);
-            }, ms || 0);
-        };
-    }
-
-    function isNotEmpty(selector) {
-        var notEmptyField = $(selector).val().trim() != '';
-        if (notEmptyField) {
-            makeFieldValid(selector)
-        } else {
-            makeFieldInvalid(selector)
-        }
-        return notEmptyField;
-    }
-
-    function makeFieldValid(selector) {
-        $(selector).removeClass('invalid-field');
-        $(selector).addClass('valid-field');
-    }
-
-    function makeFieldInvalid(selector) {
-        $(selector).removeClass('valid-field');
-        $(selector).addClass('invalid-field');
-    }
-
-    function validateEmail(isLoginForm) {
-        var selector, emptyMessageErrorSelector, invalidMessageErrorSelector;
-        if (isLoginForm) {
-            selector = '#login-email';
-            emptyMessageErrorSelector = '#login-email-error-message-empty';
-            invalidMessageErrorSelector = "#login-email-error-message-invalid";
-        } else {
-            selector = '#register-email';
-            emptyMessageErrorSelector = '#register-email-error-message-empty';
-            invalidMessageErrorSelector = "#register-email-error-message-invalid";
-        }
-        var isNotEmptyField = isNotEmpty(selector);
-        var isCorrectFormat = isEmailFormatCorrect(selector);
-        if (!isNotEmptyField) {
-            $(emptyMessageErrorSelector).show();
-            makeFieldInvalid(selector);
-        } else {
-            if (!isCorrectFormat) {
-                $(invalidMessageErrorSelector).show();
-                makeFieldInvalid(selector);
-            }
-        }
-        return (isNotEmptyField && isCorrectFormat);
-    }
-
-    function isEmailFormatCorrect(selector) {
-        var emailPattern = new RegExp("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
-        return emailPattern.test($(selector).val());
-    }
-
-    function isEmailValid(isLoginForm) {
-        var selector, emptyMessageErrorSelector, invalidMessageErrorSelector;
-        if (isLoginForm) {
-            selector = '#login-email';
-            emptyMessageErrorSelector = '#login-email-error-message-empty';
-            invalidMessageErrorSelector = "#login-email-error-message-invalid";
-        } else {
-            selector = '#register-email';
-            emptyMessageErrorSelector = '#register-email-error-message-empty';
-            invalidMessageErrorSelector = "#register-email-error-message-invalid";
-        }
-        var isNotEmptyField = isNotEmpty(selector);
-        var isCorrectFormat = isEmailFormatCorrect(selector);
-        var condition = isNotEmptyField && isCorrectFormat;
-        if (isNotEmptyField || isCorrectFormat) {
-            $(emptyMessageErrorSelector).hide();
-            $(invalidMessageErrorSelector).hide();
-            if (condition) {
-                makeFieldValid(selector);
-            } else {
-                makeFieldInvalid(selector);
-            }
-        } else {
-            makeFieldInvalid(selector);
-        }
-        return condition;
-    }
-</script>
 </body>
 </html>
