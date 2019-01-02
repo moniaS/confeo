@@ -82,7 +82,7 @@ public class UserController extends BasicController {
 
     private boolean isPasswordValid (String value) {
         final Pattern passwordPattern = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).+$");
-        return passwordPattern.matcher(value).matches();
+        return value.length() >= 8 && passwordPattern.matcher(value).matches();
     }
 
     private boolean isStringEmpty(String value) {

@@ -37,27 +37,27 @@
                             <li th:each="role : ${roles}" class="radio-inline">
                                 <input type="radio" class="role-radio-button" th:field="*{role}"
                                        th:value="${role.name()}"/>
-                                <label th:for="${#ids.prev('role')}" th:text="${role}">Rola *</label>
+                                <label th:for="${#ids.prev('role')}" th:text="${role}">Rola <span class="field-obligatory-star">*</span></label>
                             </li>
                         </ul>
                         <span style='display: none;' id="role-error-message"
                               class="help-block">Wybranie roli jest wymagane.</span>
                         <div class="form-group">
-                            <label for="firstname">Imię *</label>
+                            <label for="firstname">Imię <span class="field-obligatory-star">*</span></label>
                             <input type="text" class="form-control" id="firstname" th:field="*{firstname}">
                             <span style='display: none;' id="firstname-error-message" class="help-block">Podanie imienia jest wymagane.</span>
                             <img class="valid-icon input-icon" style="display: none" th:src="@{/img/tick.png}" alt="Valid field icon">
                             <img class="invalid-icon input-icon" style="display: none" th:src="@{/img/invalid.png}" alt="Invalid field icon">
                         </div>
                         <div class="form-group">
-                            <label for="lastname">Nazwisko *</label>
+                            <label for="lastname">Nazwisko <span class="field-obligatory-star">*</span></label>
                             <input type="text" class="form-control" id="lastname" th:field="*{lastname}">
                             <span style='display: none;' id="lastname-error-message" class="help-block">Podanie nazwiska jest wymagane.</span>
                             <img class="valid-icon input-icon" style="display: none" th:src="@{/img/tick.png}" alt="Valid field icon">
                             <img class="invalid-icon input-icon" style="display: none" th:src="@{/img/invalid.png}" alt="Invalid field icon">
                         </div>
                         <div class="form-group">
-                            <label for="register-email">Email *</label>
+                            <label for="register-email">Email <span class="field-obligatory-star">*</span></label>
                             <input type="text" class="form-control" id="register-email" th:field="*{email}">
                             <span style='display: none;' id="register-email-error-message-empty" class="help-block">Podanie adresu email jest wymagane.</span>
                             <span style='display: none;' id="register-email-error-message-invalid" class="help-block">Wprowadz prawidlowy adres email.</span>
@@ -65,7 +65,7 @@
                             <img class="invalid-icon input-icon" style="display: none" th:src="@{/img/invalid.png}" alt="Invalid field icon">
                         </div>
                         <div class="form-group">
-                            <label for="register-password">Hasło *</label>
+                            <label for="register-password">Hasło <span class="field-obligatory-star">*</span></label>
                             <input type="password" class="form-control" id="register-password" th:field="*{password}">
                             <span toggle="#register-password" class="fa fa-fw fa-eye field-icon toggle-password"></span>
                             <span style='display: none;' id="register-password-error-message-empty" class="help-block">Podanie hasla jest wymagane.</span>
@@ -75,10 +75,10 @@
                             <div id="password-requirements">
                                 <span>Hasło musi spełniać następujące wymagania:</span>
                                 <ul>
-                                    <li id="lower-letter">Co najmniej <strong>jedna mała litera</strong></li>
-                                    <li id="capital-letter">Co najmniej <strong>jedna wielka litera</strong></li>
-                                    <li id="number">Co najmniej <strong>jedna cyfra</strong></li>
-                                    <li id="length">Co najmniej <strong>8 znaków</strong></li>
+                                    <li id="lower-letter">Co najmniej jedna mała litera</li>
+                                    <li id="capital-letter">Co najmniej jedna wielka litera</li>
+                                    <li id="number">Co najmniej jedna cyfra</li>
+                                    <li id="length">Co najmniej 8 znaków</li>
                                 </ul>
                             </div>
                         </div>

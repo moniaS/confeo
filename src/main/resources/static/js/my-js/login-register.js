@@ -13,6 +13,8 @@ $('#register-password').on('change', function () {
 });
 
 $('#register-password').on('focus', function () {
+    $("#register-password-error-message-empty").hide();
+    $("#register-password-error-message-invalid").hide();
     $("#password-requirements").show();
 });
 
@@ -275,6 +277,7 @@ function validateEmail(isLoginForm) {
         emptyMessageErrorSelector = '#login-email-error-message-empty';
         invalidMessageErrorSelector = "#login-email-error-message-invalid";
     } else {
+        $("#password-requirements").hide();
         selector = '#register-email';
         emptyMessageErrorSelector = '#register-email-error-message-empty';
         invalidMessageErrorSelector = "#register-email-error-message-invalid";

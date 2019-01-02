@@ -3221,3 +3221,7 @@ ul.footer-blog li {
 #password-requirements ul, li {
     list-style-type: none;
 }
+
+.field-obligatory-star {
+    color: #fa001c;
+}
