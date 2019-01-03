@@ -1,22 +1,3 @@
-// UZYTY TEMPLATE DO WIDOKU INGERUJE W KLASY CHECKBOXA PRZEZ CO NIE MOGE SPRAWDZIC CZY CHECKBOX JEST ZAZNACZONY CZY NIE I W ZALEZNOSCI OD TEGO USTAWIC WIDOCZNOSC DIVA price-form-group
-/*if($('#isFree').checked) {
-	console.log('halo1');
-    $("#price-form-group").show();
-} else {
-	console.log('halo2');
-    $("#price-form-group").hide();
-}
-
-$('.icheckbox_square-yellow').change(function() {
-	console.log('halo');
-    //$("#price-form-group").toggle(this.checked);
-});
-*/
-$( document ).ready(function() {
-
-    console.log( "ready!" );
-});
-
 //walidacja pol po zmianie
 $(function() {
 	
@@ -68,13 +49,64 @@ $(function() {
 	
 });
 
+function validateForm(){
+	var formIsValid = true;
+	
+	if (validateMaxParticipants('#maxParticipants') == false){
+		$('#maxParticipants').focus();
+		formIsValid = false;
+	}
+	if (validateCity('#city') == false ){
+		$('#city').focus();
+		formIsValid = false;
+	}
+	if (validateStreetNumber('#street-number') == false ){
+		$('#street-number').focus();
+		formIsValid = false;
+	}
+	if (validateStreet('#street') == false ){
+		$('#street').focus();
+		formIsValid = false;
+	}
+	if (validateDescription('#description') == false ){
+		$('#description').focus();
+		formIsValid = false;
+	}
+	if (validateCategory('#category') == false ){
+		$('#category').focus();
+		formIsValid = false;
+	}
+	if (validateType('#type') == false ){
+		$('#type').focus();
+		formIsValid = false;
+	}
+	if (validateEndDate('#endDate') == false ){
+		$('#endDate').focus();
+		formIsValid = false;
+	}
+	if (validateStartDate('#startDate') == false ){
+		$('#startDate').focus();
+		formIsValid = false;
+	}
+	if (validateName('#name') == false ){
+		$('#name').focus();
+		formIsValid = false;
+	}
+
+	
+
+	return formIsValid;
+}
+
 function validateName(selector){
 	if ($(selector).val() == ''){
 		makeFieldInvalid(selector);
 		$('#name-error-message').show();
+		return false;
 	} else {
 		makeFieldValid(selector);
 		$('#name-error-message').hide();
+		return true;
 	}
 }
 
@@ -95,9 +127,11 @@ function validateStartDate(selector){
 	if (invalid) {
 		makeFieldInvalid(selector);
 		$('#startDate-error-message').show();
+		return false;
 	} else {
 		makeFieldValid(selector);
 		$('#startDate-error-message').hide();
+		return true;
 	}
 	
 }
@@ -119,9 +153,11 @@ function validateEndDate(selector){
 	if (invalid) {
 		makeFieldInvalid(selector);
 		$('#endDate-error-message').show();
+		return false;
 	} else {
 		makeFieldValid(selector);
 		$('#endDate-error-message').hide();
+		return true;
 	}
 }
 
@@ -130,9 +166,11 @@ function validateType(selector){
 	if ($(selector).val() == ''){
 		makeFieldInvalid(selector);
 		$('#type-error-message').show();
+		return false;
 	} else {
 		makeFieldValid(selector);
 		$('#type-error-message').hide();
+		return true;
 	}
 }
 
@@ -141,9 +179,11 @@ function validateCategory(selector){
 	if ($(selector).val() == ''){
 		makeFieldInvalid(selector);
 		$('#category-error-message').show();
+		return false;
 	} else {
 		makeFieldValid(selector);
 		$('#cateogry-error-message').hide();
+		return true;
 	}
 }
 
@@ -153,9 +193,11 @@ function validateDescription(selector){
 	if (text_length > 250){
 		makeFieldInvalid(selector);
 		$('#description-error-message').show();
+		return false;
 	} else {
 		makeFieldValid(selector);
 		$('#description-error-message').hide();
+		return true;
 	}
 }
 
@@ -163,9 +205,11 @@ function validateStreet(selector){
 	if ($(selector).val() == ''){
 		makeFieldInvalid(selector);
 		$('#street-error-message').show();
+		return false;
 	} else {
 		makeFieldValid(selector);
 		$('#street-error-message').hide();
+		return true;
 	}
 }
 
@@ -173,9 +217,11 @@ function validateStreetNumber(selector){
 	if ($(selector).val() == ''){
 		makeFieldInvalid(selector);
 		$('#streetNumber-error-message').show();
+		return false;
 	} else {
 		makeFieldValid(selector);
 		$('#streetNumber-error-message').hide();
+		return true;
 	}
 }
 
@@ -183,29 +229,35 @@ function validateCity(selector){
 	if ($(selector).val() == ''){
 		makeFieldInvalid(selector);
 		$('#city-error-message').show();
+		return false;
 	} else {
 		makeFieldValid(selector);
 		$('#city-error-message').hide();
+		return true;
 	}
 }
 
 function validateMaxParticipants(selector){
-	if ($(selector).val() == ''){
+	if ($(selector).val() == '' || $(selector).val() < 1){
 		makeFieldInvalid(selector);
 		$('#maxParticipants-error-message').show();
+		return false;
 	} else {
 		makeFieldValid(selector);
 		$('#maxParticipants-error-message').hide();
+		return true;
 	}
 }
 
 function makeFieldValid(selector) {
     $(selector).removeClass('invalid-field');
-    $(selector).addClass('valid-field');
+    $(selector).parent().find('img.invalid-icon').hide();
+    //$(selector).addClass('valid-field');
 }
 
 function makeFieldInvalid(selector) {
-    $(selector).removeClass('valid-field');
+    //$(selector).removeClass('valid-field');
+    $(selector).parent().find('img.invalid-icon').show();
     $(selector).addClass('invalid-field');
 }
 

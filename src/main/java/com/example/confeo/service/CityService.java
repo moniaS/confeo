@@ -18,7 +18,7 @@ public class CityService {
 	}
 	
 	public List<String> filterCities(String name){
-		return cityRepository.filterCityNames(name);
+		return cityRepository.filterCityNames(name.toLowerCase());
 	}
 	
 }

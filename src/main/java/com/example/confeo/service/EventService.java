@@ -201,7 +201,7 @@ public class EventService {
     public void saveEvent(Event event) {
     	if (event.getMaxParticipants() == null) event.setMaxParticipants(100);
     	event.setStatus(EventStatus.UPCOMING);
-    	if (event.getIsFree() == true) event.setPricePerParticipant(0);
+    	//if (event.getIsFree() == true) event.setPricePerParticipant(0);
     	eventRepository.save(event);
     }
 

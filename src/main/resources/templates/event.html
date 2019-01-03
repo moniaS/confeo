@@ -83,7 +83,7 @@
                 <div th:text="${event.category.name}"></div>
             </div>
         </div>
-        <div class="row">
+        <!-- <div class="row">
             <div class="col-sm-2" >
                 <label>Wstęp: </label>
             </div>
@@ -91,7 +91,7 @@
                 <div th:if="${event.isFree}">BEZPŁATNE</div>
                 <div th:unless="${event.isFree}" th:text="${#numbers.formatDecimal(event.pricePerParticipant, 0, 'POINT', 2, 'COMMA') + ' zł'}"></div>
             </div>
-        </div>
+        </div> -->
         <div class="row">
             <div class="col-sm-2" >
                 <label>Adres: </label>

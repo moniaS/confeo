@@ -58,14 +58,14 @@
                         </div>
                        <div class="form-group">
                             <label for="type">Typ wydarzenia</label>
-                            <select class="form-control" th:field="*{type}">
+                            <select class="form-control selectpicker" th:field="*{type}">
                             	<option th:each="type: ${eventTypes}" th:value="${{type}}" th:text="${type}">Brak</option>
                             </select>
                             <span style='display: none;' id="type-error-message" class="help-block">Proszę wybrać type wydarzenai</span> 
                         </div>
                         <div class="form-group">
                             <label for="category">Kategoria</label>
-                            <select class="form-control" th:field="*{category}">
+                            <select class="form-control selectpicker" data-live-search="true" th:field="*{category}">
                             	<option th:each="category: ${categories}" th:value="${category.id}" th:text="${category.name}">Brak</option>
                             </select>
                             <span style='display: none;' id="category-error-message" class="help-block">Proszę wybrać kategorię wydarzenia</span> 
@@ -84,8 +84,8 @@
                             <label for="city">Miasto</label>
                             <input list="cities" class="form-control" name="city" id="city" th:field="*{address.cityName}">
                             <datalist id="cities">
-<!--                            		<option th:each="city: ${cities}" th:value="${city}">
- -->                            </datalist>
+                            
+							</datalist>
                        		<span style='display: none;' id="city-error-message" class="help-block">Uzupełnij nazwę miasta, w któym odbędzie się szkolenie</span> 
                         </div>
                         <div class="form-group">
@@ -100,23 +100,14 @@
                         </div>
                         
                         <hr/>
-                        <!-- <div class="form-group">
-                        	<label for="isFree">Wydarzenie darmowe</label>
-                       		<input type="checkbox" class="free-event-checkbox form-control" id="isFree" th:field="*{isFree}" />
-                        	
-                       	</div>
-                       	<div class="form-group" id="price-form-group">
-                        	<label for="price">Cena za udział w wydarzeniu (zł)</label>
-                        	<input type="text" class="form-control" id="price" th:field="*{pricePerParticipant}" >
-                        </div> -->
                         <div class="form-group">
                         	<label for="maxParticipants">Maksymalna liczba uczestników</label>
                         	<input type="number" class="form-control" id="maxParticipants" th:field="*{maxParticipants}">
-                        	<span style='display: none;' id="maxParticipants-error-message" class="help-block">Opis może zawierać maksymalnie 250 znaków</span> 
+                        	<span style='display: none;' id="maxParticipants-error-message" class="help-block">Podaj maksymalną liczbę uczestników</span> 
                         </div>
                
                         <div class="text-center">
-                            <button type="submit" class="btn btn-default">Utwórz wydarzenie</button>
+                            <button type="submit" onclick="return validateForm()" class="btn btn-default">Utwórz wydarzenie</button>
                         </div>
                     </form>
                 </div>

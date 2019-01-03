@@ -228,12 +228,18 @@ public class EventController extends BasicController {
     		error = true;
     	}
     	
-    	Duration duration = Duration.between(testDate.atStartOfDay(), event.getStartDate().atStartOfDay());
-    	long diff = Math.abs(duration.toDays());
-    	if (diff > 180) {
-    		/*redirectAttributes.addFlashAttribute("message", "Proszę podać datę wydarzenia maksymalnie do pół roku wprzód");
-    		redirectAttributes.addFlashAttribute("event", event);
-    		return false;*/
+    	try {
+    		
+    	
+			Duration duration = Duration.between(testDate.atStartOfDay(), event.getStartDate().atStartOfDay());
+			long diff = Math.abs(duration.toDays());
+			if (diff > 180) {
+				/*redirectAttributes.addFlashAttribute("message", "Proszę podać datę wydarzenia maksymalnie do pół roku wprzód");
+				redirectAttributes.addFlashAttribute("event", event);
+				return false;*/
+				error = true;
+			}
+    	} catch (NullPointerException e) {
     		error = true;
     	}
     	if (error) {
