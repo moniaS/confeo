@@ -31,8 +31,7 @@
                          th:text="${successRegisterMessage}"></div>
                     <div th:if="${errorRegisterMessage}" class="error-message" role="alert"
                          th:text="${errorRegisterMessage}"></div>
-                    <form th:action="@{/register}" th:object="${registerUser}" method="post"
-                          onsubmit="return areTermsOfUseSumbitted()">
+                    <form th:action="@{/register}" th:object="${registerUser}" method="post">
                         <ul class="user-role-radio-button">
                             <li th:each="role : ${roles}" class="radio-inline">
                                 <input type="radio" class="role-radio-button" th:field="*{role}"
@@ -85,7 +84,7 @@
                         <div class="form-group terms-of-use-block">
                             <label for="register-checkbox" class="register-checkbox-label">
                                 <input type="checkbox" class="form-control" id="register-checkbox"
-                                       name="register-checkbox" onclick="areTermsOfUseSumbitted()">
+                                       name="register-checkbox" th:field="*{areTermsAccepted}">
                                 &nbsp;&nbsp;Akceptuję warunki <a th:href="@{/terms-of-use}"> regulaminu</a> serwisu
                             </label>
                             <span style='display: none;' id="terms-error-message" class="help-block">Zaakceptuj regulamin aby kontynuowac.</span>

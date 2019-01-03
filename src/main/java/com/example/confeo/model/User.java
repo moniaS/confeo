@@ -28,6 +28,7 @@ public class User implements UserDetails {
     private String password;
     private String firstname;
     private String lastname;
+    private Boolean areTermsAccepted;
     @Enumerated(EnumType.STRING)
     private Role role;
     @ManyToMany(mappedBy = "users")

@@ -77,6 +77,9 @@ public class UserController extends BasicController {
         if (user.getRole() == null) {
             isFormValid = false;
         }
+        if (user.getAreTermsAccepted() == null || !user.getAreTermsAccepted()) {
+            isFormValid = false;
+        }
         return isFormValid;
     }
 
