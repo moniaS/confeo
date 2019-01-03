@@ -131,7 +131,7 @@ function validateRegisterPassword() {
 function isPasswordFormatCorrect(selector) {
     var element = $(selector);
     var value = element.val();
-    var lengthCondition = value.length > 8;
+    var lengthCondition = value.length >= 8;
     var lowerLetterCondition = value.match(/[a-z]/);
     var capitalLetterCondition = value.match(/[A-Z]/);
     var numberCondition = value.match(/\d/);
