@@ -26,12 +26,16 @@ $(function() {
 	
 	$('#startDate').change(function() {
 		validateStartDate('#startDate');
-		validateEndDate('#endDate');
+		if ($('#endDate').val() != '') {
+			validateEndDate('#endDate');
+		}
 	});
 	
 	$('#endDate').change(function() {
 		validateEndDate('#endDate');
-		validateStartDate('#startDate');
+		if ($('#startDate').val() != '') {
+			validateStartDate('#startDate');
+		}
 	});
 	
 	$('#type').change(function() {
