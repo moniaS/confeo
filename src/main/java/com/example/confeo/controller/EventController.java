@@ -245,9 +245,8 @@ public class EventController extends BasicController {
     }
     
     
-    @RequestMapping(value = "/search-city", method = RequestMethod.GET)
-	public @ResponseBody
-	List<String> searchCities(@RequestParam(value = "cityName", required = true) String cityName) {
+    @RequestMapping(value = "/cities/search")
+	public @ResponseBody List<String> searchCities(@RequestParam("cityName") String cityName) {
 		List<String> cities = cityService.filterCities(cityName);
 		return cities;
 	}

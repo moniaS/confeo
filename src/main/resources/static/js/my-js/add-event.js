@@ -211,18 +211,34 @@ $(document).ready(function() {
         $('#chars_description').html(text_length + ' / 250');
     });
     
-    
-    $( '.bs-searchbox input' ).change(function() {
-    	console.log('halo');
-    	searchCities(this.val());
-    });
+ 
+});
+
+$(document).ready(function() {
+	$('#city').on('input', function() {
+		if ($(this).val().length == 4) {
+			$.getJSON('/cities/search', {
+				cityName : $(this).val(),
+				ajax : 'true'
+			})
+			.done(function(data) {	
+				var selectNode = document.getElementById("cities");
+				while (selectNode.firstChild) {
+					selectNode.removeChild(selectNode.firstChild);
+				}
+				$.each(data, function(i, item) {
+					$('#cities').append($('<option>').attr("value", item).text(item))
+				});
+			})
+			.error(function(jqXHR, textStatus, errorThrown) {
+		        console.log("error " + textStatus);
+		    });
+		}
+	});
 });
 
 
 
-function searchCities(cityName) {
-	console.log('szukam miast z tekstem: ' + cityName);
-}
 
 	
 	

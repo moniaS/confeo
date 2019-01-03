@@ -84,8 +84,8 @@
                             <label for="city">Miasto</label>
                             <input list="cities" class="form-control" name="city" id="city" th:field="*{address.cityName}">
                             <datalist id="cities">
-                            		<option th:each="city: ${cities}" th:value="${city}">
-                            </datalist>
+<!--                            		<option th:each="city: ${cities}" th:value="${city}">
+ -->                            </datalist>
                        		<span style='display: none;' id="city-error-message" class="help-block">Uzupełnij nazwę miasta, w któym odbędzie się szkolenie</span> 
                         </div>
                         <div class="form-group">
