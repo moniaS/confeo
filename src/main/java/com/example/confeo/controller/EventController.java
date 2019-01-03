@@ -3,12 +3,14 @@ package com.example.confeo.controller;
 import com.example.confeo.exception.CannotSignUpOnCanceledEvent;
 import com.example.confeo.exception.ParticipantsLimitReached;
 import com.example.confeo.form.EventSearchForm;
+import com.example.confeo.model.City;
 import com.example.confeo.model.Event;
 import com.example.confeo.model.EventType;
 import com.example.confeo.model.Role;
 import com.example.confeo.model.User;
 import com.example.confeo.pdf.PdfGenerator;
 import com.example.confeo.service.CategoryService;
+import com.example.confeo.service.CityService;
 import com.example.confeo.service.EventService;
 import com.example.confeo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,7 @@ import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
 
 
@@ -39,12 +42,14 @@ public class EventController extends BasicController {
     private EventService eventService;
     private final CategoryService categoryService;
     private final UserService userService;
+    private final CityService cityService;
 
     @Autowired
-    public EventController(EventService eventService, CategoryService categoryService, UserService userService) {
+    public EventController(EventService eventService, CategoryService categoryService, UserService userService, CityService cityService) {
         this.eventService = eventService;
         this.categoryService = categoryService;
         this.userService = userService;
+        this.cityService = cityService;
     }
 
     @RequestMapping("/events")
@@ -74,6 +79,10 @@ public class EventController extends BasicController {
     	}
         model.addAttribute("eventTypes", EventType.values());
         model.addAttribute("categories", categoryService.findAll());
+        /*for (String city: cityService.findAllCities()){
+        	System.out.println(city);
+        }*/
+        model.addAttribute("cities", cityService.findAllCities());
         return "add-event";
     }
 
@@ -234,6 +243,14 @@ public class EventController extends BasicController {
     	}
     	return true;
     }
+    
+    
+    @RequestMapping(value = "/search-city", method = RequestMethod.GET)
+	public @ResponseBody
+	List<String> searchCities(@RequestParam(value = "cityName", required = true) String cityName) {
+		List<String> cities = cityService.filterCities(cityName);
+		return cities;
+	}
     
     
 }

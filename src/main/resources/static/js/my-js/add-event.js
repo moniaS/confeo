@@ -210,7 +210,19 @@ $(document).ready(function() {
         var text_length = $('#description').val().length;
         $('#chars_description').html(text_length + ' / 250');
     });
+    
+    
+    $( '.bs-searchbox input' ).change(function() {
+    	console.log('halo');
+    	searchCities(this.val());
+    });
 });
+
+
+
+function searchCities(cityName) {
+	console.log('szukam miast z tekstem: ' + cityName);
+}
 
 	
 	

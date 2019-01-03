@@ -17,4 +17,8 @@ public class CityService {
 		return cityRepository.findDistinctCityNames();
 	}
 	
+	public List<String> filterCities(String name){
+		return cityRepository.filterCityNames(name);
+	}
+	
 }
