@@ -3225,3 +3225,11 @@ ul.footer-blog li {
 .field-obligatory-star {
     color: #fa001c;
 }
+
+.toggle-password {
+    cursor: pointer;
+}
+
+#password-requirements ul {
+    padding-left: 2px;
+}

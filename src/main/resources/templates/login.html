@@ -31,8 +31,7 @@
                          th:text="${successRegisterMessage}"></div>
                     <div th:if="${errorRegisterMessage}" class="error-message" role="alert"
                          th:text="${errorRegisterMessage}"></div>
-                    <form th:action="@{/register}" th:object="${registerUser}" method="post"
-                          onsubmit="return areTermsOfUseSumbitted()">
+                    <form th:action="@{/register}" th:object="${registerUser}" method="post">
                         <ul class="user-role-radio-button">
                             <li th:each="role : ${roles}" class="radio-inline">
                                 <input type="radio" class="role-radio-button" th:field="*{role}"
@@ -60,18 +59,18 @@
                             <label for="register-email">Email <span class="field-obligatory-star">*</span></label>
                             <input type="text" class="form-control" id="register-email" th:field="*{email}">
                             <span style='display: none;' id="register-email-error-message-empty" class="help-block">Podanie adresu email jest wymagane.</span>
-                            <span style='display: none;' id="register-email-error-message-invalid" class="help-block">Wprowadz prawidlowy adres email.</span>
+                            <span style='display: none;' id="register-email-error-message-invalid" class="help-block">Wprowadź prawidłowy adres email.</span>
                             <img class="valid-icon input-icon" style="display: none" th:src="@{/img/tick.png}" alt="Valid field icon">
                             <img class="invalid-icon input-icon" style="display: none" th:src="@{/img/invalid.png}" alt="Invalid field icon">
                         </div>
                         <div class="form-group">
                             <label for="register-password">Hasło <span class="field-obligatory-star">*</span></label>
                             <input type="password" class="form-control" id="register-password" th:field="*{password}">
-                            <span toggle="#register-password" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                            <span toggle="#register-password" class="fa fa-fw fa-eye field-icon toggle-password" title="Pokaż hasło"></span>
                             <span style='display: none;' id="register-password-error-message-empty" class="help-block">Podanie hasla jest wymagane.</span>
                             <span style='display: none;' id="register-password-error-message-invalid"
-                                  class="help-block">Minimalna dlugosc hasla to 8 znakow. Haslo musi zawierac
-                                co najmniej jedna mala i wielka litere oraz cyfre</span>
+                                  class="help-block">Minimalna długość hasła to 8 znaków.<br> Hasło musi zawierać
+                                co najmniej jedną małą i wielką literę oraz cyfrę</span>
                             <div id="password-requirements">
                                 <span>Hasło musi spełniać następujące wymagania:</span>
                                 <ul>
@@ -85,10 +84,10 @@
                         <div class="form-group terms-of-use-block">
                             <label for="register-checkbox" class="register-checkbox-label">
                                 <input type="checkbox" class="form-control" id="register-checkbox"
-                                       name="register-checkbox" onclick="areTermsOfUseSumbitted()">
-                                &nbsp;&nbsp;Akceptuję warunki <a th:href="@{/terms-of-use}"> regulaminu</a> serwisu
+                                       name="register-checkbox" th:field="*{areTermsAccepted}">
+                                &nbsp;&nbsp;Akceptuję warunki <a th:href="@{/terms-of-use}"> regulaminu</a> serwisu <span class="field-obligatory-star">*</span>
                             </label>
-                            <span style='display: none;' id="terms-error-message" class="help-block">Zaakceptuj regulamin aby kontynuowac.</span>
+                            <span style='display: none;' id="terms-error-message" class="help-block">Zaakceptuj regulamin aby kontynuować.</span>
                         </div>
                         <div class="text-center">
                             <button type="submit" class="btn btn-default" onclick="return validateRegisterForm()">
@@ -107,17 +106,19 @@
                          role="alert" th:text="${errorLoginMessage}"></div>
                     <form th:action="@{/login}" method="post">
                         <div class="form-group">
-                            <label for="login-email">Email</label>
+                            <label for="login-email">Email <span class="field-obligatory-star">*</span></label>
                             <input type="text" class="form-control" id="login-email" name="username">
+                            <img class="valid-icon input-icon" style="display: none" th:src="@{/img/tick.png}" alt="Valid field icon">
+                            <img class="invalid-icon input-icon" style="display: none" th:src="@{/img/invalid.png}" alt="Invalid field icon">
                             <span style="display: none" id="login-email-error-message-empty" class="help-block">Podanie adresu email jest wymagane.</span>
-                            <span style="display: none" id="login-email-error-message-invalid" class="help-block">Wprowadz prawidlowy adres email.</span>
+                            <span style="display: none" id="login-email-error-message-invalid" class="help-block">Wprowadź prawidłowy adres email.</span>
                         </div>
                         <div class="form-group">
-                            <label for="login-password">Hasło</label>
+                            <label for="login-password">Hasło <span class="field-obligatory-star">*</span></label>
                             <input type="password" class="form-control" id="login-password" name="password">
-                            <span toggle="#login-password" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                            <span toggle="#login-password" class="fa fa-fw fa-eye field-icon toggle-password" title="Pokaż hasło"></span>
                             <span style="display: none" id="login-password-error-message-empty"
-                                  class="help-block">Podanie hasla jest wymagane.</span>
+                                  class="help-block">Podanie hasła jest wymagane.</span>
                         </div>
                         <div class="text-center">
                             <button type="submit" class="btn btn-default" onclick="return validateLoginForm()">
