@@ -27,7 +27,12 @@ public class Event {
     private LocalDate endDate;
     @OneToOne(cascade = CascadeType.ALL)
     private Address address;
-    private String name;
+    /*//zamiast adresu
+    private String streetName;
+    private String streetNumber; //it could be "13/15", so that's why it's String instead of int
+    private String cityName;
+    ///////
+*/    private String name;
     private String description;
     @Enumerated(EnumType.STRING)
     private EventStatus status;

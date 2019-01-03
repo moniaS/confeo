@@ -217,6 +217,9 @@ public class EventService {
 	public void updateEvent(Event updatedEvent) {
     	Event event = findById(updatedEvent.getId());
     	event.setAddress(updatedEvent.getAddress());
+    	/*event.setStreetName(updatedEvent.getStreetName());
+    	event.setStreetNumber(updatedEvent.getStreetNumber());
+    	event.setCityName(updatedEvent.getCityName());*/
     	event.setCategory(updatedEvent.getCategory());
     	event.setDescription(updatedEvent.getDescription());
     	event.setEndDate(updatedEvent.getEndDate());
