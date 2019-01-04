@@ -35,7 +35,8 @@
         <div class="col-md-6 col-md-offset-3">
             <div class="box-for overflow">
                 <div class="col-md-12 col-xs-12 register-blocks">
-               
+                    <div th:if="${errorRegisterMessage}" class="error-message" role="alert"
+                         th:text="${errorRegisterMessage}"></div>
                     <h2>Nowe wydarzenie : </h2>
                     <div th:if="${message}" class="error-message"
                          role="alert" th:text="${message}"></div>

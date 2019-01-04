@@ -2,6 +2,7 @@ package com.example.confeo.controller;
 
 import com.example.confeo.exception.CannotSignUpOnCanceledEvent;
 import com.example.confeo.exception.ParticipantsLimitReached;
+import com.example.confeo.exception.XSSConstraintException;
 import com.example.confeo.form.EventSearchForm;
 import com.example.confeo.model.City;
 import com.example.confeo.model.Event;
@@ -88,14 +89,20 @@ public class EventController extends BasicController {
 
     @PostMapping("/events/add/save")
     public String saveEvent(@ModelAttribute @Valid Event event, BindingResult bindingResult,
-    		RedirectAttributes redirectAttributes) {
+    		RedirectAttributes redirectAttributes){
     	if (!isFormValidated(event, redirectAttributes)){
     		return "redirect:/events/add";
     	}
     	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     	String currentPrincipalName = authentication.getName();
     	event.setOrganiser(userService.findByUsername(currentPrincipalName));
-    	eventService.saveEvent(event);
+        try {
+            eventService.saveEvent(event);
+        } catch (XSSConstraintException e) {
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("errorRegisterMessage", "Formularz zawiera niedozwolone znaki");
+            return "redirect:/events/add";
+        }
         return "redirect:/events/" + event.getId();
     }
 
