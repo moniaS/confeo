@@ -1,52 +1,51 @@
 //walidacja pol po zmianie
-$(function() {
 	
-	$('#name').change(function() {
+$(document).ready(function() {
+	$('#name').on('input', delay(500, function() {
 		validateName('#name');
-	});
+	}));
 	
-	$('#startDate').change(function() {
+	$('#startDate').on('input', delay(500, function() {
 		validateStartDate('#startDate');
 		if ($('#endDate').val() != '') {
 			validateEndDate('#endDate');
 		}
-	});
+	}));
 	
-	$('#endDate').change(function() {
+	$('#endDate').on('input', delay(500, function() {
 		validateEndDate('#endDate');
 		if ($('#startDate').val() != '') {
 			validateStartDate('#startDate');
 		}
-	});
+	}));
 	
-	$('#type').change(function() {
+	$('#type').on('input', delay(500, function() {
 		validateType('#type');
-	});
+	}));
 	
-	$('#category').change(function() {
+	$('#category').on('input', delay(500, function() {
 		validateCategory('#category');
-	})
+	}));
 	
-	$('#description').change(function() {
+	$('#description').on('input', delay(500, function() {
 		validateDescription('#description');
-	})
+	}));
 	
-	$('#street').change(function() {
+	$('#street').on('input', delay(500, function() {
 		validateStreet('#street');
-	})
+	}));
 	
-	$('#street-number').change(function() {
+	$('#street-number').on('input', delay(500, function() {
 		validateStreetNumber('#street-number');
-	})
+	}));
 	
-	$('#city').change(function() {
+	$('#city').on('input', delay(500, function() {
 		validateCity('#city');
-	})
+	}));
 	
-	$('#maxParticipants').change(function() {
+	$('#maxParticipants').on('input', delay(500, function() {
 		validateMaxParticipants('#maxParticipants');
-	})
-	
+	}));
 });
 
 function validateForm(){
@@ -112,57 +111,55 @@ function validateName(selector){
 
 //data musi byc w przyszlosci i musi byc mniejsza od daty zakonczenia
 function validateStartDate(selector){
-	var invalid = false;
 	if ($(selector).val() == ''){
-		invalid = true;
+		makeFieldInvalid(selector);
+		$('#startDate-error-message1').show();
+		return false;
 	}
 	
 	var now = new Date();
 	var startDate = new Date($(selector).val());
 	var endDate = new Date($('#endDate').val());
 	if (startDate <= now || startDate > endDate) {
-		invalid = true;
-	}
-	
-	if (invalid) {
 		makeFieldInvalid(selector);
-		$('#startDate-error-message').show();
+		$('#startDate-error-message2').show();
 		return false;
-	} else {
-		makeFieldValid(selector);
-		$('#startDate-error-message').hide();
-		return true;
 	}
+		
+	makeFieldValid(selector);
+	$('#startDate-error-message1').hide();
+	$('#startDate-error-message2').hide();
+	return true;
 	
 }
 
 //data zakonczenia musi byc wieksza od daty rozpoczecia
 function validateEndDate(selector){
-	var invalid = false;
 	if ($(selector).val() == ''){
-		invalid = true;
+		makeFieldInvalid(selector);
+		$('#endDate-error-message1').show();
+		return false;
 	}
 	
 	var now = new Date();
 	var startDate = new Date($('#startDate').val());
 	var endDate = new Date($(selector).val());
 	if (endDate <= now || endDate < startDate) {
-		invalid = true;
+		makeFieldInvalid(selector);
+		$('#endDate-error-message2').show();
+		return false;
 	}
 	
-	if (invalid) {
-		makeFieldInvalid(selector);
-		$('#endDate-error-message').show();
-		return false;
-	} else {
-		makeFieldValid(selector);
-		$('#endDate-error-message').hide();
-		return true;
-	}
+	makeFieldValid(selector);
+	$('#endDate-error-message1').hide();
+	$('#endDate-error-message2').hide();
+	return true;
+	
 }
 
 //sprawdz czy pole niepuste (choc teoretycznie nigdy nie bedzie puste)
 function validateType(selector){
+
 	if ($(selector).val() == ''){
 		makeFieldInvalid(selector);
 		$('#type-error-message').show();
@@ -176,6 +173,7 @@ function validateType(selector){
 
 //sprawdz czy pole niepuste (choc teoretycznie nigdy nie bedzie puste)
 function validateCategory(selector){
+
 	if ($(selector).val() == ''){
 		makeFieldInvalid(selector);
 		$('#category-error-message').show();
@@ -189,6 +187,7 @@ function validateCategory(selector){
 
 //pole moze byc puste ale nie moze byc wiecej niz 250 znakow
 function validateDescription(selector){
+
 	var text_length = $(selector).val().length;
 	if (text_length > 250){
 		makeFieldInvalid(selector);
@@ -202,6 +201,7 @@ function validateDescription(selector){
 }
 
 function validateStreet(selector){
+
 	if ($(selector).val() == ''){
 		makeFieldInvalid(selector);
 		$('#street-error-message').show();
@@ -214,6 +214,7 @@ function validateStreet(selector){
 }
 
 function validateStreetNumber(selector){
+
 	if ($(selector).val() == ''){
 		makeFieldInvalid(selector);
 		$('#streetNumber-error-message').show();
@@ -233,6 +234,7 @@ function validateCity(selector){
 	} else {
 		makeFieldValid(selector);
 		$('#city-error-message').hide();
+		$('#city-warning-message').hide();
 		return true;
 	}
 }
@@ -277,24 +279,42 @@ $(document).ready(function() {
 				cityName : $(this).val(),
 				ajax : 'true'
 			})
-			.done(function(data) {	
-				var selectNode = document.getElementById("cities");
-				while (selectNode.firstChild) {
-					selectNode.removeChild(selectNode.firstChild);
-				}
-				$.each(data, function(i, item) {
-					$('#cities').append($('<option>').attr("value", item).text(item))
-				});
-			})
-			.error(function(jqXHR, textStatus, errorThrown) {
-		        console.log("error " + textStatus);
-		    });
+				.done(function(data) {	
+					var selectNode = document.getElementById("cities");
+					while (selectNode.firstChild) {
+						selectNode.removeChild(selectNode.firstChild);
+					}
+					$.each(data, function(i, item) {
+						$('#cities').append($('<option>').attr("value", item).text(item))
+					});
+				})
+				.error(function(jqXHR, textStatus, errorThrown) {
+			        console.log("error " + textStatus);
+			    });
 		}
 	});
 });
 
+$(document).ready(function() {
+	$('#city').on('change', function() {
+		console.log('sprawdzam miasto');
+		$.getJSON('/cities/check-if-exists', { cityName: $(this).val() })
+			.done(function(data) {
+				if (data === false){
+					$('#city-warning-message').show();
+				}
+			});
+	});
+});
 
-
-
-	
+function delay(ms, callback, params) {
+    var timer = 0;
+    return function () {
+        var context = this;
+        clearTimeout(timer);
+        timer = setTimeout(function () {
+            callback.apply(context, params);
+        }, ms || 0);
+    };
+}	
 	

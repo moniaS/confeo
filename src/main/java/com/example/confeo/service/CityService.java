@@ -21,4 +21,12 @@ public class CityService {
 		return cityRepository.filterCityNames(name.toLowerCase());
 	}
 	
+	
+	public boolean checkIfCityExists(String name) {
+		if (cityRepository.findCity(name.toLowerCase()).size() > 0) {
+			return true;
+		}
+		return false;
+	}
+	
 }

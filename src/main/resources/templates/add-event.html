@@ -49,12 +49,14 @@
                         <div class="form-group">
                             <label for="startDate">Data rozpoczęcia *</label>
                             <input type="date" class="form-control" id="startDate" th:field="*{startDate}">
-                            <span style='display: none;' id="startDate-error-message" class="help-block">Proszę podać przyszłą datę rozpoczęcia wydarzenia<br/>Data musi być wcześniejsza od daty zakończenia wydarzenia</span> 
+                            <span style='display: none;' id="startDate-error-message1" class="help-block">Proszę podać przyszłą datę rozpoczęcia wydarzenia</span> 
+                            <span style='display: none;' id="startDate-error-message2" class="help-block">Proszę podać przyszłą datę, wcześniejszą lub taką samą jak data zakończenia wydarzenia</span> 
                         </div>
                         <div class="form-group">
                             <label for="endDate">Data zakończenia *</label>
                             <input type="date" class="form-control" id="endDate" th:field="*{endDate}">
-                            <span style='display: none;' id="endDate-error-message" class="help-block">Proszę podać datę zakończenia wydarzenia<br/>Data musi być późniejsza od daty rozpoczęcia wydarzenia</span> 
+                            <span style='display: none;' id="endDate-error-message1" class="help-block">Proszę podać datę zakończenia wydarzenia</span> 
+                            <span style='display: none;' id="endDate-error-message2" class="help-block">Proszę podać datę późniejszą lub taką samą jak data rozpoczęcia wydarzenia</span> 
                         </div>
                        <div class="form-group">
                             <label for="type">Typ wydarzenia</label>
@@ -87,6 +89,7 @@
                             
 							</datalist>
                        		<span style='display: none;' id="city-error-message" class="help-block">Uzupełnij nazwę miasta, w któym odbędzie się szkolenie</span> 
+                       		<span style='display: none;' id="city-warning-message" class="help-warning-block">Nie znaleziono takiego miasta w bazie<br>Upewnij się, że poprawnie wpisałeś nazwę</span> 
                         </div>
                         <div class="form-group">
                             <label for="street">Ulica</label>
@@ -119,9 +122,5 @@
 <nav th:include="common/include :: pageFooter"></nav>
 
 <th:block th:include="common/include :: pageFooterIncludes" />
-
-<script>
-
-</script>
 </body>
 </html>

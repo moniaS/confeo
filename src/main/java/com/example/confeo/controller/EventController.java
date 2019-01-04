@@ -257,5 +257,10 @@ public class EventController extends BasicController {
 		return cities;
 	}
     
+    @RequestMapping(value = "/cities/check-if-exists")
+	public @ResponseBody boolean checkIfCityExists(@RequestParam("cityName") String cityName) {
+		boolean cityExists = cityService.checkIfCityExists(cityName);
+		return cityExists;
+	}
     
 }
