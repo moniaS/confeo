@@ -3,6 +3,7 @@ package com.example.confeo.model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.hibernate.validator.constraints.SafeHtml;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -32,7 +33,10 @@ public class Event {
     private String streetNumber; //it could be "13/15", so that's why it's String instead of int
     private String cityName;
     ///////
-*/    private String name;
+*/
+    @SafeHtml
+    private String name;
+    @SafeHtml
     private String description;
     @Enumerated(EnumType.STRING)
     private EventStatus status;

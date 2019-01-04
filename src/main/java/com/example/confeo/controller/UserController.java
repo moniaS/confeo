@@ -1,6 +1,7 @@
 package com.example.confeo.controller;
 
 import com.example.confeo.exception.EmailAlreadyExists;
+import com.example.confeo.exception.XSSConstraintException;
 import com.example.confeo.model.Role;
 import com.example.confeo.model.User;
 import com.example.confeo.service.UserService;
@@ -11,6 +12,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.validation.ConstraintViolationException;
 import java.util.Arrays;
 import java.util.regex.Pattern;
 import java.util.regex.*;
@@ -48,6 +51,9 @@ public class UserController extends BasicController {
         } catch (EmailAlreadyExists emailAlreadyExists) {
             emailAlreadyExists.printStackTrace();
             redirectAttributes.addFlashAttribute("errorRegisterMessage", "Konto z podanym adresem email już istnieje");
+        } catch (XSSConstraintException e) {
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("errorRegisterMessage", "Formularz zawiera niedozwolone znaki");
         }
         return "redirect:/login";
     }

@@ -3,6 +3,7 @@ package com.example.confeo.model;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.validator.constraints.SafeHtml;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -23,10 +24,14 @@ public class User implements UserDetails {
     private Long id;
     @NotNull
     @Column
+    @SafeHtml
     private String email;
     @NotNull
+    @SafeHtml
     private String password;
+    @SafeHtml
     private String firstname;
+    @SafeHtml
     private String lastname;
     private Boolean areTermsAccepted;
     @Enumerated(EnumType.STRING)
