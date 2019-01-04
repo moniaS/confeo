@@ -2,6 +2,7 @@ package com.example.confeo.service;
 
 import com.example.confeo.exception.CannotSignUpOnCanceledEvent;
 import com.example.confeo.exception.ParticipantsLimitReached;
+import com.example.confeo.exception.XSSConstraintException;
 import com.example.confeo.model.Category;
 import com.example.confeo.model.Event;
 import com.example.confeo.model.EventStatus;
@@ -13,6 +14,8 @@ import com.example.confeo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.RollbackException;
+import javax.validation.ConstraintViolationException;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -198,11 +201,20 @@ public class EventService {
         }
     }
     
-    public void saveEvent(Event event) {
+    public void saveEvent(Event event) throws XSSConstraintException {
     	if (event.getMaxParticipants() == null) event.setMaxParticipants(100);
     	event.setStatus(EventStatus.UPCOMING);
     	//if (event.getIsFree() == true) event.setPricePerParticipant(0);
-    	eventRepository.save(event);
+        try {
+            eventRepository.save(event);
+        } catch (Exception ex) {
+            if (ex.getCause() instanceof RollbackException) {
+                RollbackException rollbackException = (RollbackException) ex.getCause();
+                if (rollbackException.getCause() instanceof ConstraintViolationException) {
+                    throw new XSSConstraintException();
+                }
+            }
+        }
     }
 
 	public Event findById(long id) {
