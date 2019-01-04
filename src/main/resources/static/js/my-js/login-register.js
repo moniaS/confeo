@@ -1,20 +1,18 @@
 $('.role-radio-button').on('click', isUserRoleValid);
 
-$('#firstname').on('input', delay(500, isFirstnameValid));
+$('#firstname').on('input', delay(500, validateFirstname));
 
-$('#lastname').on('input', delay(500, isLastnameValid));
+$('#lastname').on('input', delay(500, validateLastname));
 
-$('#register-email').on('input', delay(1000, isEmailValid, [false]));
+$('#register-email').on('input', delay(1000, validateEmail, [false]));
 
-$('#register-password').on('input', delay(500, isRegisterPasswordValid, [false]));
+$('#register-password').on('input', delay(500, validateRegisterPassword));
 
 $('#register-password').on('change', function () {
     $("#password-requirements").find('li').addClass('invalid');
 });
 
 $('#register-password').on('focus', function () {
-    $("#register-password-error-message-empty").hide();
-    $("#register-password-error-message-invalid").hide();
     $("#password-requirements").show();
 });
 
@@ -57,6 +55,7 @@ function isUserRoleValid() {
 function areTermsOfUseSumbitted() {
     if (document.getElementById("register-checkbox").checked === true) {
         $('.terms-of-use-block .register-checkbox-label').css({"border": "none"});
+        $("#terms-error-message").hide();
         return true;
     } else {
         $('.terms-of-use-block .register-checkbox-label').css({
@@ -111,17 +110,12 @@ function isLastnameValid() {
 
 function validateRegisterPassword() {
     var selector = '#register-password';
-    var emptyMessageErrorSelector = '#register-password-error-message-empty';
-    var invalidMessageErrorSelector = '#register-password-error-message-invalid';
-
     var isNotEmptyField = isNotEmpty(selector);
     var isCorrectFormat = isPasswordFormatCorrect(selector);
     if (!isNotEmptyField) {
-        $(emptyMessageErrorSelector).show();
         makeFieldInvalid(selector);
     } else {
         if (!isCorrectFormat) {
-            $(invalidMessageErrorSelector).show();
             makeFieldInvalid(selector);
         }
     }
@@ -164,29 +158,6 @@ function isPasswordFormatCorrect(selector) {
     }
 
     return lengthCondition && lowerLetterCondition && capitalLetterCondition && numberCondition;
-}
-
-function isRegisterPasswordValid() {
-    var selector = '#register-password';
-    var emptyMessageErrorSelector = '#register-password-error-message-empty';
-    var invalidMessageErrorSelector = '#register-password-error-message-invalid';
-
-    var isNotEmptyField = isNotEmpty(selector);
-    var isCorrectFormat = isPasswordFormatCorrect(selector);
-    var condition = isNotEmptyField && isCorrectFormat;
-    if (isNotEmptyField || isCorrectFormat) {
-        makeFieldValid(selector);
-        $(emptyMessageErrorSelector).hide();
-        $(invalidMessageErrorSelector).hide();
-        if (condition) {
-            makeFieldValid(selector);
-        } else {
-            makeFieldInvalid(selector);
-        }
-    } else {
-        makeFieldInvalid(selector);
-    }
-    return condition;
 }
 
 function validateRegisterForm() {
@@ -277,7 +248,6 @@ function validateEmail(isLoginForm) {
         emptyMessageErrorSelector = '#login-email-error-message-empty';
         invalidMessageErrorSelector = "#login-email-error-message-invalid";
     } else {
-        $("#password-requirements").hide();
         selector = '#register-email';
         emptyMessageErrorSelector = '#register-email-error-message-empty';
         invalidMessageErrorSelector = "#register-email-error-message-invalid";
@@ -285,12 +255,18 @@ function validateEmail(isLoginForm) {
     var isNotEmptyField = isNotEmpty(selector);
     var isCorrectFormat = isEmailFormatCorrect(selector);
     if (!isNotEmptyField) {
+        $(invalidMessageErrorSelector).hide();
         $(emptyMessageErrorSelector).show();
         makeFieldInvalid(selector);
     } else {
         if (!isCorrectFormat) {
+            $(emptyMessageErrorSelector).hide();
             $(invalidMessageErrorSelector).show();
             makeFieldInvalid(selector);
+        } else {
+            $(emptyMessageErrorSelector).hide();
+            $(invalidMessageErrorSelector).hide();
+            makeFieldValid(selector);
         }
     }
     return (isNotEmptyField && isCorrectFormat);

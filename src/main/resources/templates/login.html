@@ -26,11 +26,11 @@
             <div class="box-for overflow">
                 <div class="col-md-12 col-xs-12 register-blocks">
                     <h2>Zarejestruj : </h2>
-
                     <div th:if="${successRegisterMessage}" class="success-message" role="alert"
                          th:text="${successRegisterMessage}"></div>
                     <div th:if="${errorRegisterMessage}" class="error-message" role="alert"
                          th:text="${errorRegisterMessage}"></div>
+                    <div class="obligatory-fields-message">Pola oznaczone gwiazdką (<span class="field-obligatory-star">*</span>) są obowiązkowe</div>
                     <form th:action="@{/register}" th:object="${registerUser}" method="post">
                         <ul class="user-role-radio-button">
                             <li th:each="role : ${roles}" class="radio-inline">
@@ -67,10 +67,6 @@
                             <label for="register-password">Hasło <span class="field-obligatory-star">*</span></label>
                             <input type="password" class="form-control" id="register-password" th:field="*{password}">
                             <span toggle="#register-password" class="fa fa-fw fa-eye field-icon toggle-password" title="Pokaż hasło"></span>
-                            <span style='display: none;' id="register-password-error-message-empty" class="help-block">Podanie hasla jest wymagane.</span>
-                            <span style='display: none;' id="register-password-error-message-invalid"
-                                  class="help-block">Minimalna długość hasła to 8 znaków.<br> Hasło musi zawierać
-                                co najmniej jedną małą i wielką literę oraz cyfrę</span>
                             <div id="password-requirements">
                                 <span>Hasło musi spełniać następujące wymagania:</span>
                                 <ul>

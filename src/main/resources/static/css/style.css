@@ -3233,3 +3233,7 @@ ul.footer-blog li {
 #password-requirements ul {
     padding-left: 2px;
 }
+
+.obligatory-fields-message {
+    margin-bottom: 8px;
+}
