@@ -35,39 +35,40 @@
         <div class="col-md-6 col-md-offset-3">
             <div class="box-for overflow">
                 <div class="col-md-12 col-xs-12 register-blocks">
-                    <div th:if="${errorRegisterMessage}" class="error-message" role="alert"
-                         th:text="${errorRegisterMessage}"></div>
                     <h2>Nowe wydarzenie : </h2>
+                    <div class="obligatory-fields-message">Pola oznaczone gwiazdką (<span class="field-obligatory-star">*</span>) są obowiązkowe</div>
+                    <div th:if="${errorMessage}" class="error-message" role="alert"
+                         th:text="${errorMessage}"></div>
                     <div th:if="${message}" class="error-message"
                          role="alert" th:text="${message}"></div>
                     <form th:action="@{/events/add/save}" th:object="${event}" method="post">
                         <div class="form-group">
-                            <label for="name">Nazwa *</label>
+                            <label for="name">Nazwa <span class="field-obligatory-star">*</span></label>
                             <input type="text" class="form-control" id="name" th:field="*{name}">
                              <p th:if="${#fields.hasErrors('name')}" class="label label-danger" th:errors="*{name}">Należy podać imię wydarzenia</p>
                         	<span style='display: none;' id="name-error-message" class="help-block">Proszę podać nazwę wydarzenia</span> 
                         </div>
                         <div class="form-group">
-                            <label for="startDate">Data rozpoczęcia *</label>
+                            <label for="startDate">Data rozpoczęcia <span class="field-obligatory-star">*</span></label>
                             <input type="date" class="form-control" id="startDate" th:field="*{startDate}">
                             <span style='display: none;' id="startDate-error-message1" class="help-block">Proszę podać przyszłą datę rozpoczęcia wydarzenia</span> 
                             <span style='display: none;' id="startDate-error-message2" class="help-block">Proszę podać przyszłą datę, wcześniejszą lub taką samą jak data zakończenia wydarzenia</span> 
                         </div>
                         <div class="form-group">
-                            <label for="endDate">Data zakończenia *</label>
+                            <label for="endDate">Data zakończenia <span class="field-obligatory-star">*</span></label>
                             <input type="date" class="form-control" id="endDate" th:field="*{endDate}">
                             <span style='display: none;' id="endDate-error-message1" class="help-block">Proszę podać datę zakończenia wydarzenia</span> 
                             <span style='display: none;' id="endDate-error-message2" class="help-block">Proszę podać datę późniejszą lub taką samą jak data rozpoczęcia wydarzenia</span> 
                         </div>
                        <div class="form-group">
-                            <label for="type">Typ wydarzenia</label>
+                            <label for="type">Typ wydarzenia <span class="field-obligatory-star">*</span></label>
                             <select class="form-control selectpicker" th:field="*{type}">
                             	<option th:each="type: ${eventTypes}" th:value="${{type}}" th:text="${type}">Brak</option>
                             </select>
-                            <span style='display: none;' id="type-error-message" class="help-block">Proszę wybrać type wydarzenai</span> 
+                            <span style='display: none;' id="type-error-message" class="help-block">Proszę wybrać typ wydarzenia</span>
                         </div>
                         <div class="form-group">
-                            <label for="category">Kategoria</label>
+                            <label for="category">Kategoria <span class="field-obligatory-star">*</span></label>
                             <select class="form-control selectpicker" data-live-search="true" th:field="*{category}">
                             	<option th:each="category: ${categories}" th:value="${category.id}" th:text="${category.name}">Brak</option>
                             </select>
@@ -84,7 +85,7 @@
                         <div class="text-uppercase">Miejsce szkolenia</div>
                         
                         <div class="form-group">
-                            <label for="city">Miasto</label>
+                            <label for="city">Miasto <span class="field-obligatory-star">*</span></label>
                             <input list="cities" class="form-control" name="city" id="city" th:field="*{address.cityName}">
                             <datalist id="cities">
                             
@@ -93,19 +94,19 @@
                        		<span style='display: none;' id="city-warning-message" class="help-warning-block">Nie znaleziono takiego miasta w bazie<br>Upewnij się, że poprawnie wpisałeś nazwę</span> 
                         </div>
                         <div class="form-group">
-                            <label for="street">Ulica</label>
+                            <label for="street">Ulica <span class="field-obligatory-star">*</span></label>
                             <input type="text" class="form-control" name="street" id="street" th:field="*{address.streetName}">
                         	<span style='display: none;' id="street-error-message" class="help-block">Uzupełnij dane adresowe</span> 
                         </div>
                         <div class="form-group">
-                            <label for="street-number">Numer ulicy</label>
+                            <label for="street-number">Numer ulicy <span class="field-obligatory-star">*</span></label>
                             <input type="text" class="form-control" name="streetNumber" id="street-number" th:field="*{address.streetNumber}">
                         	<span style='display: none;' id="streetNumber-error-message" class="help-block">Uzupełnij dane adresowe</span> 
                         </div>
                         
                         <hr/>
                         <div class="form-group">
-                        	<label for="maxParticipants">Maksymalna liczba uczestników</label>
+                        	<label for="maxParticipants">Maksymalna liczba uczestników <span class="field-obligatory-star">*</span></label>
                         	<input type="number" class="form-control" id="maxParticipants" th:field="*{maxParticipants}">
                         	<span style='display: none;' id="maxParticipants-error-message" class="help-block">Podaj maksymalną liczbę uczestników</span> 
                         </div>

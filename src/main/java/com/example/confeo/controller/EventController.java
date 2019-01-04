@@ -100,7 +100,7 @@ public class EventController extends BasicController {
             eventService.saveEvent(event);
         } catch (XSSConstraintException e) {
             e.printStackTrace();
-            redirectAttributes.addFlashAttribute("errorRegisterMessage", "Formularz zawiera niedozwolone znaki");
+            redirectAttributes.addFlashAttribute("errorMessage", "Formularz zawiera niedozwolone znaki");
             return "redirect:/events/add";
         }
         return "redirect:/events/" + event.getId();
