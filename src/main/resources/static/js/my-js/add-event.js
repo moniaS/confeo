@@ -98,7 +98,6 @@ function validateForm(){
 }
 
 function validateName(selector){
-	console.log('waliduje imie');
 	if ($(selector).val() == ''){
 		makeFieldInvalid(selector);
 		$('#name-error-message').show();
@@ -112,60 +111,54 @@ function validateName(selector){
 
 //data musi byc w przyszlosci i musi byc mniejsza od daty zakonczenia
 function validateStartDate(selector){
-	console.log('waliduje start date');
-	var invalid = false;
 	if ($(selector).val() == ''){
-		invalid = true;
+		makeFieldInvalid(selector);
+		$('#startDate-error-message1').show();
+		return false;
 	}
 	
 	var now = new Date();
 	var startDate = new Date($(selector).val());
 	var endDate = new Date($('#endDate').val());
 	if (startDate <= now || startDate > endDate) {
-		invalid = true;
-	}
-	
-	if (invalid) {
 		makeFieldInvalid(selector);
-		$('#startDate-error-message').show();
+		$('#startDate-error-message2').show();
 		return false;
-	} else {
-		makeFieldValid(selector);
-		$('#startDate-error-message').hide();
-		return true;
 	}
+		
+	makeFieldValid(selector);
+	$('#startDate-error-message1').hide();
+	$('#startDate-error-message2').hide();
+	return true;
 	
 }
 
 //data zakonczenia musi byc wieksza od daty rozpoczecia
 function validateEndDate(selector){
-	console.log('waliduje koncowa date');
-	var invalid = false;
 	if ($(selector).val() == ''){
-		invalid = true;
+		makeFieldInvalid(selector);
+		$('#endDate-error-message1').show();
+		return false;
 	}
 	
 	var now = new Date();
 	var startDate = new Date($('#startDate').val());
 	var endDate = new Date($(selector).val());
 	if (endDate <= now || endDate < startDate) {
-		invalid = true;
+		makeFieldInvalid(selector);
+		$('#endDate-error-message2').show();
+		return false;
 	}
 	
-	if (invalid) {
-		makeFieldInvalid(selector);
-		$('#endDate-error-message').show();
-		return false;
-	} else {
-		makeFieldValid(selector);
-		$('#endDate-error-message').hide();
-		return true;
-	}
+	makeFieldValid(selector);
+	$('#endDate-error-message1').hide();
+	$('#endDate-error-message2').hide();
+	return true;
+	
 }
 
 //sprawdz czy pole niepuste (choc teoretycznie nigdy nie bedzie puste)
 function validateType(selector){
-	console.log('waliduje typ');
 
 	if ($(selector).val() == ''){
 		makeFieldInvalid(selector);
@@ -180,7 +173,6 @@ function validateType(selector){
 
 //sprawdz czy pole niepuste (choc teoretycznie nigdy nie bedzie puste)
 function validateCategory(selector){
-	console.log('waliduje kategorie');
 
 	if ($(selector).val() == ''){
 		makeFieldInvalid(selector);
@@ -195,7 +187,6 @@ function validateCategory(selector){
 
 //pole moze byc puste ale nie moze byc wiecej niz 250 znakow
 function validateDescription(selector){
-	console.log('waliduje opis');
 
 	var text_length = $(selector).val().length;
 	if (text_length > 250){
@@ -210,7 +201,6 @@ function validateDescription(selector){
 }
 
 function validateStreet(selector){
-	console.log('waliduje ulice');
 
 	if ($(selector).val() == ''){
 		makeFieldInvalid(selector);
@@ -224,7 +214,6 @@ function validateStreet(selector){
 }
 
 function validateStreetNumber(selector){
-	console.log('waliduje numer ulicy');
 
 	if ($(selector).val() == ''){
 		makeFieldInvalid(selector);
@@ -245,12 +234,12 @@ function validateCity(selector){
 	} else {
 		makeFieldValid(selector);
 		$('#city-error-message').hide();
+		$('#city-warning-message').hide();
 		return true;
 	}
 }
 
 function validateMaxParticipants(selector){
-	console.log('waliduje max uczestnikow');
 	if ($(selector).val() == '' || $(selector).val() < 1){
 		makeFieldInvalid(selector);
 		$('#maxParticipants-error-message').show();
@@ -290,19 +279,31 @@ $(document).ready(function() {
 				cityName : $(this).val(),
 				ajax : 'true'
 			})
-			.done(function(data) {	
-				var selectNode = document.getElementById("cities");
-				while (selectNode.firstChild) {
-					selectNode.removeChild(selectNode.firstChild);
-				}
-				$.each(data, function(i, item) {
-					$('#cities').append($('<option>').attr("value", item).text(item))
-				});
-			})
-			.error(function(jqXHR, textStatus, errorThrown) {
-		        console.log("error " + textStatus);
-		    });
+				.done(function(data) {	
+					var selectNode = document.getElementById("cities");
+					while (selectNode.firstChild) {
+						selectNode.removeChild(selectNode.firstChild);
+					}
+					$.each(data, function(i, item) {
+						$('#cities').append($('<option>').attr("value", item).text(item))
+					});
+				})
+				.error(function(jqXHR, textStatus, errorThrown) {
+			        console.log("error " + textStatus);
+			    });
 		}
+	});
+});
+
+$(document).ready(function() {
+	$('#city').on('change', function() {
+		console.log('sprawdzam miasto');
+		$.getJSON('/cities/check-if-exists', { cityName: $(this).val() })
+			.done(function(data) {
+				if (data === false){
+					$('#city-warning-message').show();
+				}
+			});
 	});
 });
 
@@ -315,10 +316,5 @@ function delay(ms, callback, params) {
             callback.apply(context, params);
         }, ms || 0);
     };
-}
-
-
-
-
-	
+}	
 	

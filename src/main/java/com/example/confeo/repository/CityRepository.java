@@ -16,4 +16,6 @@ public interface CityRepository extends JpaRepository<City, Long> {
     @Query("select distinct c.nazwa from City c where lower(c.nazwa) like %:name%")
     List<String> filterCityNames(@Param("name") String name);
     
+    @Query("select c.nazwa from City c where lower(c.nazwa) = :name")
+    List<String> findCity(@Param("name") String name);
 }

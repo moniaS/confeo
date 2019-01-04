@@ -3,6 +3,11 @@
 	font-weight: bold;
 }
 
+.help-warning-block {
+	color: orange;
+	font-weight: bold;
+}
+
 .text-right {
 	float: right;
 }
