@@ -62,14 +62,14 @@
                         </div>
                        <div class="form-group">
                             <label for="type">Typ wydarzenia <span class="field-obligatory-star">*</span></label>
-                            <select class="form-control selectpicker" th:field="*{type}">
+                            <select class="form-control selectpicker" th:field="*{type}" title="Wybierz typ">
                             	<option th:each="type: ${eventTypes}" th:value="${{type}}" th:text="${type}">Brak</option>
                             </select>
                             <span style='display: none;' id="type-error-message" class="help-block">Proszę wybrać typ wydarzenia</span>
                         </div>
                         <div class="form-group">
                             <label for="category">Kategoria <span class="field-obligatory-star">*</span></label>
-                            <select class="form-control selectpicker" data-live-search="true" th:field="*{category}">
+                            <select class="form-control selectpicker" data-live-search="true" th:field="*{category}" title="Wybierz kategorię">
                             	<option th:each="category: ${categories}" th:value="${category.id}" th:text="${category.name}">Brak</option>
                             </select>
                             <span style='display: none;' id="category-error-message" class="help-block">Proszę wybrać kategorię wydarzenia</span> 
