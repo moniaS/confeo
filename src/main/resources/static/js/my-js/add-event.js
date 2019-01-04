@@ -1,52 +1,51 @@
 //walidacja pol po zmianie
-$(function() {
 	
-	$('#name').change(function() {
+$(document).ready(function() {
+	$('#name').on('input', delay(500, function() {
 		validateName('#name');
-	});
+	}));
 	
-	$('#startDate').change(function() {
+	$('#startDate').on('input', delay(500, function() {
 		validateStartDate('#startDate');
 		if ($('#endDate').val() != '') {
 			validateEndDate('#endDate');
 		}
-	});
+	}));
 	
-	$('#endDate').change(function() {
+	$('#endDate').on('input', delay(500, function() {
 		validateEndDate('#endDate');
 		if ($('#startDate').val() != '') {
 			validateStartDate('#startDate');
 		}
-	});
+	}));
 	
-	$('#type').change(function() {
+	$('#type').on('input', delay(500, function() {
 		validateType('#type');
-	});
+	}));
 	
-	$('#category').change(function() {
+	$('#category').on('input', delay(500, function() {
 		validateCategory('#category');
-	})
+	}));
 	
-	$('#description').change(function() {
+	$('#description').on('input', delay(500, function() {
 		validateDescription('#description');
-	})
+	}));
 	
-	$('#street').change(function() {
+	$('#street').on('input', delay(500, function() {
 		validateStreet('#street');
-	})
+	}));
 	
-	$('#street-number').change(function() {
+	$('#street-number').on('input', delay(500, function() {
 		validateStreetNumber('#street-number');
-	})
+	}));
 	
-	$('#city').change(function() {
+	$('#city').on('input', delay(500, function() {
 		validateCity('#city');
-	})
+	}));
 	
-	$('#maxParticipants').change(function() {
+	$('#maxParticipants').on('input', delay(500, function() {
 		validateMaxParticipants('#maxParticipants');
-	})
-	
+	}));
 });
 
 function validateForm(){
@@ -99,6 +98,7 @@ function validateForm(){
 }
 
 function validateName(selector){
+	console.log('waliduje imie');
 	if ($(selector).val() == ''){
 		makeFieldInvalid(selector);
 		$('#name-error-message').show();
@@ -112,6 +112,7 @@ function validateName(selector){
 
 //data musi byc w przyszlosci i musi byc mniejsza od daty zakonczenia
 function validateStartDate(selector){
+	console.log('waliduje start date');
 	var invalid = false;
 	if ($(selector).val() == ''){
 		invalid = true;
@@ -138,6 +139,7 @@ function validateStartDate(selector){
 
 //data zakonczenia musi byc wieksza od daty rozpoczecia
 function validateEndDate(selector){
+	console.log('waliduje koncowa date');
 	var invalid = false;
 	if ($(selector).val() == ''){
 		invalid = true;
@@ -163,6 +165,8 @@ function validateEndDate(selector){
 
 //sprawdz czy pole niepuste (choc teoretycznie nigdy nie bedzie puste)
 function validateType(selector){
+	console.log('waliduje typ');
+
 	if ($(selector).val() == ''){
 		makeFieldInvalid(selector);
 		$('#type-error-message').show();
@@ -176,6 +180,8 @@ function validateType(selector){
 
 //sprawdz czy pole niepuste (choc teoretycznie nigdy nie bedzie puste)
 function validateCategory(selector){
+	console.log('waliduje kategorie');
+
 	if ($(selector).val() == ''){
 		makeFieldInvalid(selector);
 		$('#category-error-message').show();
@@ -189,6 +195,8 @@ function validateCategory(selector){
 
 //pole moze byc puste ale nie moze byc wiecej niz 250 znakow
 function validateDescription(selector){
+	console.log('waliduje opis');
+
 	var text_length = $(selector).val().length;
 	if (text_length > 250){
 		makeFieldInvalid(selector);
@@ -202,6 +210,8 @@ function validateDescription(selector){
 }
 
 function validateStreet(selector){
+	console.log('waliduje ulice');
+
 	if ($(selector).val() == ''){
 		makeFieldInvalid(selector);
 		$('#street-error-message').show();
@@ -214,6 +224,8 @@ function validateStreet(selector){
 }
 
 function validateStreetNumber(selector){
+	console.log('waliduje numer ulicy');
+
 	if ($(selector).val() == ''){
 		makeFieldInvalid(selector);
 		$('#streetNumber-error-message').show();
@@ -238,6 +250,7 @@ function validateCity(selector){
 }
 
 function validateMaxParticipants(selector){
+	console.log('waliduje max uczestnikow');
 	if ($(selector).val() == '' || $(selector).val() < 1){
 		makeFieldInvalid(selector);
 		$('#maxParticipants-error-message').show();
@@ -292,6 +305,17 @@ $(document).ready(function() {
 		}
 	});
 });
+
+function delay(ms, callback, params) {
+    var timer = 0;
+    return function () {
+        var context = this;
+        clearTimeout(timer);
+        timer = setTimeout(function () {
+            callback.apply(context, params);
+        }, ms || 0);
+    };
+}
 
 
 
