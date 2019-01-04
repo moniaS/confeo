@@ -203,33 +203,41 @@ public class EventController extends BasicController {
     private boolean isFormValidated(Event event, RedirectAttributes redirectAttributes){
     	LocalDate testDate = LocalDate.now();
     	boolean error = false;
-    	if (event.getStartDate() == null || event.getEndDate() == null){
-    		//redirectAttributes.addFlashAttribute("message", "Proszę podać datę rozpoczęcia i zakończenia");
-    		//redirectAttributes.addFlashAttribute("event", event);
-    		error = true;
-    	} else if (!event.getStartDate().isAfter(testDate)){
-    		/*redirectAttributes.addFlashAttribute("message", "Proszę podać przyszłe daty");
-    		redirectAttributes.addFlashAttribute("event", event);
-    		return false;*/
-    		error = true;
-    	} else if(event.getEndDate().compareTo(event.getStartDate()) < 0) {
-    		/*redirectAttributes.addFlashAttribute("message", "Proszę podać datę rozpoczęcia starszą niż data zakończenia");
-    		redirectAttributes.addFlashAttribute("event", event);
-    		return false;*/
-    		error = true;
-    	} else if (event.getName() == null || event.getName() == ""){
-    		/*redirectAttributes.addFlashAttribute("message", "Proszę podać nazwę wydarzenia");
-    		redirectAttributes.addFlashAttribute("event", event);
-    		return false;*/
-    		error = true;
-    	} else if (event.getDescription().length() > 254){
-    		/*redirectAttributes.addFlashAttribute("message", "Proszę podać opis wydarzenia do 250 znaków");
-    		redirectAttributes.addFlashAttribute("event", event);*/
-    		error = true;
-    	}
-    	
     	try {
-    		
+	    	
+	    	if (event.getStartDate() == null || event.getEndDate() == null){
+	    		//redirectAttributes.addFlashAttribute("message", "Proszę podać datę rozpoczęcia i zakończenia");
+	    		//redirectAttributes.addFlashAttribute("event", event);
+	    		error = true;
+	    	} else if (!event.getStartDate().isAfter(testDate)){
+	    		/*redirectAttributes.addFlashAttribute("message", "Proszę podać przyszłe daty");
+	    		redirectAttributes.addFlashAttribute("event", event);
+	    		return false;*/
+	    		error = true;
+	    	} else if(event.getEndDate().compareTo(event.getStartDate()) < 0) {
+	    		/*redirectAttributes.addFlashAttribute("message", "Proszę podać datę rozpoczęcia starszą niż data zakończenia");
+	    		redirectAttributes.addFlashAttribute("event", event);
+	    		return false;*/
+	    		error = true;
+	    	} else if (event.getName() == null || event.getName() == ""){
+	    		/*redirectAttributes.addFlashAttribute("message", "Proszę podać nazwę wydarzenia");
+	    		redirectAttributes.addFlashAttribute("event", event);
+	    		return false;*/
+	    		error = true;
+	    	} else if (event.getDescription().length() > 254){
+	    		/*redirectAttributes.addFlashAttribute("message", "Proszę podać opis wydarzenia do 250 znaków");
+	    		redirectAttributes.addFlashAttribute("event", event);*/
+	    		error = true;
+	    	} else if (event.getAddress().getCityName() == null || event.getAddress().getCityName() == ""){
+	    		error = true;
+	    	} else if (event.getAddress().getStreetName() == null || event.getAddress().getStreetName() == ""){
+	    		error = true;
+	    	} else if (event.getAddress().getStreetNumber() == null || event.getAddress().getStreetNumber() == ""){
+	    		error = true;
+	    	} else if (event.getMaxParticipants() < 1){
+	    		error = true;
+	    	}
+    	
     	
 			Duration duration = Duration.between(testDate.atStartOfDay(), event.getStartDate().atStartOfDay());
 			long diff = Math.abs(duration.toDays());
