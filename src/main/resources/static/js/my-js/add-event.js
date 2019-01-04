@@ -1,4 +1,4 @@
-//walidacja pol po zmianie
+/*//walidacja pol po zmianie
 	
 $(document).ready(function() {
 	$('#name').on('input', delay(500, function() {
@@ -317,4 +317,4 @@ function delay(ms, callback, params) {
         }, ms || 0);
     };
 }	
-	
+	*/
