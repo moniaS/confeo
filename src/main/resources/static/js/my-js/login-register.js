@@ -30,6 +30,14 @@ $(".toggle-password").on("click", function () {
     }
 });
 
+/*$('#register-checkbox').change(function() {
+	console.log('halo');
+	if ($(this).checked === true) {
+        $('.terms-of-use-block .register-checkbox-label').css({"border": "none"});
+        $("#terms-error-message").hide();
+	}
+}));*/
+
 markUserRoleRadioButton();
 
 // *******************REGISTER FORM*********************
@@ -51,6 +59,8 @@ function isUserRoleValid() {
         $('.user-role-radio-button').css({"border": "none"});
     }
 }
+
+
 
 function areTermsOfUseSumbitted() {
     if (document.getElementById("register-checkbox").checked === true) {
