@@ -72,7 +72,10 @@ public class UserController extends BasicController {
         if (isStringEmpty(user.getLastname())) {
             isFormValid = false;
         }
-        if (isStringEmpty(user.getEmail()) || !isEmailValid(user.getEmail())) {
+        String[] emailParts = user.getEmail().split("@");
+        String emailPart1 = emailParts[0];
+        String emailPart2 = emailParts[1];
+        if (isStringEmpty(user.getEmail()) || !isEmailValid(user.getEmail()) || emailPart1.length() > 64 || emailPart2.length() > 255) {
             isFormValid = false;
         }
         if (isStringEmpty(user.getPassword()) || !isPasswordValid(user.getPassword())) {
