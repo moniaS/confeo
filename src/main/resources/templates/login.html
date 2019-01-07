@@ -57,7 +57,7 @@
                         </div>
                         <div class="form-group">
                             <label for="register-email">Email <span class="field-obligatory-star">*</span></label>
-                            <input type="text" class="form-control" id="register-email" th:field="*{email}">
+                            <input type="text" class="form-control" id="register-email" th:field="*{email}" maxlength="320">
                             <span style='display: none;' id="register-email-error-message-empty" class="help-block">Podanie adresu email jest wymagane.</span>
                             <span style='display: none;' id="register-email-error-message-invalid" class="help-block">Wprowadź prawidłowy adres email.</span>
                             <img class="valid-icon input-icon" style="display: none" th:src="@{/img/tick.png}" alt="Valid field icon">

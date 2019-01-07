@@ -3237,3 +3237,7 @@ ul.footer-blog li {
 .obligatory-fields-message {
     margin-bottom: 8px;
 }
+
+.register-area input {
+    padding-right: 35px;
+}
